@@ -18,3 +18,33 @@ Urban Heat Islands occur when dense cities trap heat due to concrete infrastruct
 ## 🛠️ Tech Stack & Architecture
 
 ### System Data Flow
+[Satellite Data: Landsat 8/9 & Sentinel-2] ──┐
+├──► [Python Backend API] ──► [Leaflet.js Dashboard UI]
+[Synthesized Coordinate Ground Datasets] ───┘
+
+* **Frontend:** HTML5, CSS3, Bootstrap, JavaScript (ES6)
+* **Interactive Maps:** Leaflet.js (`Leaflet.heat` plugin)
+* **Backend:** Python (Flask / Django)
+* **Data Processing & Modeling:** QGIS, Pandas, Scikit-Learn
+* **Charts & Visualizations:** Chart.js / Plotly
+
+---
+
+## 📁 Repository Structure
+```text
+project/
+│
+├── backend/                # Server-side environment & API routing
+│   ├── app.py              # Main application entry point
+│   └── models/             # Regression and statistical calculation scripts
+│
+├── frontend/               # User interface files
+│   ├── index.html          # Main dashboard view
+│   ├── css/                # Custom styling stylesheets
+│   └── js/                 # Map rendering and API fetch handlers
+│
+├── data/                   # Geographic and spatial data stores
+│   ├── geojson/            # Regional boundary map layers (Mirpur 12, Cities)
+│   └── environmental/      # Synthesized CSV coordinate & temperature tables
+│
+└── documentation/          # System manuals and project presentation mate
