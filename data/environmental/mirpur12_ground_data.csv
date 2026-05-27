@@ -1,21 +1,21 @@
-LocationID,LocationName,Latitude,Longitude,Temperature,SurfaceType,NDVI,TrafficDensity,Time
-1,Mirpur 12 Metro Station,23.8248,90.3621,37.2,Concrete,0.08,High,Afternoon
-2,Mirpur 12 Bus Stand East,23.8241,90.3635,36.8,Concrete,0.12,High,Afternoon
-3,Pallabi Residential Pocket,23.8215,90.3650,33.4,Asphalt,0.28,Medium,Afternoon
-4,Mirpur DOHS Park North,23.8285,90.3610,29.1,Vegetation,0.72,Low,Afternoon
-5,DOHS Lake Side Walkway,23.8270,90.3630,28.5,Water Body,0.65,Low,Afternoon
-6,Mirpur 12 Block C Alley,23.8230,90.3612,34.0,Concrete,0.22,Low,Afternoon
-7,Ceramic Factory Area,23.8205,90.3685,38.1,Concrete,0.05,High,Afternoon
-8,Central Avenue Road,23.8252,90.3645,35.9,Asphalt,0.15,High,Afternoon
-9,Arambagh Residential Playground,23.8290,90.3680,30.3,Grass,0.58,Low,Afternoon
-10,Mirpur DOHS Avenue 3,23.8278,90.3595,31.0,Asphalt,0.48,Low,Afternoon
-11,Metro Depot Border,23.8262,90.3605,36.5,Concrete,0.10,Medium,Afternoon
-12,Shikdar School Ground,23.8222,90.3670,32.2,Bare Soil,0.38,Medium,Afternoon
-13,Eastern Housing Plot,23.8298,90.3655,33.0,Bare Soil,0.30,Low,Afternoon
-14,Block E Residential Area,23.8238,90.3662,32.8,Asphalt,0.32,Low,Afternoon
-15,Mirpur 12 Bazar Intersection,23.8255,90.3668,36.9,Concrete,0.09,High,Afternoon
-16,Islamic University Campus Yard,23.8210,90.3628,31.8,Vegetation,0.52,Low,Afternoon
-17,Mirpur DOHS Central Mosque,23.8265,90.3615,31.2,Concrete,0.45,Medium,Afternoon
-18,Cantonment Edge Boundary,23.8280,90.3700,29.8,Vegetation,0.68,Low,Afternoon
-19,Kalshi Road Crossing,23.8200,90.3698,37.5,Asphalt,0.07,High,Afternoon
-20,Pallabi Water Tank Area,23.8228,90.3640,32.6,Mixed,0.35,Low,Afternoon
+LocationName,Latitude,Longitude,EstimatedTemp,Image,Temperature,SurfaceType,NDVI,TrafficDensity,Time
+Bup,23.840041,90.356985,29-32,BUP.jpeg,30.5,Mixed,0.4,Medium,Afternoon
+Mirpur DOHS,23.837618,90.369976,27-32,"Mirpur DOHS,23.837618,90.369976,27-32.jpeg",29.5,Vegetation,0.6,Low,Afternoon
+Mirpur-12 Metrorail station,23.826606,90.364136,30-35,"Mirpur-12 Metrorail station, 23.826606,90.364136,30-35.jpeg",32.5,Concrete,0.1,High,Afternoon
+Mirpur Ceramic Works,23.829668,90.364136,30-35,"Mirpur Ceramic Works,23.829668,90.364136,30-35.jpeg",32.5,Concrete,0.1,High,Afternoon
+DSCSC Mosque,23.832327,90.361856,26-29,"DSCSC Mosque,23.832327,90.361856,26-29.jpeg",27.5,Vegetation,0.7,Low,Afternoon
+Mirpur Ceramic Road,23.828006,90.364146,29-33,"Mirpur Ceramic Road,23.828006,90.364146,29-33.jpeg",31.0,Asphalt,0.2,Medium,Afternoon
+BRTC Mirpur Bus Depot,23.829032,90.364681,28-30,"BRTC Mirpur Bus Depot, 23.829032,90.364681,28-30.jpeg",29.0,Concrete,0.3,High,Afternoon
+Baitus Salam Jaame Masjid Complex,23.8272778,90.365802,28-29,"Baitus Salam Jaame Masjid Complex,23.8272778,90,365802,28-29.jpeg",28.5,Mixed,0.5,Medium,Afternoon
+Mirpur-12 Kids Park,23.830892,90.361812,26-27,"Mirpur-12 Kids Park,23.830892,90.361812,26-27.jpeg",26.5,Vegetation,0.8,Low,Afternoon
+EM Engineering and Builders,23.829845,90.362474,28-31,"EM Engineering and Builders,23.829845,90.362474,28-31.jpeg",29.5,Mixed,0.4,Low,Afternoon
+Wapda Colony (Mirpur Cantonment),23.831141,90.360741,26-27,"Wapda Colony (Mirpur Cantonment),23.831141,90.360741,26-27.jpeg",26.5,Vegetation,0.8,Low,Afternoon
+Mirpur Cant. Public School and College,23.834756,90.364835,28-29,"Mirpur Cant. Public School and College,23.834756,90364835,28-29.jpeg",28.5,Mixed,0.5,Low,Afternoon
+College Avenue Road,23.832734,90.360698,29-32,"College Avenue.jpeg",30.5,Asphalt,0.3,Medium,Afternoon
+Pallabi Mazedul Islam Model High School,23.825788,90.361466,30-32,"Pallabi Mazedul Islam Model High School,23.825788,90.361466,30-32.jpeg",31.0,Concrete,0.2,Medium,Afternoon
+Pallabi Jheel,23.829230,90.357090,28-29,"Pallabi Jheel,23.829230,90.357090,28-29.jpeg",28.5,Water Body,0.6,Low,Afternoon
+Staff College Lake,23.833785,90.35733,29-30,"Staff College Lake,23.833785,90.35733,29-30.jpeg",29.5,Water Body,0.5,Low,Afternoon
+Lake View Eastern Housing,23.842388,90.354981,27-30,"Lake View Eastern Housing,23.842388,90.354981,27-30.jpeg",28.5,Mixed,0.6,Low,Afternoon
+Efficient Power House,23.840758,90.354528,29-32,"Efficient Power House,23.840758,90.354528,29-32.jpeg",30.5,Concrete,0.2,High,Afternoon
+Crown Machinery Warehouse,23.841017,90.353494,30-32,"Crown Machinery Warehouse,23.841017,90.353494,30-32.jpeg",31.0,Concrete,0.1,High,Afternoon
+Alubdi,23.835977,90.351460,28-30,"Alubdi,23.835977,90.351460,28-30.jpeg",29.0,Mixed,0.4,Low,Afternoon

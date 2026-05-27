@@ -139,9 +139,11 @@ function renderMapData(records, coords) {
       fillOpacity: 0.6
     });
     
+    let imageTag = point.Image ? `<img src="images/${point.Image}" style="width:100%; border-radius:4px; margin-top:4px; margin-bottom:4px;" alt="Location Image" />` : "";
     circle.bindPopup(`
-      <div style="color:#0a0f1d; font-family:sans-serif; font-size:11px;">
+      <div style="color:#0a0f1d; font-family:sans-serif; font-size:11px; width:160px;">
         <b style="font-size:12px;">${point.LocationName}</b><br/>
+        ${imageTag}
         <b>🌡️ Temp:</b> ${point.Temperature}°C<br/>
         <b>🌿 NDVI:</b> ${point.NDVI}<br/>
         <b>🏢 Surface:</b> ${point.SurfaceType}<br/>
