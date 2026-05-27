@@ -1,0 +1,21 @@
+LocationID,LocationName,Latitude,Longitude,Temperature,SurfaceType,NDVI,TrafficDensity,Time
+1,Mirpur 12 Metro Station,23.8248,90.3621,37.2,Concrete,0.08,High,Afternoon
+2,Mirpur 12 Bus Stand East,23.8241,90.3635,36.8,Concrete,0.12,High,Afternoon
+3,Pallabi Residential Pocket,23.8215,90.3650,33.4,Asphalt,0.28,Medium,Afternoon
+4,Mirpur DOHS Park North,23.8285,90.3610,29.1,Vegetation,0.72,Low,Afternoon
+5,DOHS Lake Side Walkway,23.8270,90.3630,28.5,Water Body,0.65,Low,Afternoon
+6,Mirpur 12 Block C Alley,23.8230,90.3612,34.0,Concrete,0.22,Low,Afternoon
+7,Ceramic Factory Area,23.8205,90.3685,38.1,Concrete,0.05,High,Afternoon
+8,Central Avenue Road,23.8252,90.3645,35.9,Asphalt,0.15,High,Afternoon
+9,Arambagh Residential Playground,23.8290,90.3680,30.3,Grass,0.58,Low,Afternoon
+10,Mirpur DOHS Avenue 3,23.8278,90.3595,31.0,Asphalt,0.48,Low,Afternoon
+11,Metro Depot Border,23.8262,90.3605,36.5,Concrete,0.10,Medium,Afternoon
+12,Shikdar School Ground,23.8222,90.3670,32.2,Bare Soil,0.38,Medium,Afternoon
+13,Eastern Housing Plot,23.8298,90.3655,33.0,Bare Soil,0.30,Low,Afternoon
+14,Block E Residential Area,23.8238,90.3662,32.8,Asphalt,0.32,Low,Afternoon
+15,Mirpur 12 Bazar Intersection,23.8255,90.3668,36.9,Concrete,0.09,High,Afternoon
+16,Islamic University Campus Yard,23.8210,90.3628,31.8,Vegetation,0.52,Low,Afternoon
+17,Mirpur DOHS Central Mosque,23.8265,90.3615,31.2,Concrete,0.45,Medium,Afternoon
+18,Cantonment Edge Boundary,23.8280,90.3700,29.8,Vegetation,0.68,Low,Afternoon
+19,Kalshi Road Crossing,23.8200,90.3698,37.5,Asphalt,0.07,High,Afternoon
+20,Pallabi Water Tank Area,23.8228,90.3640,32.6,Mixed,0.35,Low,Afternoon

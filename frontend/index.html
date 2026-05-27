@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bangladesh Urban Heat Island (UHI) Mapping & Analytics Dashboard</title>
+  
+  <!-- SEO & Description -->
+  <meta name="description" content="An interactive spatial GIS and predictive analytical dashboard tracking Urban Heat Island intensity in Mirpur 12 and major divisions across Bangladesh.">
+  
+  <!-- CSS imports -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <div class="dashboard-container">
+    
+    <!-- 1. HEADER SECTION -->
+    <header class="dashboard-header">
+      <div class="brand-section">
+        <span class="brand-logo">🌡️</span>
+        <div class="brand-title">
+          <h1>URBAN HEAT ISLAND MAPPER</h1>
+          <p>Remote Sensing & Synthesized Ground Verification</p>
+        </div>
+      </div>
+      
+      <div class="controls-section">
+        <span class="region-dropdown-label">📍 Zoom Region:</span>
+        <select id="regionSelect" class="custom-select">
+          <option value="mirpur12">Mirpur 12 (Micro-analysis Baseline)</option>
+          <option value="dhaka_all">Entire Dhaka Met Area</option>
+          <option value="sylhet">Sylhet Division</option>
+          <option value="rajshahi">Rajshahi Division</option>
+          <option value="chittagong">Chittagong Division</option>
+        </select>
+      </div>
+    </header>
+    
+    <!-- 2. MAIN SPLIT LAYOUT -->
+    <main class="dashboard-content">
+      
+      <!-- LEFT SIDEBAR: CONFIGS & MATHEMATICAL REGRESSION MODEL -->
+      <section class="panel" aria-label="System Metrics and Model Configuration">
+        <div class="panel-header">
+          <h2>📊 Statistical Indicators</h2>
+        </div>
+        
+        <!-- KPI Metrics Grid -->
+        <div class="kpi-grid">
+          <div class="kpi-card" id="avg-temp-card">
+            <p class="kpi-title">Average Temp</p>
+            <p class="kpi-value" id="stat-avg-temp">--°C</p>
+            <p class="kpi-meta">Air Sensor Mean</p>
+          </div>
+          <div class="kpi-card" id="r2-score-card">
+            <p class="kpi-title">R² Accuracy</p>
+            <p class="kpi-value" id="stat-r2">--</p>
+            <p class="kpi-meta">NDVI vs Temp Fit</p>
+          </div>
+        </div>
+        
+        <!-- Health Alert KPI -->
+        <div class="kpi-card" style="border-left: 4px solid var(--accent-neon-blue);">
+          <p class="kpi-title">Environmental Risk Index</p>
+          <p class="kpi-value" id="stat-risk-badge" style="font-size: 1.1rem; padding-top: 2px;">Normal</p>
+          <p class="kpi-meta">Determined via urban heat load</p>
+        </div>
+        
+        <!-- Team D Collab Pillar info -->
+        <div class="panel-header" style="margin-top: 0.5rem;">
+          <h2>🧬 Regression Engine <span class="collab-badge collab-b">Sub-Group B</span></h2>
+        </div>
+        
+        <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
+          Predicts temperature using vegetation density indices extracted from satellite imagery.
+        </p>
+        
+        <div class="formula-card" id="formula-display">
+          Predicted Temp = Alpha - (Beta × NDVI)
+        </div>
+        
+        <div class="kpi-grid">
+          <div style="background: rgba(0,0,0,0.15); padding: 0.5rem; border-radius: 8px; text-align: center;">
+            <p class="kpi-title">RMSE Error</p>
+            <span id="stat-rmse" style="font-family: var(--font-display); font-weight:700; font-size:1rem;">--</span>
+          </div>
+          <div style="background: rgba(0,0,0,0.15); padding: 0.5rem; border-radius: 8px; text-align: center;">
+            <p class="kpi-title">MAE Margin</p>
+            <span id="stat-mae" style="font-family: var(--font-display); font-weight:700; font-size:1rem;">--</span>
+          </div>
+        </div>
+        
+        <div class="panel-header" style="margin-top: 0.5rem;">
+          <h2>📂 Collaboration Channels</h2>
+        </div>
+        <div id="collab-hud" style="display:flex; flex-direction:column; gap:0.5rem;">
+          <div class="toast-notice" style="border-left-color: var(--accent-gold);">
+            <strong style="color: var(--accent-gold);">Sub-Group D Task:</strong> Ground CSV synthesized containing 20 high-fidelity coordinates in Mirpur 12.
+          </div>
+        </div>
+      </section>
+      
+      <!-- CENTER CONTENT: LEAFLET GIS WINDOW & BOTTOM HUD -->
+      <section class="map-section">
+        <!-- Interactive Leaflet map container -->
+        <div id="map-container">
+          <!-- Dynamic HUD legends -->
+          <div class="map-legend">
+            <div class="legend-item">
+              <div class="legend-color" style="background: var(--accent-neon-red);"></div>
+              <span>Hotspot (≥35°C concrete)</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background: var(--accent-neon-blue);"></div>
+              <span>Normal Built-up Area</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-color" style="background: var(--accent-neon-green);"></div>
+              <span>Cool Canopy / Water (≤30°C)</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Bottom current stats display -->
+        <div class="status-bar">
+          <div class="status-info">
+            <h3 id="region-name-display">Mirpur 12</h3>
+            <p id="region-desc-display">Extracting telemetry data layers...</p>
+          </div>
+          <div>
+            <span class="collab-badge collab-a">GIS Layer Overlays Enabled</span>
+          </div>
+        </div>
+      </section>
+      
+      <!-- RIGHT SIDEBAR: HIGH THERMAL ZONES & CHART ANALYTICS -->
+      <section class="panel" aria-label="Field Telemetry Data Analysis">
+        <div class="panel-header">
+          <h2>📊 Surface Type Correlation</h2>
+        </div>
+        
+        <!-- Comparative chart card -->
+        <div style="height: 180px; width: 100%; position: relative;">
+          <canvas id="analytics-chart"></canvas>
+        </div>
+        
+        <div class="panel-header" style="margin-top: 0.5rem;">
+          <h2>🚨 Top Regional Hotspots</h2>
+        </div>
+        
+        <!-- Tabular ground coordinate readings (Pair D) -->
+        <div class="data-table-container">
+          <table class="custom-table" id="hotspots-table">
+            <thead>
+              <tr>
+                <th>Location</th>
+                <th>Temp</th>
+                <th>NDVI</th>
+                <th>Surface</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <tr>
+                <td colspan="4" style="text-align: center; color: var(--text-muted);">Loading telemetry...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="kpi-card" style="border: 1px solid rgba(255, 59, 48, 0.2); background: rgba(255, 59, 48, 0.02);">
+          <p class="kpi-title" style="color: var(--accent-neon-red);">Highest Temperature Recorded</p>
+          <p class="kpi-value" id="stat-hotspot" style="color: var(--accent-neon-red); font-size: 1.4rem;">--°C</p>
+          <p class="kpi-meta" id="stat-hotspot-loc">Extracting peaks...</p>
+        </div>
+      </section>
+      
+    </main>
+  </div>
+
+  <!-- JavaScript scripts (Leaflet -> Presets -> App entrypoint) -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="data/geojson/placeholders.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

@@ -1,50 +1,86 @@
-# Urban-Heat-Island-Mapping-with-GIS
-An interactive GIS mapping and predictive analytics dashboard tracking the Urban Heat Island (UHI) effect—anchored on a micro-analysis of Mirpur 12 and scalable to major divisions across Bangladesh. Built with Leaflet.js and Python.
+# 🌡️ Urban Heat Island Mapping & Predictive GIS Dashboard
 
+Welcome to the **Urban Heat Island (UHI) Mapping & Analytics System**. This repository serves as a modular, high-end collaborative boilerplate designed for **Theory Project Group 4 (CSE 3-2)**.
 
-It is an interactive, data-driven environmental management application designed to visualize, analyze, and predict the Urban Heat Island (UHI) effect. This project features a high-resolution micro-analysis of the **Mirpur 12** area in Dhaka City as its baseline deployment, with a scalable regional architecture extended to the **Entire Dhaka Metropolitan Area, Sylhet, Rajshahi, and Chittagong**.
-
-## 📌 Project Overview
-Urban Heat Islands occur when dense cities trap heat due to concrete infrastructures, asphalt surfaces, and a lack of green vegetation. This system fuses satellite remote sensing data (Land Surface Temperature and NDVI) with simulated ground-truth parameters to map out high-risk thermal zones, helping municipal authorities support sustainable urban planning.
-
-### 🌟 Key Features
-* **Hyper-Local & Macro Scaling:** Toggle seamlessly between a deep-dive analysis of Mirpur 12 and divisional-level thermal profiles across Bangladesh.
-* **Interactive GIS Dashboard:** Real-time spatial visualization powered by Leaflet.js with dynamic thermal heat map overlays.
-* **Algorithmic Heat Prediction:** A lightweight, optimized regression engine that evaluates the inverse correlation between vegetation density (NDVI) and heat retention.
-* **Comparative Analytics:** Dynamic charting that cross-examines temperatures across various urban zones (e.g., Concrete Main Roads vs. Vegetated Parks).
+The system is designed around a baseline micro-analysis of **Mirpur 12** and extends macro scaling capabilities across major divisions in Bangladesh: **Entire Dhaka**, **Sylhet**, **Rajshahi**, and **Chittagong**. It correlates high-resolution satellite remote sensing indices (NDVI) with ground-truth verification measurements to identify and predict high-risk thermal hotspot zones.
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## 👥 Subgroup Collaboration Framework
 
-### System Data Flow
-[Satellite Data: Landsat 8/9 & Sentinel-2] ──┐
-├──► [Python Backend API] ──► [Leaflet.js Dashboard UI]
-[Synthesized Coordinate Ground Datasets] ───┘
+To ensure seamless integration without merge conflicts, the codebase is split into specific, isolated responsibility spheres:
 
-* **Frontend:** HTML5, CSS3, Bootstrap, JavaScript (ES6)
-* **Interactive Maps:** Leaflet.js (`Leaflet.heat` plugin)
-* **Backend:** Python (Flask / Django)
-* **Data Processing & Modeling:** QGIS, Pandas, Scikit-Learn
-* **Charts & Visualizations:** Chart.js / Plotly
+### 📡 Subgroup A: GIS & Remote Sensing Leads
+* **Role:** Handlers of satellite raster data, Land Surface Temperature (LST) extractions, and SVG/GeoJSON border layers.
+* **Workspace Boundary:**
+  - `data/geojson/`: Drop in your final GeoJSON boundary files or LST grids.
+  - Update `placeholders.js` with your refined bounding boxes or shapefiles.
+
+### 🧠 Subgroup B: Backend & Analytics Leads
+* **Role:** Keepers of server routing, database queries, and the mathematical prediction engines.
+* **Workspace Boundary:**
+  - `backend/app.py`: Build endpoints, modify response structures, and handle client requests.
+  - `backend/models/analytics.py`: Refine the linear/non-linear prediction scripts ($\text{Predicted Temp} = \alpha - (\beta \times \text{NDVI})$) and accuracy evaluation metrics ($R^2$, RMSE, MAE).
+
+### 🎨 Subgroup C: Frontend & Map UI Leads
+* **Role:** UI/UX developers, Leaflet.js rendering, Chart.js integrations, and dynamic responsive dashboard design.
+* **Workspace Boundary:**
+  - `frontend/index.html`: Dashboard views, statistical cards, and layout elements.
+  - `frontend/css/styles.css`: Styling sheets, micro-animations, theme gradients, and typography.
+  - `frontend/js/app.js`: Leaflet bindings, dropdown triggers, and API chart re-renderers.
+
+### ✍️ Subgroup D (Our Group): Project Managers & Data Synthesis
+* **Role:** Progress controllers, final reports/PPT layout creators, and data synthesis.
+* **Workspace Boundary:**
+  - `data/environmental/`: Maintain and expand field measurements (such as the 20-coordinate Mirpur 12 ground CSV dataset).
+  - Tracking system outputs and writing the technical project manuals.
 
 ---
 
 ## 📁 Repository Structure
+
 ```text
-project/
-│
-├── backend/                # Server-side environment & API routing
-│   ├── app.py              # Main application entry point
-│   └── models/             # Regression and statistical calculation scripts
-│
-├── frontend/               # User interface files
-│   ├── index.html          # Main dashboard view
-│   ├── css/                # Custom styling stylesheets
-│   └── js/                 # Map rendering and API fetch handlers
-│
-├── data/                   # Geographic and spatial data stores
-│   ├── geojson/            # Regional boundary map layers (Mirpur 12, Cities)
-│   └── environmental/      # Synthesized CSV coordinate & temperature tables
-│
-└── documentation/          # System manuals and project presentation mate
+Project/
+├── backend/
+│   ├── app.py                # Main Flask Server & Routing Hub
+│   └── models/
+│       └── analytics.py      # Statistical & Predictive Regression Script
+├── data/
+│   ├── environmental/
+│   │   └── mirpur12_ground_data.csv   # Synthesized 20 coordinate ground points (Pair D)
+│   └── geojson/
+│       └── placeholders.js   # Coordinate offsets & boundaries for mapping layers
+├── frontend/
+│   ├── index.html            # Core Dashboard UI Layout
+│   ├── css/
+│   │   └── styles.css        # Luxury Glassmorphic Stylesheet
+│   └── js/
+│       └── app.js            # Client logic (Leaflet.js & Chart.js connector)
+└── README.md                 # Project and collaboration overview
+```
+
+---
+
+## 🚀 Quick Launch Instructions
+
+### Prerequisites
+Make sure you have **Python 3** and `pip` installed.
+
+### 1. Install Dependencies
+Run the following command to install the required lightweight data-science libraries:
+```bash
+pip install flask pandas numpy scikit-learn
+```
+
+### 2. Run the Local Server
+From the root project directory, execute:
+```bash
+python backend/app.py
+```
+
+### 3. Open the Dashboard
+Open your browser and navigate to:
+```text
+http://127.0.0.1:5000/
+```
+The interface will automatically load, default-centered over **Mirpur 12**, showcasing the ground verification coordinates, statistical regression modeling indices, and interactive maps.
