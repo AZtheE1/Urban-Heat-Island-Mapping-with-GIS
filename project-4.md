@@ -1,44 +1,4 @@
-- Citizen complaint portal 
 
-- Mobile app for waste reporting 
-
-- Predictive waste generation analytics 
-
-## **14. Expected Final Outcome** 
-
-Students should finally demonstrate: 
-
-- GIS-based waste hotspot mapping 
-
-- Efficient route optimization system 
-
-- Spatial waste analysis 
-
-- Smart dashboard for municipalities 
-
-- Data-driven environmental management solution 
-
-## **15. Viva/Interview Questions** 
-
-1. What is GIS? 
-
-2. Difference between raster and vector data? 
-
-3. What is a heatmap? 
-
-4. Explain GPS coordinate systems. 
-
-5. How does Dijkstra’s algorithm work? 
-
-6. Difference between TSP and shortest path? 
-
-7. Why use spatial databases? 
-
-8. What is route optimization? 
-
-9. How can GIS help smart cities? 
-
-- 10.Explain your complete system workflow. 
 
 ## **Project 04** 
 
@@ -749,11 +709,4 @@ Students should finally demonstrate:
 
 Top of Form 
 
-## **Project 05** 
-
-**Biodiversity Monitoring Using AI and Mobile Data Collection** For 5 CSE Students – Environmental Science Project 
-
-**1. Project Overview Objective** Develop an intelligent biodiversity monitoring system that: 
-
-pg. 54 
 
