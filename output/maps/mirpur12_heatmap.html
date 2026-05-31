@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>UHI GIS Hotspot Overlay - Mirpur 12</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Outfit', sans-serif; background-color: #0f172a; color: #f8fafc; overflow: hidden; }
+        #header {
+            position: absolute; top: 15px; left: 15px; z-index: 1000;
+            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px);
+            padding: 15px 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
+            max-width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        #header h2 { margin: 0 0 5px 0; font-size: 18px; font-weight: 700; color: #38bdf8; }
+        #header p { margin: 0; font-size: 12px; color: #94a3b8; line-height: 1.4; }
+        #legend {
+            position: absolute; bottom: 25px; right: 25px; z-index: 1000;
+            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px);
+            padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); font-size: 12px;
+        }
+        .legend-title { font-weight: 600; margin-bottom: 8px; color: #38bdf8; text-transform: uppercase; font-size: 10px; letter-spacing: 1px; }
+        .legend-item { display: flex; align-items: center; margin-bottom: 5px; }
+        .legend-color { width: 14px; height: 14px; border-radius: 30%; margin-right: 8px; }
+        #map { width: 100%; height: 100%; }
+        .leaflet-bar a { background-color: rgba(15, 23, 42, 0.9) !important; color: #f8fafc !important; border: 1px solid rgba(255,255,255,0.1) !important; }
+    </style>
+</head>
+<body>
+
+    <div id="header">
+        <h2>🌡️ UHI Overlay: Mirpur 12</h2>
+        <p>Hyper-local baseline micro-analysis mapping 20 ground sensor coordinates.</p>
+    </div>
+
+    <div id="legend">
+        <div class="legend-title">Surface Profile & Heat</div>
+        <div class="legend-item"><div class="legend-color" style="background: #e74c3c;"></div>Concrete (High Heat)</div>
+        <div class="legend-item"><div class="legend-color" style="background: #f39c12;"></div>Asphalt (Medium-High)</div>
+        <div class="legend-item"><div class="legend-color" style="background: #9b59b6;"></div>Bare Soil (Medium)</div>
+        <div class="legend-item"><div class="legend-color" style="background: #2ecc71;"></div>Vegetation (Cool Zone)</div>
+        <div class="legend-item"><div class="legend-color" style="background: #3498db;"></div>Water Body (Cool Sink)</div>
+        <div class="legend-item"><div class="legend-color" style="background: #7f8c8d;"></div>Mixed/Other</div>
+    </div>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize Leaflet Map centered over regional center
+        const map = L.map('map', {
+            zoomControl: true,
+            maxZoom: 18,
+            minZoom: 10
+        }).setView([23.832944340000005, 90.36063134999999], 14);
+
+        // Standard CartoDB Dark Matter tile layer for neon aesthetic
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        }).addTo(map);
+
+        // Inject computed regional hotspot circle layers
+        
+        L.circle([23.840041, 90.356985], {
+            color: '#7f8c8d',
+            fillColor: '#7f8c8d',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Bup</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #7f8c8d;"><b>30.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Mixed</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.4</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Medium</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.837618, 90.369976], {
+            color: '#2ecc71',
+            fillColor: '#2ecc71',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Mirpur DOHS</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #2ecc71;"><b>29.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Vegetation</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.6</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Low</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.826606, 90.364136], {
+            color: '#e74c3c',
+            fillColor: '#e74c3c',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Mirpur-12 Metrorail station</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #e74c3c;"><b>32.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Concrete</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.1</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>High</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.829668, 90.364136], {
+            color: '#e74c3c',
+            fillColor: '#e74c3c',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Mirpur Ceramic Works</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #e74c3c;"><b>32.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Concrete</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.1</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>High</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.832327, 90.361856], {
+            color: '#2ecc71',
+            fillColor: '#2ecc71',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$DSCSC Mosque</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #2ecc71;"><b>27.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Vegetation</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.7</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Low</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.828006, 90.364146], {
+            color: '#f39c12',
+            fillColor: '#f39c12',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Mirpur Ceramic Road</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #f39c12;"><b>31.0°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Asphalt</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.2</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Medium</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.829032, 90.364681], {
+            color: '#e74c3c',
+            fillColor: '#e74c3c',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$BRTC Mirpur Bus Depot</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #e74c3c;"><b>29.0°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Concrete</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.3</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>High</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.8272778, 90.365802], {
+            color: '#7f8c8d',
+            fillColor: '#7f8c8d',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Baitus Salam Jaame Masjid Complex</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #7f8c8d;"><b>28.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Mixed</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.5</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Medium</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.830892, 90.361812], {
+            color: '#2ecc71',
+            fillColor: '#2ecc71',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Mirpur-12 Kids Park</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #2ecc71;"><b>26.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Vegetation</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.8</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Low</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.829845, 90.362474], {
+            color: '#7f8c8d',
+            fillColor: '#7f8c8d',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$EM Engineering and Builders</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #7f8c8d;"><b>29.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Mixed</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.4</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Low</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.831141, 90.360741], {
+            color: '#2ecc71',
+            fillColor: '#2ecc71',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Wapda Colony (Mirpur Cantonment)</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #2ecc71;"><b>26.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Vegetation</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.8</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Low</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.834756, 90.364835], {
+            color: '#7f8c8d',
+            fillColor: '#7f8c8d',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Mirpur Cant. Public School and College</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #7f8c8d;"><b>28.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Mixed</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.5</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Low</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.832734, 90.360698], {
+            color: '#f39c12',
+            fillColor: '#f39c12',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$College Avenue Road</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #f39c12;"><b>30.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Asphalt</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.3</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Medium</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.825788, 90.361466], {
+            color: '#e74c3c',
+            fillColor: '#e74c3c',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Pallabi Mazedul Islam Model High School</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #e74c3c;"><b>31.0°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Concrete</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.2</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Medium</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.82923, 90.35709], {
+            color: '#3498db',
+            fillColor: '#3498db',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Pallabi Jheel</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #3498db;"><b>28.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Water Body</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.6</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Low</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.833785, 90.35733], {
+            color: '#3498db',
+            fillColor: '#3498db',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Staff College Lake</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #3498db;"><b>29.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Water Body</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.5</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Low</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.842388, 90.354981], {
+            color: '#7f8c8d',
+            fillColor: '#7f8c8d',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Lake View Eastern Housing</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #7f8c8d;"><b>28.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Mixed</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.6</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Low</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.840758, 90.354528], {
+            color: '#e74c3c',
+            fillColor: '#e74c3c',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Efficient Power House</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #e74c3c;"><b>30.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Concrete</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.2</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>High</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.841017, 90.353494], {
+            color: '#e74c3c',
+            fillColor: '#e74c3c',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Crown Machinery Warehouse</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #e74c3c;"><b>31.0°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Concrete</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.1</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>High</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([23.835977, 90.35146], {
+            color: '#7f8c8d',
+            fillColor: '#7f8c8d',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Alubdi</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #7f8c8d;"><b>29.0°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Mixed</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.4</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Low</td></tr>
+                </table>
+            </div>
+        `);
+        
+
+    </script>
+</body>
+</html>

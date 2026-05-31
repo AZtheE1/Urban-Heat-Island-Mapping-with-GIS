@@ -1,0 +1,22 @@
+{
+  "region_id": "mirpur12",
+  "region_name": "Mirpur 12",
+  "linear_regression": {
+    "alpha_intercept": 32.4081,
+    "beta_slope": 6.9472,
+    "r2_score": 0.8592,
+    "rmse": 0.618,
+    "mae": 0.4966,
+    "formula": "Temperature = 32.41 - (6.95 * NDVI)"
+  },
+  "decision_tree": {
+    "r2_score": 0.9023,
+    "rmse": 0.5148,
+    "mae": 0.4267
+  },
+  "random_forest": {
+    "r2_score": 0.8954,
+    "rmse": 0.5326,
+    "mae": 0.4449
+  }
+}

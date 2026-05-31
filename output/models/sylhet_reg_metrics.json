@@ -1,0 +1,22 @@
+{
+  "region_id": "sylhet",
+  "region_name": "Sylhet Division",
+  "linear_regression": {
+    "alpha_intercept": 24.7979,
+    "beta_slope": -7.8508,
+    "r2_score": 0.9561,
+    "rmse": 0.3515,
+    "mae": 0.314,
+    "formula": "Temperature = 24.8 - (-7.85 * NDVI)"
+  },
+  "decision_tree": {
+    "r2_score": 0.9824,
+    "rmse": 0.2228,
+    "mae": 0.1351
+  },
+  "random_forest": {
+    "r2_score": 0.9751,
+    "rmse": 0.2646,
+    "mae": 0.2134
+  }
+}

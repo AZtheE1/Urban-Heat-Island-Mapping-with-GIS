@@ -1,0 +1,22 @@
+{
+  "region_id": "dhaka_all",
+  "region_name": "Entire Dhaka Metropolitan Area",
+  "linear_regression": {
+    "alpha_intercept": 26.8654,
+    "beta_slope": -9.437,
+    "r2_score": 0.9716,
+    "rmse": 0.3368,
+    "mae": 0.3071,
+    "formula": "Temperature = 26.87 - (-9.44 * NDVI)"
+  },
+  "decision_tree": {
+    "r2_score": 0.9931,
+    "rmse": 0.1657,
+    "mae": 0.1311
+  },
+  "random_forest": {
+    "r2_score": 0.9829,
+    "rmse": 0.2619,
+    "mae": 0.208
+  }
+}

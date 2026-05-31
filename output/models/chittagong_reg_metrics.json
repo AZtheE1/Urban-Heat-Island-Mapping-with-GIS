@@ -1,0 +1,22 @@
+{
+  "region_id": "chittagong",
+  "region_name": "Chittagong Division",
+  "linear_regression": {
+    "alpha_intercept": 26.7864,
+    "beta_slope": -8.3811,
+    "r2_score": 0.9647,
+    "rmse": 0.3351,
+    "mae": 0.3028,
+    "formula": "Temperature = 26.79 - (-8.38 * NDVI)"
+  },
+  "decision_tree": {
+    "r2_score": 0.9908,
+    "rmse": 0.1709,
+    "mae": 0.1267
+  },
+  "random_forest": {
+    "r2_score": 0.9792,
+    "rmse": 0.2571,
+    "mae": 0.2033
+  }
+}

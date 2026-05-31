@@ -1,184 +1,178 @@
 # 🏗️ Project Architecture & Workflow Guide
 
-Welcome to the Urban Heat Island (UHI) Mapping Project! This document serves as the master architectural blueprint for our entire software ecosystem. It explains exactly how our system is engineered, how data flows from spatial satellites down to the web client, and most importantly, defines the rigid, highly-detailed responsibilities for each of the four subgroups. 
+Welcome to the Urban Heat Island (UHI) Mapping Project! This document serves as the master architectural blueprint for our software pipeline. It explains how our pure Python data pipeline is engineered, how data flows from spatial satellites and ground sensor logs to our analytical modules, and defines the detailed responsibilities for each of our four assigned roles.
 
 ---
 
 ## 🎯 1. Project Purpose, Inputs & Outputs
 
-**The Purpose:** 
-Cities are rapidly heating up because concrete infrastructure absorbs solar radiation, while natural green canopies and water bodies act as cooling sinks. The core objective of this project is to develop a dynamic, web-based environmental dashboard that provides high-resolution micro-analysis of neighborhoods (starting with Mirpur 12). By analyzing this data, urban planners can mathematically predict how planting trees (increasing NDVI) will directly lower localized surface temperatures, aiding in sustainable, climate-resilient city planning.
+**The Purpose:**  
+Cities are rapidly heating up because dense concrete infrastructures absorb solar radiation, while natural green canopies and water bodies act as cooling sinks. The core objective of this project is to develop a pure Python-based environmental mapping and predictive GIS analytics system. By analyzing spatial and ground-level telemetry, urban planners can mathematically predict how expanding the green canopy (increasing NDVI) will directly lower localized surface temperatures, aiding in climate-resilient sustainable city planning.
 
-* **📥 Primary Inputs (Data Sources):** 
+* **📥 Primary Inputs (Data Sources):**  
   * Satellite rasters (Landsat 8/9 and Sentinel-2) detailing Land Surface Temperature (LST) and Normalized Difference Vegetation Index (NDVI) bands.
-  * Our synthesized, high-fidelity ground-verification database (`mirpur12_ground_data.csv`), which includes exact GPS coordinates, estimated temperature ranges, environmental surface types (Concrete, Asphalt, Vegetation), and linked real-world photographic evidence.
-* **💻 Processing Engine (The Backend):** 
-  * A Python-powered Flask server utilizing the Pandas library to parse environmental data and the Scikit-Learn library to execute a Linear Regression algorithm. This mathematically determines the inverse correlation between green cover and heat retention.
-* **📤 The Output (User Interface):** 
-  * A highly interactive, glassmorphic web application built with Leaflet.js and Chart.js. The dashboard renders thermal hotspots dynamically over map tiles, allowing stakeholders to visually inspect heat disparities block-by-block and review statistical predictions in real time.
+  * Our synthesized, high-fidelity ground-verification database (`mirpur12_ground_data.csv`), which includes exact GPS coordinates, temperature measurements, environmental surface types (Concrete, Asphalt, Vegetation), and linked real-world photographic evidence.
+* **💻 Processing Pipeline (The Core Engine):**  
+  * A unified Python data pipeline utilizing the **Pandas** and **NumPy** libraries for data preprocessing and fusion, standard calculation modules to compute physical temperature indexes, and the **Scikit-Learn** library to run predictive machine learning models (Linear Regression and advanced AI algorithms) to forecast future regional temperatures.
+* **📤 The Output (Visualization & Analysis):**  
+  * Highly interactive GIS heatmaps generated via the **Folium** library (outputting standalone dynamic `.html` overlays) showing thermal hotspots, accompanied by high-end statistical comparison plots generated via **Matplotlib**, **Seaborn**, and **Plotly** comparing temperature variations across concrete vs. vegetated surfaces.
 
 ---
 
-## 👥 2. Subgroup Responsibilities & Technical Workflows
+## 👥 2. Role Assignments & Technical Workflows
 
-To ensure our project scales properly without causing Git merge conflicts, the workload is strictly partitioned among four subgroups. Each group has distinct files to edit, specific API behaviors to manage, and strict deliverables to meet.
+To ensure our project scales properly without causing Git merge conflicts, the workload is strictly partitioned into four highly focused technical roles. Each member has distinct modules to edit, specific data formats to manage, and strict deliverables to meet.
 
-### 🌍 Subgroup A: GIS & Remote Sensing (The Spatial Engineers)
+### 📡 Role 1: Data Collection & Data Preprocessing
+* **Assigned Members:** Sayed, Nusair
+* **Primary Directive & Workflow:**  
+  You are the foundational data provider for the entire analytical stack. Your primary responsibility is to harvest raw satellite imagery from platforms like USGS Earth Explorer and Google Earth Engine (specifically Landsat 8/9 thermal bands and Sentinel-2 optical bands) alongside ground-truth GPS coordinates. You will build the initial ingestion and preprocessing scripts to clean, align, and fuse raw satellite LST/NDVI readings with the ground sensor logs.
+* **File Access & Boundaries:**  
+  You operate primarily within the `data/` folder and `pipeline/preprocessing.py`. You do not touch the calculation formulas or the ML predictive training models; your strict boundary is spatial data preparation, cleanup, and file fusion.
+* **Technical Execution:**  
+  You will read ground-truth data from `mirpur12_ground_data.csv` and satellite readings, perform coordinate matching, handle missing values, and merge the datasets into a single, clean Pandas DataFrame. This DataFrame is passed down the pipeline as a standardized data dictionary contract.
+* **Deliverables & Final Output:**  
+  Clean, preprocessed datasets for Mirpur 12, Dhaka Metropolitan Area, Sylhet, Rajshahi, and Chittagong. You will provide a data preparation summary to the documentation team for inclusion in the final report.
 
-**Primary Directive & Workflow:** 
-Subgroup A acts as the foundational data provider for the entire architectural stack. Your primary responsibility is to harvest raw satellite imagery from platforms like USGS Earth Explorer and Google Earth Engine. You must focus on extracting the Thermal Infrared Sensor (TIRS) bands to calculate Land Surface Temperature (LST) and the Near-Infrared (NIR)/Red bands to compute the Normalized Difference Vegetation Index (NDVI). Without your accurate spatial data, the backend algorithms have no baseline to run predictions on.
+---
 
-**File Access & Modifications:**
-You will operate exclusively within the `data/geojson/` directory. Your main target file is `placeholders.js`. Currently, this file contains empty, dummy bounding boxes representing Mirpur 12 and other divisional areas. Your job is to replace these dummy JSON blocks with highly accurate, multi-layered GeoJSON structures that represent actual thermal gradients. You will not touch the Python backend or the frontend CSS; your strict boundary is spatial data formulation.
+### ✍️ Role 2: Calculation & Report Writing
+* **Assigned Members:** Punam, Nafiz
+* **Primary Directive & Workflow:**  
+  You represent the core mathematical engine and academic backbone of the team. Your job is to implement and validate the physical calculations (NDVI and LST) within the Python data pipeline. In addition, you serve as the chief technical writers, organizing and assembling our final academic thesis chapters.
+* **File Access & Boundaries:**  
+  You operate inside `pipeline/calculation.py`, the `documentation/` directory, and `Report writting/`. You work closely with Role 1 to ingest clean dataframes and output calculated thermal metrics to the visualization and ML modules.
+* **Technical Execution:**  
+  You will write python functions implementing the mathematical models:
+  * **Normalized Difference Vegetation Index (NDVI)**:  
+    $$\text{NDVI} = \frac{\text{NIR} - \text{Red}}{\text{NIR} + \text{Red}}$$
+  * **Land Surface Temperature (LST)**:  
+    $$\text{Predicted Temperature} = \alpha - (\beta \times \text{NDVI})$$
+  You are responsible for confirming that the calculation outputs line up with physical urban climate models.
+* **Deliverables & Final Output:**  
+  Highly optimized mathematical calculation scripts (`calculation.py`) and a flawlessly formatted academic report (`ESL Group 4 Report.md`) containing all thesis chapters and Viva preparation documents.
 
-**Technical Execution & Code Changes:**
-You will run heavy geoprocessing tasks using QGIS or Python's Rasterio library on your local machines. Once you have calculated the heat maps, you must vectorize these raster files into GeoJSON polygons. You will then open `placeholders.js` and paste your massive array of coordinates into the `REGION_PRESETS` object. You must ensure that each polygon feature has an `intensity` property (ranging from 0.0 to 1.0) so the frontend Leaflet engine knows exactly how dark to shade the red and green overlays. 
+---
 
-**Database & API Intersections:**
-While you do not write the Flask API, you control the data that the API ultimately serves. You must communicate constantly with Subgroup C (Frontend) to ensure that the coordinate bounds you generate match the base tile limits they are using in Leaflet. If your GeoJSON structure is malformed, the API endpoint will crash when it attempts to serialize the spatial data, resulting in a blank map on the dashboard.
+### 🎨 Role 3: Dataset Plotting & Visualization
+* **Assigned Members:** Spondon, Rushafi
+* **Primary Directive & Workflow:**  
+  You are responsible for the entire visual and spatial output of the project. Your job is to translate the raw numeric datasets and calculation results into intuitive, interactive GIS heatmaps and comparison graphs that are immediately understandable to urban planning stakeholders.
+* **File Access & Boundaries:**  
+  You operate exclusively within `pipeline/plotting.py` and the generated visual outputs inside `output/maps/` and `output/graphs/`. You do not edit the ML modeling algorithms or raw database CSVs.
+* **Technical Execution:**  
+  You will use the **Folium** library to generate standalone dynamic GIS heatmaps. You will configure markers for coordinate points, custom HTML popups mapping physical locations to temperature/image tags, and save them as `.html` files. Additionally, you will build plotting scripts using **Matplotlib** and **Seaborn** to generate scatter plots, bar charts, and temperature distribution graphs comparing concrete vs. vegetation zones.
+* **Deliverables & Final Output:**  
+  A suite of dynamic Folium maps (e.g. `mirpur12_heatmap.html`) and PNG comparison plots illustrating spatial thermal gradients.
 
-**Deliverables & Final Output:**
-By the end of Phase 3, you must deliver fully functional, multi-layered GeoJSON representations for the Entire Dhaka Metropolitan Area, Sylhet, Rajshahi, and Chittagong. These must be cleanly nested within the `data/geojson/` directory. You will also supply Subgroup D with a high-level summary of your processing methodology so they can accurately draft Chapter 3 of the final academic report.
+---
 
-### ⚙️ Subgroup B: Backend & Analytics (The Server & Logic Engineers)
-
-**Primary Directive & Workflow:** 
-Subgroup B is the absolute brain of this software. You are responsible for engineering the server infrastructure that bridges the static data files (CSVs and GeoJSONs) with the live web application. Your workflow involves setting up a local web server, reading raw data files from the file system, cleaning that data in memory using Pandas, and running statistical machine-learning operations (Linear Regression) to dynamically calculate the relationship between temperature and vegetation. 
-
-**File Access & Modifications:**
-You have total dominion over the `backend/` directory. Your primary files are `app.py` (the Flask server router) and `models/analytics.py` (the statistical calculation engine). You must also manage `requirements.txt` to ensure all pip dependencies (like `flask`, `pandas`, `numpy`, and `scikit-learn`) are properly documented for the team. You are strictly forbidden from altering the frontend UI files, as your job is solely to deliver clean data to the web interface.
-
-**Technical Execution & Code Changes:**
-Inside `app.py`, you will write the routing logic using the `@app.route('/api/heat-data')` decorator. Your code must intercept HTTP GET requests, read the `region` parameter from the URL, and load the corresponding data. Inside `analytics.py`, you will write Python functions that take the raw CSV rows (containing Temperature and NDVI columns), feed them into a linear regression model, and extract the Alpha (Intercept), Beta (Slope), $R^2$ Score, and Root Mean Squared Error (RMSE). You must wrap all these calculations into a unified Python dictionary.
-
-**API Endpoints & Database Connection:**
-You are the creators of the RESTful API. You do not use a traditional SQL database; instead, you treat the `data/` directory (CSVs and JSONs) as a flat-file database. Your main endpoint, `/api/heat-data?region=<region_id>`, must be bulletproof. It must serialize the Pandas dataframe and the regression metrics into a strict JSON payload (as defined in the README Data Contract). If the frontend sends a bad region ID, your API must gracefully handle the error and return a 404 response rather than crashing the Python server.
-
-**Deliverables & Final Output:**
-You must deliver a highly stable, lightning-fast Flask server capable of processing mathematical regressions in under 100 milliseconds. Your API must correctly output the equations required for the frontend to update the "Live Regression Engine" widget. Finally, you will provide Subgroup D with a complete breakdown of the mathematical formulas you used so they can include them in the technical thesis.
-
-### 🎨 Subgroup C: Frontend & Map UI (The Client-Side Developers)
-
-**Primary Directive & Workflow:** 
-Subgroup C is responsible for the entire user experience (UX) and visual aesthetic of the project. You must take the raw, invisible JSON data supplied by Subgroup B's API and transform it into a beautiful, interactive, and responsive web dashboard. Your workflow involves designing modern UI elements, managing asynchronous JavaScript data fetching (AJAX), and configuring complex third-party visualization libraries like Leaflet.js for mapping and Chart.js for statistical plotting.
-
-**File Access & Modifications:**
-You control the entire `frontend/` directory. You will work heavily inside `index.html` to build the structural skeleton of the dashboard. You will write advanced styling rules in `css/styles.css` to achieve the requested "premium glassmorphic" aesthetic, utilizing neon accents, smooth gradients, and micro-animations. Your most critical file is `js/app.js`, where all the dynamic client-side logic lives. You should not touch the Python backend or the raw data files.
-
-**Technical Execution & Code Changes:**
-Inside `app.js`, you will write `async/await` fetch functions that ping Subgroup B's `/api/heat-data` endpoint. Once the data arrives, you must write JavaScript to dynamically update the DOM (e.g., changing the text of the "Average Temp" widget). For the map, you will utilize the Leaflet `L.circleMarker` API to plot the CSV coordinates, binding custom HTML popups that display the location's name, temperature, and dynamically loaded images via `<img src="images/...">`. You will also write the logic to dynamically re-render the Chart.js canvases when the user switches regions.
-
-**API Integration & Asset Management:**
-You are the exclusive consumers of the backend API. You must ensure your JavaScript gracefully handles API loading states and errors (e.g., showing a notification if the Python server is offline). Furthermore, you are responsible for managing the `frontend/images/` directory. You must ensure that the image paths returned by the CSV/API accurately resolve to the physical image files on the web server, otherwise users will see broken image links in their map popups.
-
-**Deliverables & Final Output:**
-Your final deliverable is a stunning, bug-free, zero-lag interactive dashboard. The UI must be fully responsive, scaling perfectly on both large desktop monitors and smaller laptops. You must successfully implement smooth map animations (using `map.flyTo()`) when transitioning between Mirpur 12, Dhaka, and Sylhet. You will work with Subgroup D to capture high-resolution screenshots of your finished dashboard for the final project presentation.
-
-### 📝 Subgroup D: Project Managers & Technical Writers (The Directors)
-
-**Primary Directive & Workflow:** 
-Subgroup D serves as the architectural glue that holds the entire project together. Your job is dual-purposed: you are the central database architects who synthesize the ground-truth testing data, and you are the technical writers responsible for all academic documentation. Your workflow involves overseeing the 12-day agile sprint, ensuring all other subgroups meet their deadlines, validating that the API contracts are honored, and translating complex Python/GIS jargon into professional thesis chapters.
-
-**File Access & Modifications:**
-You have the most cross-functional access. You manage the physical flat-file database located at `data/environmental/mirpur12_ground_data.csv`. You are also in charge of the `documentation/` folder (including this `project_architecture.md` file) and the `Report writting/ESL Group 4 Report.md` academic thesis. You must also routinely audit the `README.md` file to ensure the onboarding instructions remain accurate as the codebase evolves.
-
-**Technical Execution & Code Changes:**
-While you do not write Python or JavaScript, you write the critical data schemas. You must carefully expand the CSV files to include exact GPS coordinates (Latitude/Longitude), environmental profiles (Concrete vs Vegetation), and precise string mappings for image filenames. If you make a typo in the CSV (e.g., writing "Bup.jpeg" instead of "BUP.jpeg"), you will break Subgroup C's image rendering. Your data entry must be flawless and mathematically sound so Subgroup B's regression algorithms output realistic numbers.
-
-**Collaboration & Database Generation:**
-Because physical field surveys were skipped due to time constraints, you are responsible for synthetically generating the "ground verification" database. You must carefully curate data points that reflect reality (e.g., ensuring a busy bus depot has a higher temperature and lower NDVI than a lakeside park). You must also coordinate daily stand-up meetings to ensure Subgroup A's GeoJSON bounds align with your CSV coordinates, and that Subgroup B is returning the exact JSON structure Subgroup C expects.
-
-**Deliverables & Final Output:**
-You will deliver a flawlessly formatted, highly detailed academic thesis (the `ESL Group 4 Report.md`) ready for submission. You will author comprehensive Regional Geographic Summaries explaining the climate dynamics of different cities. Finally, you will design the final PowerPoint presentation, compile the backup demonstration video, and lead the team through a simulated Viva rehearsal to ensure everyone can defend the project architecture to the professors.
+### 🧠 Role 4: Predictive Analysis (ML)
+* **Assigned Members:** Ajwad, Sabbir
+* **Primary Directive & Workflow:**  
+  You are responsible for the predictive capabilities of the environmental engine. Your job is to build, train, and validate a series of different machine learning models to forecast future localized temperatures based on vegetation changes and spatial parameters.
+* **File Access & Boundaries:**  
+  You have sole dominion over `pipeline/prediction.py` and saved model parameter configurations inside `output/models/`. You are strictly forbidden from editing database preprocessing or plotting modules.
+* **Technical Execution:**  
+  Using the Scikit-Learn library, you will build and fit a Linear Regression model mapping LST vs. NDVI, extracting the intercept ($\alpha$) and cooling slope coefficient ($\beta$). You will also implement advanced machine learning models (such as Random Forest or XGBoost regression) to perform nonlinear predictions. You will compute all performance metrics, including Mean Absolute Error (MAE), Root Mean Squared Error (RMSE), and the Coefficient of Determination ($R^2$ Score), exporting them as serialized JSON metrics.
+* **Deliverables & Final Output:**  
+  A predictive regression engine (`prediction.py`) and accuracy logs verifying that our machine learning predictions fit historical and spatial thermal realities.
 
 ---
 
 ## 🗺️ 3. System Architecture & Workflow Diagrams
 
-Here is how the data flows from the satellite/surveyors all the way to the user's screen.
+Here is how data flows sequentially through our pure Python pipeline:
 
 ```mermaid
 graph TD
     %% Define Styles
     classDef data fill:#2b3a42,stroke:#4a90e2,stroke-width:2px,color:#fff;
-    classDef backend fill:#1a252c,stroke:#e67e22,stroke-width:2px,color:#fff;
-    classDef frontend fill:#2c3e50,stroke:#2ecc71,stroke-width:2px,color:#fff;
+    classDef pre fill:#1a252c,stroke:#e67e22,stroke-width:2px,color:#fff;
+    classDef math fill:#34495e,stroke:#9b59b6,stroke-width:2px,color:#fff;
+    classDef plot fill:#2c3e50,stroke:#2ecc71,stroke-width:2px,color:#fff;
+    classDef ml fill:#22313f,stroke:#f1c40f,stroke-width:2px,color:#fff;
 
-    %% Data Layer
-    subgraph Data Sources (Subgroups A & D)
-        A[Satellite GeoJSON Layers<br>(Subgroup A)]:::data
-        B[Ground CSV Database & Images<br>(Subgroup D)]:::data
+    %% Data Sources
+    subgraph Data Layer (Inputs)
+        A[Satellite Rasters LST/NDVI]:::data
+        B[Ground CSV Database mirpur12_ground_data.csv]:::data
     end
 
-    %% Backend Layer
-    subgraph Python Backend API (Subgroup B)
-        C[Pandas Data Parser]:::backend
-        D[Scikit-Learn Regression Engine]:::backend
-        E[Flask REST API Server]:::backend
-        C --> D
-        D --> E
+    %% Preprocessing
+    subgraph Role 1 Module
+        C[pipeline/preprocessing.py<br>Ingestion & Fusion]:::pre
     end
 
-    %% Frontend Layer
-    subgraph Client Web Dashboard (Subgroup C)
-        F[Leaflet.js GIS Map Engine]:::frontend
-        G[Chart.js Statistical Canvases]:::frontend
-        H[Glassmorphic HTML/CSS UI]:::frontend
+    %% Calculations
+    subgraph Role 2 Module
+        D[pipeline/calculation.py<br>LST & NDVI Computations]:::math
     end
 
-    %% Flow Connections
-    A -.->|Injects Map Boundaries| F
-    B -->|Provides Telemetry| C
-    E ==>|Serves Unified JSON Schema| F
-    E ==>|Serves Regression Variables| G
-    F --- H
-    G --- H
+    %% Visualization
+    subgraph Role 3 Module
+        E[pipeline/plotting.py<br>Folium GIS Maps & Matplotlib Plots]:::plot
+    end
+
+    %% Prediction
+    subgraph Role 4 Module
+        F[pipeline/prediction.py<br>Regression & Machine Learning]:::ml
+    end
+
+    %% Connections
+    A --> C
+    B --> C
+    C -->|Unified DataFrame Contract| D
+    D -->|Calculated Metrics DataFrame| E
+    D -->|Calculated Metrics DataFrame| F
+    E -->|Generates HTML/PNG Visuals| G[output/ Directory]:::data
+    F -->|Generates Accuracy Logs| G
 ```
 
-### 🔄 The Step-by-Step API Workflow:
-1. **The Request:** A user clicks "Sylhet" on the dashboard dropdown. Subgroup C's JavaScript sends an asynchronous `GET` request to `http://127.0.0.1:5000/api/heat-data?region=sylhet`.
-2. **The Database Read:** Subgroup B's Flask server intercepts the request, maps "sylhet" to the correct CSV flat-file, and loads it into a Pandas DataFrame.
-3. **The Analytics Crunch:** The server passes the DataFrame to `analytics.py`, which runs the regression algorithms to compute the precise environmental correlations.
-4. **The JSON Delivery:** The Flask server bundles the statistical metrics, the individual coordinate rows, and image paths into a single JSON response and sends it back to the client.
-5. **The Visual Render:** Subgroup C's JavaScript parses the JSON, updates the Chart.js graphs, and triggers Leaflet.js to plot the thermal hotspots and bind the HTML image popups to the map markers.
+### 🔄 The Step-by-Step Python Pipeline execution:
+1. **The Trigger:** The user runs the master script `python main.py`.
+2. **Data Ingestion (Role 1):** The preprocessing script reads `mirpur12_ground_data.csv` and merges it with satellite spatial layers.
+3. **Core Computation (Role 2):** The calculation module parses the data, validating NDVI and LST variables using mathematical formulas.
+4. **Visual Generation (Role 3):** The plotting module generates interactive Folium GIS HTML maps centered over Mirpur 12 and saves them alongside Matplotlib scatter plots comparing surfaces.
+5. **AI Modeling (Role 4):** The machine learning module trains linear and nonlinear regression models, evaluates predictive accuracy metrics, and saves accuracy metrics to a JSON configuration.
 
 ---
 
 ## 📂 4. Project Structure & File Architecture
 
-This is how our code is physically organized inside the repository. This strict modularity guarantees that Subgroups will not interfere with each other's files during parallel development.
+Our repository is physically organized inside this strict modular hierarchy, ensuring that our development roles operate in separate logical workspaces:
 
 ```text
 Urban-Heat-Island-Mapping-with-GIS/
 │
 ├── README.md                           # Master instructions, stack overview, and setup guide
 │
-├── documentation/                      # 📝 SUBGROUP D'S WORKSPACE (Technical Writing)
-│   ├── project_architecture.md         # THIS FILE: The master workflow and responsibility guide
-│   └── regional_summaries_report.md    # The theoretical breakdown of regional thermal profiles
+├── main.py                             # Master entry-point running the entire pipeline sequentially
 │
-├── Report writting/                    # 📝 SUBGROUP D'S WORKSPACE (Academic Deliverables)
-│   └── ESL Group 4 Report.md           # The final, formatted 6-chapter thesis document
+├── documentation/                      # 📝 ROLE 2'S WORKSPACE (Technical Writing)
+│   ├── Heat Map.md                     # Technical constraints, workflow, and LaTeX formulas
+│   ├── project_architecture.md         # THIS FILE: Pure Python workflow and role architecture
+│   └── regional_summaries_report.md    # Theoretical breakdown of regional thermal profiles
 │
-├── data/                               # 🌍 SUBGROUP A & D'S WORKSPACE (The Database)
+├── data/                               # 🌍 CENTRAL DATA REPOSITORY (Role 1 Database)
 │   ├── environmental/
-│   │   └── mirpur12_ground_data.csv    # The core flat-file database of temps, coords, and images
-│   └── geojson/
-│       └── placeholders.js             # The spatial bounding boxes provided by Subgroup A
+│   │   └── mirpur12_ground_data.csv    # The ground-truth CSV database (temps, coords, and images)
+│   ├── geojson/
+│   │   └── placeholders.js             # Regional bounding vectors and city coordinates presets
+│   └── mirpur 12 area ss/              # Geographic screenshots and satellite map overlays
 │
-├── backend/                            # ⚙️ SUBGROUP B'S WORKSPACE (The API Server)
-│   ├── app.py                          # The Flask routing application and primary server file
-│   ├── requirements.txt                # Dependency list for pip (flask, pandas, scikit-learn)
-│   └── models/
-│       └── analytics.py                # The mathematical regression engine and data parser
+├── pipeline/                           # ⚙️ PYTHON PIPELINE LOGIC MODULES (Role Workspaces)
+│   ├── __init__.py                     # Module package initializer
+│   ├── preprocessing.py                # Role 1: Ingests, cleans, and merges CSV & satellite datasets
+│   ├── calculation.py                  # Role 2: Implements LST & NDVI mathematical calculations
+│   ├── plotting.py                     # Role 3: Generates Folium interactive heatmaps & Matplotlib graphs
+│   └── prediction.py                   # Role 4: Trains AI / Machine Learning models for heat prediction
 │
-└── frontend/                           # 🎨 SUBGROUP C'S WORKSPACE (The Client UI)
-    ├── index.html                      # The structural DOM and widget layout
-    ├── css/
-    │   └── styles.css                  # The glassmorphic, responsive styling definitions
-    ├── js/
-    │   └── app.js                      # The AJAX controllers, Leaflet maps, and Chart.js logic
-    └── images/
-        ├── BUP.jpeg                    # The physical image assets directly referenced by the CSV
-        └── Alubdi...jpeg               # Additional ground-truth photographic evidence
+└── output/                             # 📊 GENERATED PIPELINE OUTPUTS & VISUALIZATIONS (Outputs)
+    ├── maps/
+    │   └── {region}_heatmap.html       # Dynamic Folium GIS HTML maps with popups
+    ├── graphs/
+    │   └── {region}_concrete_vs_veg_scatter.png # Comparative scatter plots of LST vs NDVI
+    └── models/
+        └── {region}_reg_metrics.json   # Serialized AI model accuracies & metrics (MAE, RMSE, R2)
 ```

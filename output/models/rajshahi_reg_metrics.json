@@ -1,0 +1,22 @@
+{
+  "region_id": "rajshahi",
+  "region_name": "Rajshahi Division",
+  "linear_regression": {
+    "alpha_intercept": 28.83,
+    "beta_slope": -11.0456,
+    "r2_score": 0.9768,
+    "rmse": 0.3553,
+    "mae": 0.3207,
+    "formula": "Temperature = 28.83 - (-11.05 * NDVI)"
+  },
+  "decision_tree": {
+    "r2_score": 0.9953,
+    "rmse": 0.1595,
+    "mae": 0.1178
+  },
+  "random_forest": {
+    "r2_score": 0.9854,
+    "rmse": 0.2825,
+    "mae": 0.2219
+  }
+}

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>UHI GIS Hotspot Overlay - Rajshahi Division</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Outfit', sans-serif; background-color: #0f172a; color: #f8fafc; overflow: hidden; }
+        #header {
+            position: absolute; top: 15px; left: 15px; z-index: 1000;
+            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px);
+            padding: 15px 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);
+            max-width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        #header h2 { margin: 0 0 5px 0; font-size: 18px; font-weight: 700; color: #38bdf8; }
+        #header p { margin: 0; font-size: 12px; color: #94a3b8; line-height: 1.4; }
+        #legend {
+            position: absolute; bottom: 25px; right: 25px; z-index: 1000;
+            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(10px);
+            padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5); font-size: 12px;
+        }
+        .legend-title { font-weight: 600; margin-bottom: 8px; color: #38bdf8; text-transform: uppercase; font-size: 10px; letter-spacing: 1px; }
+        .legend-item { display: flex; align-items: center; margin-bottom: 5px; }
+        .legend-color { width: 14px; height: 14px; border-radius: 30%; margin-right: 8px; }
+        #map { width: 100%; height: 100%; }
+        .leaflet-bar a { background-color: rgba(15, 23, 42, 0.9) !important; color: #f8fafc !important; border: 1px solid rgba(255,255,255,0.1) !important; }
+    </style>
+</head>
+<body>
+
+    <div id="header">
+        <h2>🌡️ UHI Overlay: Rajshahi Division</h2>
+        <p>High dry summer temperatures and heavy pavement-retained heat profiles.</p>
+    </div>
+
+    <div id="legend">
+        <div class="legend-title">Surface Profile & Heat</div>
+        <div class="legend-item"><div class="legend-color" style="background: #e74c3c;"></div>Concrete (High Heat)</div>
+        <div class="legend-item"><div class="legend-color" style="background: #f39c12;"></div>Asphalt (Medium-High)</div>
+        <div class="legend-item"><div class="legend-color" style="background: #9b59b6;"></div>Bare Soil (Medium)</div>
+        <div class="legend-item"><div class="legend-color" style="background: #2ecc71;"></div>Vegetation (Cool Zone)</div>
+        <div class="legend-item"><div class="legend-color" style="background: #3498db;"></div>Water Body (Cool Sink)</div>
+        <div class="legend-item"><div class="legend-color" style="background: #7f8c8d;"></div>Mixed/Other</div>
+    </div>
+
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize Leaflet Map centered over regional center
+        const map = L.map('map', {
+            zoomControl: true,
+            maxZoom: 18,
+            minZoom: 10
+        }).setView([24.369950666666668, 88.59921200000001], 14);
+
+        // Standard CartoDB Dark Matter tile layer for neon aesthetic
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        }).addTo(map);
+
+        // Inject computed regional hotspot circle layers
+        
+        L.circle([24.35386, 88.57769], {
+            color: '#f39c12',
+            fillColor: '#f39c12',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Rajshahi Site 1</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #f39c12;"><b>32.0°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Asphalt</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.33</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Medium</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([24.38057, 88.61668], {
+            color: '#2ecc71',
+            fillColor: '#2ecc71',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Rajshahi Site 2</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #2ecc71;"><b>36.8°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Vegetation</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.7</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Low</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([24.3555, 88.59245], {
+            color: '#e74c3c',
+            fillColor: '#e74c3c',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Rajshahi Site 3</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #e74c3c;"><b>29.3°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Concrete</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.07</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>High</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([24.37042, 88.59167], {
+            color: '#9b59b6',
+            fillColor: '#9b59b6',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Rajshahi Site 4</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #9b59b6;"><b>33.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Bare Soil</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.44</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Medium</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([24.36648, 88.60156], {
+            color: '#9b59b6',
+            fillColor: '#9b59b6',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Rajshahi Site 5</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #9b59b6;"><b>34.3°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Bare Soil</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.51</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Low</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([24.35648, 88.60505], {
+            color: '#2ecc71',
+            fillColor: '#2ecc71',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Rajshahi Site 6</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #2ecc71;"><b>35.6°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Vegetation</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.64</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Low</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([24.35473, 88.5781], {
+            color: '#9b59b6',
+            fillColor: '#9b59b6',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Rajshahi Site 7</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #9b59b6;"><b>34.4°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Bare Soil</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.49</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Medium</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([24.40244, 88.6227], {
+            color: '#2ecc71',
+            fillColor: '#2ecc71',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Rajshahi Site 8</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #2ecc71;"><b>37.1°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Vegetation</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.76</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Low</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([24.37091, 88.58152], {
+            color: '#f39c12',
+            fillColor: '#f39c12',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Rajshahi Site 9</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #f39c12;"><b>32.1°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Asphalt</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.28</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Medium</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([24.34656, 88.62876], {
+            color: '#9b59b6',
+            fillColor: '#9b59b6',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Rajshahi Site 10</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #9b59b6;"><b>33.2°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Bare Soil</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.42</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Medium</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([24.3757, 88.607], {
+            color: '#f39c12',
+            fillColor: '#f39c12',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Rajshahi Site 11</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #f39c12;"><b>30.9°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Asphalt</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.24</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>High</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([24.40268, 88.62071], {
+            color: '#e74c3c',
+            fillColor: '#e74c3c',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Rajshahi Site 12</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #e74c3c;"><b>31.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Concrete</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.19</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>High</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([24.39981, 88.57951], {
+            color: '#2ecc71',
+            fillColor: '#2ecc71',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Rajshahi Site 13</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #2ecc71;"><b>37.4°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Vegetation</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.75</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Low</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([24.34721, 88.59372], {
+            color: '#e74c3c',
+            fillColor: '#e74c3c',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Rajshahi Site 14</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #e74c3c;"><b>31.5°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Concrete</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.2</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>High</td></tr>
+                </table>
+            </div>
+        `);
+        
+        L.circle([24.36591, 88.59106], {
+            color: '#f39c12',
+            fillColor: '#f39c12',
+            fillOpacity: 0.65,
+            radius: 80
+        }).addTo(map).bindPopup(`
+            <div style="font-family: 'Outfit', sans-serif; min-width: 180px;">
+                <h4 style="margin: 0 0 5px 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 3px;">$Rajshahi Site 15</h4>
+                <table style="width: 100%; border-collapse: collapse; font-size: 11px;">
+                    <tr><td><b>Temperature:</b></td><td style="color: #f39c12;"><b>33.1°C</b></td></tr>
+                    <tr><td><b>Surface Type:</b></td><td>Asphalt</td></tr>
+                    <tr><td><b>NDVI Index:</b></td><td>0.34</td></tr>
+                    <tr><td><b>Traffic Density:</b></td><td>Medium</td></tr>
+                </table>
+            </div>
+        `);
+        
+
+    </script>
+</body>
+</html>
