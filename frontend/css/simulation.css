@@ -1,0 +1,602 @@
+/* Green Infrastructure Simulation Center */
+
+.simulation-page {
+  overflow-y: auto;
+}
+
+.sim-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.sim-logo {
+  color: var(--heat-vegetation);
+}
+
+.sim-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  background: var(--bg-elevated);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+
+.sim-header__status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.sim-workspace {
+  display: grid;
+  grid-template-columns: 300px 1fr 300px;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-6) var(--space-8);
+  flex: 1;
+}
+
+.sim-panel {
+  background: var(--bg-surface);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-glow);
+  transition: var(--transition-smooth);
+}
+
+.sim-panel:hover {
+  border-color: var(--border-strong);
+}
+
+.sim-panel--controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  position: sticky;
+  top: 88px;
+  align-self: start;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+.sim-panel--readout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  position: sticky;
+  top: 88px;
+  align-self: start;
+}
+
+.sim-panel__head h2 {
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+}
+
+.sim-panel__head p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: var(--space-1);
+  line-height: 1.5;
+}
+
+.sim-panel__head--row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.sim-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.sim-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.sim-field__label {
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.sim-select {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Sliders */
+.sim-slider-block {
+  padding: var(--space-3);
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  transition: var(--transition-fast);
+}
+
+.sim-slider-block:hover,
+.sim-slider-block.is-active {
+  border-color: rgba(34, 197, 94, 0.35);
+  background: rgba(34, 197, 94, 0.04);
+}
+
+.sim-slider-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-2);
+}
+
+.sim-slider-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.sim-slider-value {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 800;
+  color: var(--heat-vegetation);
+  font-variant-numeric: tabular-nums;
+}
+
+.sim-slider {
+  width: 100%;
+  height: 6px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+}
+
+.sim-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--heat-vegetation);
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(34, 197, 94, 0.5);
+  transition: transform 0.15s ease;
+}
+
+.sim-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.sim-slider--green::-webkit-slider-thumb {
+  background: #16a34a;
+  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.5);
+}
+
+.sim-slider--teal::-webkit-slider-thumb {
+  background: #38bdf8;
+  box-shadow: 0 2px 8px rgba(56, 189, 248, 0.5);
+}
+
+.sim-slider-hint {
+  font-size: 0.625rem;
+  color: var(--text-faint);
+  margin-top: var(--space-2);
+}
+
+.sim-presets__label {
+  display: block;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.sim-preset-group {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.sim-preset {
+  flex: 1;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.sim-preset:hover,
+.sim-preset.is-active {
+  color: var(--heat-vegetation);
+  border-color: rgba(34, 197, 94, 0.4);
+  background: var(--heat-vegetation-soft);
+}
+
+.sim-reset-btn {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.625rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.sim-reset-btn:hover {
+  color: var(--text-main);
+  border-color: var(--border-strong);
+}
+
+.sim-formula-card {
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.75rem;
+  color: #7dd3fc;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  border-left: 3px solid #38bdf8;
+  background: rgba(0, 0, 0, 0.2);
+  margin-top: auto;
+}
+
+/* Impact strip */
+.sim-impact-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-3);
+}
+
+.sim-impact-card {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-glass);
+  transition: var(--transition-smooth);
+  animation: sim-card-in 0.5s ease backwards;
+}
+
+.sim-impact-card:nth-child(1) { animation-delay: 0.05s; }
+.sim-impact-card:nth-child(2) { animation-delay: 0.1s; }
+.sim-impact-card:nth-child(3) { animation-delay: 0.15s; }
+.sim-impact-card:nth-child(4) { animation-delay: 0.2s; }
+
+@keyframes sim-card-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sim-impact-card.is-updated {
+  animation: sim-pulse-update 0.6s ease;
+}
+
+@keyframes sim-pulse-update {
+  0%, 100% { box-shadow: none; }
+  50% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.2); }
+}
+
+.sim-impact-card__label {
+  display: block;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.sim-impact-card__value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-top: var(--space-1);
+  font-variant-numeric: tabular-nums;
+}
+
+.sim-impact-card__delta {
+  display: block;
+  font-size: 0.625rem;
+  color: var(--text-faint);
+  margin-top: var(--space-1);
+}
+
+.sim-impact-card--temp .sim-impact-card__value { color: #38bdf8; }
+.sim-impact-card--score .sim-impact-card__value { color: var(--heat-vegetation); }
+.sim-impact-card--ndvi .sim-impact-card__value { color: #84cc16; }
+.sim-impact-card--risk .sim-impact-card__value { color: var(--heat-moderate); }
+
+/* Before / After */
+.sim-compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.sim-before-after {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: var(--space-3);
+  align-items: stretch;
+}
+
+.sim-state-card {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  transition: var(--transition-smooth);
+}
+
+.sim-state-card--before {
+  background: linear-gradient(160deg, rgba(239, 68, 68, 0.08), transparent);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.sim-state-card--after {
+  background: linear-gradient(160deg, rgba(34, 197, 94, 0.1), transparent);
+  border-color: rgba(34, 197, 94, 0.25);
+}
+
+.sim-state-card__tag {
+  font-size: 0.5625rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.sim-state-metric__label {
+  display: block;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.sim-state-metric__value {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
+}
+
+.sim-state-card--before .sim-state-metric__value { color: var(--heat-high); }
+.sim-state-card--after .sim-state-metric__value { color: var(--heat-vegetation); }
+
+.sim-state-badge {
+  display: inline-block;
+  font-size: 0.625rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  width: fit-content;
+}
+
+.sim-state-badge--after {
+  color: var(--heat-vegetation);
+  background: var(--heat-vegetation-soft);
+  border-color: rgba(34, 197, 94, 0.35);
+}
+
+.sim-state-arrow {
+  display: flex;
+  align-items: center;
+  color: var(--heat-vegetation);
+  opacity: 0.7;
+  animation: sim-arrow-pulse 2s ease-in-out infinite;
+}
+
+@keyframes sim-arrow-pulse {
+  0%, 100% { opacity: 0.5; transform: translateX(0); }
+  50% { opacity: 1; transform: translateX(4px); }
+}
+
+.sim-state-arrow svg {
+  width: 40px;
+  height: 24px;
+}
+
+/* Charts */
+.sim-chart-wrap {
+  position: relative;
+  min-height: 220px;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
+}
+
+.sim-chart-wrap--tall {
+  min-height: 260px;
+}
+
+.sim-chart-wrap--compact {
+  min-height: 180px;
+}
+
+.sim-scenario-legend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 0.625rem;
+  color: var(--text-muted);
+}
+
+.sim-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.sim-legend-dot--before { background: var(--heat-high); }
+.sim-legend-dot--after { background: var(--heat-vegetation); }
+
+/* Readout */
+.sim-readout-block h3 {
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.sim-readout-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.sim-readout-list li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  padding: var(--space-2);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+}
+
+.sim-readout-list li span:last-child {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--heat-vegetation);
+}
+
+.sim-confidence__row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.sim-confidence__row strong {
+  font-family: var(--font-display);
+  color: var(--text-main);
+}
+
+.sim-recommendation {
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  background: var(--heat-vegetation-soft);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-top: auto;
+}
+
+body.simulation-loading .global-loader {
+  opacity: 1;
+  visibility: visible;
+}
+
+body.simulation-loading {
+  cursor: progress;
+}
+
+/* Responsive */
+@media (max-width: 1280px) {
+  .sim-workspace {
+    grid-template-columns: 280px 1fr;
+  }
+
+  .sim-panel--readout {
+    grid-column: span 2;
+    position: static;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+  }
+
+  .sim-recommendation {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 900px) {
+  .sim-workspace {
+    grid-template-columns: 1fr;
+    padding: var(--space-3);
+  }
+
+  .sim-panel--controls,
+  .sim-panel--readout {
+    position: static;
+    max-height: none;
+  }
+
+  .sim-panel--readout {
+    grid-template-columns: 1fr;
+  }
+
+  .sim-impact-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sim-compare-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sim-before-after {
+    grid-template-columns: 1fr;
+  }
+
+  .sim-state-arrow {
+    justify-content: center;
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .sim-impact-strip {
+    grid-template-columns: 1fr;
+  }
+}

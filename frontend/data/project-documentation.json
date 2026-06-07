@@ -1,0 +1,343 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "lastUpdated": "2026-06-07",
+    "institution": "Bangladesh University of Professionals",
+    "department": "Department of Computer Science and Engineering",
+    "course": "Environmental Science Laboratory (CSE 3-2)",
+    "group": "ESL Group 4"
+  },
+  "overview": {
+    "thesisTitle": "Development of a Scalable GIS Mapping and Predictive Analysis Framework for Urban Heat Island (UHI) Monitoring",
+    "thesisSubtitle": "A Micro-Analysis of Mirpur 12 with Regional Extension across Bangladesh",
+    "degree": "Bachelor of Science in Computer Science and Engineering",
+    "submissionDate": "June 2026",
+    "problemStatement": "Standard meteorological stations capture broad city-wide weather patterns but fail to identify hyper-localized, block-by-block thermal risk zones. Urban planners lack an accessible, high-resolution geospatial tool capable of fusing ground-truth observations with remote sensing indices to dynamically predict and mitigate thermal anomalies in dense sectors such as Mirpur 12, Dhaka.",
+    "objectives": [
+      "Develop an interactive GIS application mapping the localized thermal profile of Mirpur 12 using GPS field survey and derived spectral indices.",
+      "Engineer a modular, scalable framework extending macro-analysis to Dhaka Metropolitan Area, Sylhet, Rajshahi, and Chittagong.",
+      "Deploy a hybrid machine learning architecture forecasting multi-year urban temperature progression up to 2030."
+    ],
+    "significance": "The platform equips municipal authorities and researchers with evidence-based UHI intelligence—linking vegetation density to surface cooling, ranking heat hotspots, simulating green interventions, and projecting decadal thermal trajectories for sustainable urban planning in Bangladesh.",
+    "uhiExplanation": {
+      "title": "Urban Heat Island (UHI) Effect",
+      "summary": "Urban Heat Island refers to the phenomenon where built-up areas experience significantly higher surface and air temperatures than adjacent rural or vegetated surroundings.",
+      "causes": [
+        "Concrete, asphalt, and buildings absorb and store solar radiation (high thermal mass, low albedo).",
+        "Reduced vegetation limits evapotranspiration and shading that naturally cool the environment.",
+        "Traffic, industry, and human activity add anthropogenic heat to the urban canopy layer.",
+        "Urban geometry traps long-wave radiation, restricting nocturnal cooling."
+      ],
+      "impacts": [
+        "Elevated public health risk during heatwaves",
+        "Increased energy demand for air conditioning",
+        "Ecological stress on urban flora and fauna",
+        "Amplified inequality in thermally vulnerable neighbourhoods"
+      ]
+    }
+  },
+  "team": {
+    "name": "Team Gliders",
+    "tagline": "ESL Group 4 · Environmental Intelligence Research Collective",
+    "pairs": [
+      {
+        "id": "pair-a",
+        "label": "Pair A",
+        "title": "GIS & Remote Sensing",
+        "color": "#38bdf8",
+        "responsibilities": [
+          "Satellite data integration and surface reflectance presets",
+          "Interactive GIS map layers (LST, NDVI, Heat Risk)",
+          "Folium and Leaflet spatial visualizations",
+          "Regional boundary GeoJSON and scatter plot exports"
+        ],
+        "members": [
+          {
+            "name": "Pranabanta Seth Spondon",
+            "studentId": "23524202024",
+            "role": "GIS Visualization Lead"
+          },
+          {
+            "name": "Maruf Ali Rushafi",
+            "studentId": "23524202068",
+            "role": "Remote Sensing & Mapping Lead"
+          }
+        ]
+      },
+      {
+        "id": "pair-b",
+        "label": "Pair B",
+        "title": "Backend & Analytics",
+        "color": "#a78bfa",
+        "responsibilities": [
+          "Python data pipeline and CSV preprocessing",
+          "NDVI, LST, and Heat Risk Index computation",
+          "Flask REST API and regional analytics engines",
+          "Regression, hotspot ranking, and climate analytics modules"
+        ],
+        "members": [
+          {
+            "name": "Abu Sayed",
+            "studentId": "23524202062",
+            "role": "Data Ingestion & Pipeline Lead"
+          },
+          {
+            "name": "Nusair Ahmed Chowdhury",
+            "studentId": "23524202052",
+            "role": "Backend Analytics Lead"
+          }
+        ]
+      },
+      {
+        "id": "pair-c",
+        "label": "Pair C",
+        "title": "Frontend & Map UI",
+        "color": "#22c55e",
+        "responsibilities": [
+          "Glassmorphic dashboard and responsive UI design",
+          "Leaflet map engine with layer toggles and popups",
+          "Chart.js analytics, simulation, and alert interfaces",
+          "Machine learning dashboard integration and API wiring"
+        ],
+        "members": [
+          {
+            "name": "Ajwad Muhtasim",
+            "studentId": "23524202014",
+            "role": "Predictive Analytics & UI Lead"
+          },
+          {
+            "name": "Sabbir Hasnat Shaon",
+            "studentId": "23524202114",
+            "role": "Frontend & Map UI Lead"
+          }
+        ]
+      },
+      {
+        "id": "pair-d",
+        "label": "Pair D",
+        "title": "Management & Technical Writing",
+        "color": "#f97316",
+        "responsibilities": [
+          "Thesis documentation and academic report authoring",
+          "Project coordination and methodology alignment",
+          "Calculation verification and data authenticity classification",
+          "Presentation, viva preparation, and deliverable tracking"
+        ],
+        "members": [
+          {
+            "name": "Umme Hani Punam",
+            "studentId": "23524202064",
+            "role": "Project Management & Technical Writing Lead"
+          },
+          {
+            "name": "Nafiz Al Anjim",
+            "studentId": "23524202146",
+            "role": "Calculation & Documentation Lead"
+          }
+        ]
+      }
+    ]
+  },
+  "methodology": {
+    "title": "Research Methodology",
+    "subtitle": "End-to-end pipeline from satellite-ready inputs to decision-support dashboards",
+    "steps": [
+      {
+        "step": 1,
+        "title": "Satellite Data Collection",
+        "description": "Landsat 8/9 thermal infrared and multispectral band parameters integrated via surface reflectance presets and regional observation templates, fused with ground survey coordinates.",
+        "icon": "satellite"
+      },
+      {
+        "step": 2,
+        "title": "Data Preprocessing",
+        "description": "GPS-tagged field records and ~11,000 historical micro-observations cleaned, merged, and normalized through Pandas preprocessing scripts into unified regional datasets.",
+        "icon": "database"
+      },
+      {
+        "step": 3,
+        "title": "NDVI Computation",
+        "description": "Normalized Difference Vegetation Index calculated as (NIR − Red) / (NIR + Red) to quantify vegetation density and canopy cooling potential.",
+        "icon": "leaf"
+      },
+      {
+        "step": 4,
+        "title": "LST Extraction",
+        "description": "Land Surface Temperature derived from ground measurements and prescribed LST models, establishing per-point thermal profiles across surface types.",
+        "icon": "thermometer"
+      },
+      {
+        "step": 5,
+        "title": "Regression Analysis",
+        "description": "Linear regression LST = α − (β × NDVI) with Decision Tree and Random Forest comparators; R², RMSE, and MAE validate the inverse vegetation–temperature relationship.",
+        "icon": "chart"
+      },
+      {
+        "step": 6,
+        "title": "Heat Risk Calculation",
+        "description": "Composite Heat Risk Index (HRI) combining temperature, NDVI deficit, traffic density, and surface type into normalized exposure scores per monitoring point.",
+        "icon": "alert"
+      },
+      {
+        "step": 7,
+        "title": "Dashboard Visualization",
+        "description": "Flask API serves regional intelligence to a Leaflet.js command center with layer toggles, Chart.js analytics, simulation tools, and thesis-ready reporting modules.",
+        "icon": "dashboard"
+      }
+    ]
+  },
+  "architecture": {
+    "title": "System Architecture",
+    "subtitle": "Modular micro-to-macro environmental intelligence stack",
+    "layers": [
+      {
+        "id": "satellite",
+        "title": "Satellite Data",
+        "description": "Landsat 8/9 bands, NDVI/LST presets, regional GeoJSON boundaries, ground-truth CSV archives",
+        "icon": "🛰️"
+      },
+      {
+        "id": "processing",
+        "title": "Processing Layer",
+        "description": "main.py pipeline — preprocessing, index calculation, ML training, graph generation",
+        "icon": "⚙️"
+      },
+      {
+        "id": "analytics",
+        "title": "Analytics Layer",
+        "description": "Heat risk, climate score, regression, hotspots, hybrid forecast, EDSS policy engine",
+        "icon": "📊"
+      },
+      {
+        "id": "api",
+        "title": "Flask API",
+        "description": "17 REST endpoints serving JSON, PDF reports, and regional intelligence bundles",
+        "icon": "🔌"
+      },
+      {
+        "id": "dashboard",
+        "title": "Leaflet Dashboard",
+        "description": "8-page web platform — Command Center, GIS, Regression, Analytics, Simulation, EDSS, Reports, Alerts",
+        "icon": "🗺️"
+      }
+    ]
+  },
+  "technologies": [
+    { "name": "Python", "category": "Language", "description": "Data pipeline, ML models, and Flask backend", "icon": "🐍", "color": "#3776ab" },
+    { "name": "Flask", "category": "Framework", "description": "REST API and static dashboard server", "icon": "🌶️", "color": "#000000" },
+    { "name": "Leaflet.js", "category": "GIS", "description": "Interactive multi-layer geospatial maps", "icon": "🗺️", "color": "#199900" },
+    { "name": "Chart.js", "category": "Visualization", "description": "Analytics charts and regression scatter plots", "icon": "📈", "color": "#ff6384" },
+    { "name": "QGIS", "category": "GIS Desktop", "description": "Spatial reference and geospatial workflow design", "icon": "🌍", "color": "#589632" },
+    { "name": "GeoJSON", "category": "Data Format", "description": "Regional boundaries and polygon analysis uploads", "icon": "📐", "color": "#38bdf8" },
+    { "name": "Landsat 8/9", "category": "Remote Sensing", "description": "Thermal infrared and multispectral observation source", "icon": "🛰️", "color": "#6366f1" },
+    { "name": "scikit-learn", "category": "Machine Learning", "description": "Linear, tree, and hybrid residual-fitting models", "icon": "🤖", "color": "#f7931e" },
+    { "name": "Pandas", "category": "Data Science", "description": "CSV ingestion, cleaning, and matrix operations", "icon": "🐼", "color": "#150458" }
+  ],
+  "findings": [
+    {
+      "title": "High Temperature in Concrete Zones",
+      "detail": "Mirpur 12 concrete corridors (Metro Rail station, Ceramic Road) recorded surface temperatures up to 32.5°C — approximately 5–6°C above adjacent vegetated pockets.",
+      "metric": "32.5°C peak",
+      "type": "heat"
+    },
+    {
+      "title": "Lower Temperature in Vegetated Zones",
+      "detail": "Vegetated sites such as Mirpur DOHS and Mirpur-12 Kids Park maintained cooler profiles near 26.5–29.5°C, demonstrating evapotranspiration and canopy shading effects.",
+      "metric": "26.5°C coolspot",
+      "type": "cool"
+    },
+    {
+      "title": "Negative NDVI–LST Correlation",
+      "detail": "Linear regression on Mirpur 12 ground truth yielded R² = 0.859 with Pearson r ≈ −0.93, confirming the thesis inverse relationship between vegetation density and land surface temperature.",
+      "metric": "R² 0.859",
+      "type": "correlation"
+    },
+    {
+      "title": "Multi-City Scalability",
+      "detail": "Parameterized regional presets extended the identical pipeline to Dhaka, Sylhet, Rajshahi, and Chittagong — each producing independent regression metrics, heat maps, and forecast outputs.",
+      "metric": "5 jurisdictions",
+      "type": "scale"
+    }
+  ],
+  "features": [
+    { "name": "UHI Monitoring", "description": "Real-time regional temperature and risk surveillance", "route": "/", "icon": "🌡️" },
+    { "name": "NDVI Mapping", "description": "Vegetation density layer with per-point index values", "route": "/gis", "icon": "🌿" },
+    { "name": "LST Mapping", "description": "Land surface temperature thematic markers", "route": "/gis", "icon": "🔥" },
+    { "name": "Heat Risk Index", "description": "Composite exposure scoring with gradient overlay", "route": "/", "icon": "☀️" },
+    { "name": "Climate Score", "description": "0–100 resilience composite per monitoring point", "route": "/", "icon": "🛡️" },
+    { "name": "Hotspot Detection", "description": "Ranked high-temperature zones and pulsing map markers", "route": "/", "icon": "📍" },
+    { "name": "Prediction Engine", "description": "1/3/5-year forecasts and hybrid 2030 projections", "route": "/analytics", "icon": "🔮" },
+    { "name": "Recommendation Engine", "description": "Green infrastructure priority actions per location", "route": "/", "icon": "💡" },
+    { "name": "Decision Support System", "description": "Policy briefs and ranked intervention cards", "route": "/decisions", "icon": "📋" },
+    { "name": "Regression Analysis", "description": "Thesis NDVI–LST model with R², RMSE, scatter plot", "route": "/regression", "icon": "📉" }
+  ],
+  "futureWork": [
+    {
+      "title": "IoT Temperature Sensors",
+      "description": "Deploy street-level sensor networks for continuous ground-truth validation and live dashboard feeds."
+    },
+    {
+      "title": "Real-Time Weather Integration",
+      "description": "Fuse Bangladesh Meteorological Department and global forecast APIs for dynamic alert thresholds."
+    },
+    {
+      "title": "Mobile Application",
+      "description": "Citizen-facing heat risk app with location-aware warnings and greening recommendations."
+    },
+    {
+      "title": "Advanced Machine Learning",
+      "description": "Deep learning on satellite rasters, XGBoost ensembles, and spatial autocorrelation models."
+    },
+    {
+      "title": "Crowdsourced Reporting",
+      "description": "Community heat perception reports with photo geotagging to augment official monitoring grids."
+    }
+  ],
+  "references": [
+    {
+      "id": 1,
+      "citation": "Oke, T. R. (1982). The energetic basis of the urban heat island. Quarterly Journal of the Royal Meteorological Society, 108(455), 1–24.",
+      "topic": "UHI energy balance theory"
+    },
+    {
+      "id": 2,
+      "citation": "Voogt, J. A., & Oke, T. R. (2003). Thermal remote sensing of urban climates. Remote Sensing of Environment, 86(3), 370–384.",
+      "topic": "Thermal remote sensing of cities"
+    },
+    {
+      "id": 3,
+      "citation": "Weng, Q. (2009). Thermal infrared remote sensing for urban climate and environmental studies: Methods, applications, and trends. ISPRS Journal of Photogrammetry and Remote Sensing, 64(4), 335–344.",
+      "topic": "LST urban applications"
+    },
+    {
+      "id": 4,
+      "citation": "Rouse, J. W., Haas, R. H., Schell, J. A., & Deering, D. W. (1974). Monitoring vegetation systems in the Great Plains with ERTS. NASA Special Publication, 351, 309–317.",
+      "topic": "NDVI foundational research"
+    },
+    {
+      "id": 5,
+      "citation": "USGS. (2024). Landsat 8-9 Data Users Handbook. U.S. Geological Survey.",
+      "topic": "Landsat 8/9 data products"
+    },
+    {
+      "id": 6,
+      "citation": "Li, J., & Roy, D. P. (2017). A global analysis of extreme urban heat events. Environmental Research Letters, 12(6), 064005.",
+      "topic": "Extreme urban heat events"
+    },
+    {
+      "id": 7,
+      "citation": "Akbari, H., Pomerantz, M., & Taha, H. (2001). Cool surfaces and shade trees to reduce energy use and improve air quality in urban areas. Solar Energy, 70(3), 295–310.",
+      "topic": "Urban cooling interventions"
+    },
+    {
+      "id": 8,
+      "citation": "Pedregosa, F., et al. (2011). Scikit-learn: Machine learning in Python. Journal of Machine Learning Research, 12, 2825–2830.",
+      "topic": "Machine learning framework"
+    },
+    {
+      "id": 9,
+      "citation": "Bangladesh University of Professionals. (2026). Environmental Science Laboratory Project Guidelines — Urban Heat Island Mapping. Department of CSE.",
+      "topic": "Course project specification"
+    }
+  ]
+}

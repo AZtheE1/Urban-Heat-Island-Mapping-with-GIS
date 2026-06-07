@@ -1,0 +1,234 @@
+/* NDVI–LST Regression Analysis */
+
+.regression-page {
+  overflow-y: auto;
+}
+
+.reg-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.reg-logo {
+  color: #a78bfa;
+}
+
+.reg-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-6);
+  background: var(--bg-elevated);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+
+.reg-header__control .custom-select {
+  min-width: 160px;
+  font-size: 0.8125rem;
+}
+
+.reg-formula-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-6);
+  background: linear-gradient(90deg, rgba(167, 139, 250, 0.1), rgba(56, 189, 248, 0.06));
+  border-bottom: 1px solid var(--border-color);
+}
+
+.reg-formula-bar__label {
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.reg-formula-bar code {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #c4b5fd;
+}
+
+.reg-formula-bar__meta {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.reg-kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.reg-kpi {
+  padding: var(--space-4);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.reg-kpi--highlight {
+  border-color: rgba(167, 139, 250, 0.35);
+  background: rgba(167, 139, 250, 0.08);
+}
+
+.reg-kpi__label {
+  display: block;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.reg-kpi__value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: var(--space-1) 0;
+}
+
+.reg-kpi__sub {
+  font-size: 0.6875rem;
+  color: var(--text-faint);
+}
+
+.reg-main {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 0;
+  flex: 1;
+  min-height: 480px;
+}
+
+.reg-panel {
+  padding: var(--space-5) var(--space-6);
+  border-right: 1px solid var(--border-color);
+}
+
+.reg-panel--interpret {
+  border-right: none;
+  background: rgba(8, 14, 28, 0.5);
+}
+
+.reg-panel__head h2 {
+  font-family: var(--font-display);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+}
+
+.reg-panel__head p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: var(--space-1);
+  margin-bottom: var(--space-4);
+}
+
+.reg-chart-wrap {
+  height: min(520px, calc(100vh - 320px));
+  min-height: 360px;
+  position: relative;
+}
+
+.reg-interpret {
+  font-size: 0.875rem;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.reg-interpret__summary {
+  padding: var(--space-4);
+  background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-4);
+}
+
+.reg-interpret__summary--warn {
+  background: rgba(234, 179, 8, 0.08);
+  border-color: rgba(234, 179, 8, 0.25);
+}
+
+.reg-interpret__fit {
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-glass);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-bottom: var(--space-3);
+}
+
+.reg-interpret__badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-3);
+}
+
+.reg-interpret__badge--inverse {
+  background: var(--heat-vegetation-soft);
+  color: var(--heat-vegetation);
+}
+
+.reg-methodology {
+  margin-top: var(--space-5);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border-color);
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: var(--text-faint);
+}
+
+.regression-page.is-loading .global-loader {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+@media (max-width: 1100px) {
+  .reg-kpi-strip {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .reg-main {
+    grid-template-columns: 1fr;
+  }
+
+  .reg-panel--interpret {
+    border-top: 1px solid var(--border-color);
+  }
+}
+
+@media (max-width: 600px) {
+  .reg-kpi-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .reg-formula-bar code {
+    font-size: 0.9375rem;
+  }
+}

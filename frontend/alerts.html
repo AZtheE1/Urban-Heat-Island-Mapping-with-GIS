@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Climate Alert Center | Environmental Intelligence Platform</title>
+  <meta name="description" content="Real-time heatwave monitoring, alert notifications, severity tracking, and historical climate alert timeline.">
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/alerts.css" />
+</head>
+<body class="alerts-page">
+
+  <div class="global-loader" id="global-loader" aria-hidden="true">
+    <div class="loader-card">
+      <div class="loader-spinner" role="status" aria-label="Loading alerts"></div>
+      <p class="loader-text" id="loader-message">Synchronizing climate alert feeds…</p>
+    </div>
+  </div>
+
+  <div class="alert-shell">
+    <header class="alert-header">
+      <div class="brand-section">
+        <span class="brand-logo alert-logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+        </span>
+        <div class="brand-title">
+          <span class="platform-badge">Operations · Real-Time Monitoring</span>
+          <h1>Climate Alert Center</h1>
+          <p>Heatwave detection · Severity classification · Multi-jurisdiction watch</p>
+        </div>
+      </div>
+
+      <div class="alert-header__controls">
+        <div class="live-indicator" id="live-indicator" aria-live="polite">
+          <span class="live-indicator__dot"></span>
+          <span class="live-indicator__label">LIVE</span>
+          <span class="live-indicator__time" id="last-sync">—</span>
+        </div>
+        <select id="filter-region" class="custom-select alert-select" aria-label="Filter by jurisdiction">
+          <option value="all">All jurisdictions</option>
+          <option value="dhaka_all">Dhaka</option>
+          <option value="mirpur12">Mirpur 12</option>
+          <option value="sylhet">Sylhet</option>
+          <option value="rajshahi">Rajshahi</option>
+          <option value="chittagong">Chittagong</option>
+        </select>
+        <button type="button" class="alert-refresh-btn" id="btn-refresh" aria-label="Refresh alerts">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          Refresh
+        </button>
+      </div>
+
+      <nav class="analytics-nav" aria-label="Platform navigation">
+        <a href="/" class="analytics-nav__link">Command Center</a>
+        <a href="/gis" class="analytics-nav__link">GIS Map</a>
+        <a href="/regression" class="analytics-nav__link">Regression</a>
+        <a href="/analytics" class="analytics-nav__link">Climate Analytics</a>
+        <a href="/simulation" class="analytics-nav__link">Simulation Center</a>
+        <a href="/decisions" class="analytics-nav__link">Decision Support</a>
+        <a href="/reports" class="analytics-nav__link">Report Studio</a>
+        <span class="analytics-nav__active">Alert Center</span>
+        <a href="/documentation" class="analytics-nav__link">Research Overview</a>
+      </nav>
+    </header>
+
+    <!-- Status strip -->
+    <section class="alert-status-strip" aria-label="Alert status overview">
+      <article class="alert-kpi" data-level="active">
+        <div class="alert-kpi__icon alert-kpi__icon--pulse">
+          <span class="severity-ring severity-ring--active"></span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        <div>
+          <p class="alert-kpi__label">Active alerts</p>
+          <p class="alert-kpi__value" id="kpi-active">—</p>
+        </div>
+      </article>
+      <article class="alert-kpi" data-level="extreme">
+        <div class="alert-kpi__icon">
+          <span class="severity-dot severity-dot--extreme"></span>
+        </div>
+        <div>
+          <p class="alert-kpi__label">Highest severity</p>
+          <p class="alert-kpi__value" id="kpi-severity">—</p>
+        </div>
+      </article>
+      <article class="alert-kpi" data-level="regions">
+        <div class="alert-kpi__icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div>
+          <p class="alert-kpi__label">Regions on watch</p>
+          <p class="alert-kpi__value" id="kpi-regions">—</p>
+        </div>
+      </article>
+      <article class="alert-kpi" data-level="history">
+        <div class="alert-kpi__icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <p class="alert-kpi__label">Historical events</p>
+          <p class="alert-kpi__value" id="kpi-history">—</p>
+        </div>
+      </article>
+    </section>
+
+    <!-- Severity legend -->
+    <div class="severity-legend" aria-label="Alert severity levels">
+      <span class="severity-legend__item severity-legend__item--warning"><span></span> Warning &gt;35°C</span>
+      <span class="severity-legend__item severity-legend__item--severe"><span></span> Severe &gt;38°C</span>
+      <span class="severity-legend__item severity-legend__item--extreme"><span></span> Extreme &gt;40°C</span>
+    </div>
+
+    <div class="alert-workspace">
+      <!-- Notification panel -->
+      <aside class="alert-panel alert-panel--notifications" aria-label="Notification feed">
+        <div class="alert-panel__head">
+          <h2>Notifications</h2>
+          <span class="alert-panel__badge" id="notif-count">0</span>
+        </div>
+        <div class="notification-feed" id="notification-feed" role="log" aria-live="polite">
+          <p class="alert-empty">Awaiting alert synchronization…</p>
+        </div>
+      </aside>
+
+      <!-- Active alerts -->
+      <main class="alert-panel alert-panel--active" aria-label="Active heatwave alerts">
+        <div class="alert-panel__head">
+          <h2>Active heatwave alerts</h2>
+          <span class="alert-panel__sub" id="active-subtitle">Real-time threshold breaches</span>
+        </div>
+        <div class="active-alerts-grid" id="active-alerts-grid">
+          <div class="alert-empty-state" id="active-empty">
+            <div class="alert-empty-state__icon" aria-hidden="true">
+              <span class="severity-dot severity-dot--normal"></span>
+            </div>
+            <h3>No active heatwave alerts</h3>
+            <p>All monitored jurisdictions are within normal temperature thresholds.</p>
+          </div>
+        </div>
+      </main>
+
+      <!-- Timeline -->
+      <aside class="alert-panel alert-panel--timeline" aria-label="Alert timeline">
+        <div class="alert-panel__head">
+          <h2>Timeline</h2>
+          <span class="alert-panel__sub">Chronological events</span>
+        </div>
+        <div class="alert-timeline" id="alert-timeline">
+          <p class="alert-empty">No timeline events yet.</p>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Alert history -->
+    <section class="alert-history-section" aria-label="Alert history">
+      <div class="alert-history__head">
+        <h2>Alert history</h2>
+        <p>Archived heatwave events from historical temperature records</p>
+      </div>
+      <div class="alert-history-table-wrap">
+        <table class="alert-history-table" id="history-table">
+          <thead>
+            <tr>
+              <th>Severity</th>
+              <th>Temperature</th>
+              <th>Location</th>
+              <th>Jurisdiction</th>
+              <th>Timestamp</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+          <tbody id="history-body">
+            <tr><td colspan="6" class="alert-empty">Loading historical records…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script src="js/alerts.js"></script>
+</body>
+</html>

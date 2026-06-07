@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Climate Analytics | Environmental Intelligence Platform</title>
+  <meta name="description" content="Comparative climate analytics, historical thermal trends, and multi-city environmental intelligence reporting for Bangladesh.">
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/analytics.css" />
+</head>
+<body class="analytics-page">
+
+  <div class="global-loader" id="global-loader" aria-hidden="true">
+    <div class="loader-card">
+      <div class="loader-spinner" role="status" aria-label="Loading analytics"></div>
+      <p class="loader-text">Compiling climate intelligence report…</p>
+    </div>
+  </div>
+
+  <div class="analytics-shell">
+    <header class="analytics-header">
+      <div class="brand-section">
+        <span class="brand-logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+            <path d="M3 3v18h18"/><path d="M7 16l4-8 4 5 5-9"/>
+          </svg>
+        </span>
+        <div class="brand-title">
+          <span class="platform-badge">Environmental Intelligence · Reporting Suite</span>
+          <h1>Advanced Climate Analytics</h1>
+          <p>Comparative city intelligence · Historical trends · Drill-down reporting</p>
+        </div>
+      </div>
+      <nav class="analytics-nav" aria-label="Platform navigation">
+        <a href="/" class="analytics-nav__link">Command Center</a>
+        <a href="/gis" class="analytics-nav__link">GIS Map</a>
+        <a href="/regression" class="analytics-nav__link">Regression</a>
+        <span class="analytics-nav__active">Climate Analytics</span>
+        <a href="/simulation" class="analytics-nav__link">Simulation Center</a>
+        <a href="/decisions" class="analytics-nav__link">Decision Support</a>
+        <a href="/reports" class="analytics-nav__link">Report Studio</a>
+        <a href="/alerts" class="analytics-nav__link">Alert Center</a>
+        <a href="/documentation" class="analytics-nav__link">Research Overview</a>
+      </nav>
+      <div class="analytics-header__meta">
+        <span class="header-timestamp" id="report-generated">—</span>
+      </div>
+    </header>
+
+    <section class="analytics-kpi-strip" id="analytics-kpi-strip" aria-label="Cross-city summary indicators">
+      <article class="analytics-kpi">
+        <span class="analytics-kpi__label">Cities analyzed</span>
+        <span class="analytics-kpi__value" id="kpi-city-count">5</span>
+      </article>
+      <article class="analytics-kpi">
+        <span class="analytics-kpi__label">Hottest jurisdiction</span>
+        <span class="analytics-kpi__value" id="kpi-hottest">—</span>
+      </article>
+      <article class="analytics-kpi">
+        <span class="analytics-kpi__label">Most resilient</span>
+        <span class="analytics-kpi__value analytics-kpi__value--green" id="kpi-resilient">—</span>
+      </article>
+      <article class="analytics-kpi">
+        <span class="analytics-kpi__label">Highest heat risk</span>
+        <span class="analytics-kpi__value analytics-kpi__value--orange" id="kpi-risk">—</span>
+      </article>
+      <article class="analytics-kpi">
+        <span class="analytics-kpi__label">Thermal trend</span>
+        <span class="analytics-kpi__value" id="kpi-trend">—</span>
+      </article>
+    </section>
+
+    <div class="analytics-toolbar">
+      <div class="analytics-toolbar__section">
+        <span class="analytics-toolbar__title">City comparison</span>
+        <div class="city-chip-group" id="city-chips" role="group" aria-label="Select cities to compare"></div>
+      </div>
+      <div class="analytics-toolbar__section">
+        <span class="analytics-toolbar__title">Metric lens</span>
+        <div class="metric-toggle-group" id="metric-toggles" role="radiogroup" aria-label="Comparison metric">
+          <button type="button" class="metric-toggle is-active" data-metric="temperature">Temperature</button>
+          <button type="button" class="metric-toggle" data-metric="ndvi">NDVI</button>
+          <button type="button" class="metric-toggle" data-metric="hri">Heat Risk</button>
+          <button type="button" class="metric-toggle" data-metric="resilience">Resilience</button>
+        </div>
+      </div>
+    </div>
+
+    <main class="analytics-grid">
+      <section class="analytics-panel analytics-panel--wide" aria-label="Side-by-side city comparison">
+        <div class="panel-header">
+          <h2>Comparative city analytics</h2>
+          <p class="panel-subtitle">Side-by-side environmental performance across five jurisdictions</p>
+        </div>
+        <div class="chart-panel">
+          <canvas id="city-comparison-chart" aria-label="City comparison chart"></canvas>
+        </div>
+      </section>
+
+      <section class="analytics-panel" aria-label="Multi-metric radar comparison">
+        <div class="panel-header">
+          <h2>Performance radar</h2>
+          <p class="panel-subtitle">Normalized multi-factor city profile</p>
+        </div>
+        <div class="chart-panel chart-panel--square">
+          <canvas id="city-radar-chart" aria-label="City radar chart"></canvas>
+        </div>
+      </section>
+
+      <section class="analytics-panel analytics-panel--wide" aria-label="Historical temperature trends">
+        <div class="panel-header panel-header--row">
+          <div>
+            <h2>Historical thermal trends</h2>
+            <p class="panel-subtitle" id="historical-subtitle">Dhaka metropolitan historical baseline · click a year to drill down</p>
+          </div>
+          <div class="year-chip-group" id="year-chips" role="group" aria-label="Select year for monthly drill-down"></div>
+        </div>
+        <div class="chart-panel">
+          <canvas id="historical-trend-chart" aria-label="Historical trend chart"></canvas>
+        </div>
+      </section>
+
+      <section class="analytics-panel" aria-label="Monthly drill-down">
+        <div class="panel-header">
+          <h2>Monthly drill-down</h2>
+          <p class="panel-subtitle" id="monthly-subtitle">Select a year from historical chart</p>
+        </div>
+        <div class="chart-panel">
+          <canvas id="monthly-drill-chart" aria-label="Monthly drill-down chart"></canvas>
+        </div>
+      </section>
+
+      <section class="analytics-panel" aria-label="Heat risk distribution">
+        <div class="panel-header">
+          <h2>Risk distribution</h2>
+          <p class="panel-subtitle">Heat risk tier counts by jurisdiction</p>
+        </div>
+        <div class="chart-panel">
+          <canvas id="risk-distribution-chart" aria-label="Risk distribution chart"></canvas>
+        </div>
+      </section>
+
+      <section class="analytics-panel analytics-panel--wide" aria-label="Hybrid ML decadal forecast to 2030">
+        <div class="panel-header">
+          <h2>Hybrid ML forecast (2027–2030)</h2>
+          <p class="panel-subtitle" id="hybrid-subtitle">Residual-fitting pipeline · historical heat-index projections</p>
+        </div>
+        <div class="chart-panel">
+          <canvas id="hybrid-forecast-chart" aria-label="Hybrid decadal forecast chart"></canvas>
+        </div>
+      </section>
+
+      <section class="analytics-panel analytics-panel--wide" aria-label="Model validation summary">
+        <div class="panel-header">
+          <h2>Model validation</h2>
+          <p class="panel-subtitle">Regional regression accuracy and hybrid model comparison</p>
+        </div>
+        <div class="validation-table-wrap">
+          <table class="validation-table" id="validation-table">
+            <thead>
+              <tr>
+                <th>Region</th>
+                <th>Data class</th>
+                <th>Linear R²</th>
+                <th>RMSE</th>
+                <th>Decision tree R²</th>
+                <th>Random forest R²</th>
+              </tr>
+            </thead>
+            <tbody id="validation-table-body">
+              <tr><td colspan="6">Loading validation metrics…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <aside class="analytics-panel analytics-panel--detail" id="drilldown-panel" aria-label="Region drill-down detail">
+        <div class="panel-header">
+          <h2>Drill-down report</h2>
+          <p class="panel-subtitle">Click any city bar to inspect detailed intelligence</p>
+        </div>
+        <div class="drilldown-empty" id="drilldown-empty">
+          <div class="drilldown-empty__icon" aria-hidden="true">📊</div>
+          <p>Select a city from the comparison chart to generate a detailed regional report.</p>
+        </div>
+        <div class="drilldown-content" id="drilldown-content" hidden>
+          <div class="drilldown-hero" id="drilldown-hero"></div>
+          <div class="drilldown-metrics" id="drilldown-metrics"></div>
+          <div class="chart-panel chart-panel--compact">
+            <canvas id="drilldown-surface-chart" aria-label="Surface temperature breakdown"></canvas>
+          </div>
+          <div class="drilldown-hotspots">
+            <h3>Priority hotspots</h3>
+            <ul id="drilldown-hotspots"></ul>
+          </div>
+          <div class="drilldown-forecast" id="drilldown-forecast">
+            <h3>Regional temperature forecast</h3>
+            <div class="drilldown-forecast__grid" id="drilldown-forecast-grid"></div>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/analytics.js"></script>
+</body>
+</html>

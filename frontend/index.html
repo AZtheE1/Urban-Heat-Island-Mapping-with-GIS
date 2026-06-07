@@ -3,32 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bangladesh Urban Heat Island (UHI) Mapping & Analytics Dashboard</title>
+  <title>Environmental Command Center | Bangladesh UHI Analytics</title>
   
-  <!-- SEO & Description -->
-  <meta name="description" content="An interactive spatial GIS and predictive analytical dashboard tracking Urban Heat Island intensity in Mirpur 12 and major divisions across Bangladesh.">
+  <meta name="description" content="Government-grade environmental command center for urban heat island mapping, climate risk monitoring, and green infrastructure intelligence across Bangladesh.">
   
-  <!-- CSS imports -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" crossorigin="" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
 
+  <div class="global-loader" id="global-loader" aria-hidden="true">
+    <div class="loader-card">
+      <div class="loader-spinner" role="status" aria-label="Loading environmental data"></div>
+      <p class="loader-text">Synchronizing command center intelligence…</p>
+    </div>
+  </div>
+
   <div class="dashboard-container">
     
-    <!-- 1. HEADER SECTION -->
     <header class="dashboard-header">
       <div class="brand-section">
-        <span class="brand-logo">🌡️</span>
+        <span class="brand-logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+            <path d="M2 12h20"/>
+          </svg>
+        </span>
         <div class="brand-title">
-          <h1>URBAN HEAT ISLAND MAPPER</h1>
-          <p>Remote Sensing & Synthesized Ground Verification</p>
+          <span class="platform-badge">Republic of Bangladesh · Environmental Intelligence</span>
+          <h1>Environmental Command Center</h1>
+          <p>Urban heat island monitoring · Climate resilience · Operational alerts</p>
         </div>
       </div>
       
       <div class="controls-section">
-        <span class="region-dropdown-label">📍 Zoom Region:</span>
-        <select id="regionSelect" class="custom-select">
+        <nav class="analytics-nav" aria-label="Platform navigation">
+          <span class="analytics-nav__active">Command Center</span>
+          <a href="/gis" class="analytics-nav__link">GIS Map</a>
+          <a href="/regression" class="analytics-nav__link">Regression</a>
+          <a href="/analytics" class="analytics-nav__link">Climate Analytics</a>
+          <a href="/simulation" class="analytics-nav__link">Simulation Center</a>
+          <a href="/decisions" class="analytics-nav__link">Decision Support</a>
+          <a href="/reports" class="analytics-nav__link">Report Studio</a>
+          <a href="/alerts" class="analytics-nav__link">Alert Center</a>
+          <a href="/documentation" class="analytics-nav__link">Research Overview</a>
+        </nav>
+        <div class="header-meta" aria-live="polite">
+          <div class="header-status">
+            <span class="status-dot"></span>
+            <span>Operational</span>
+          </div>
+          <span class="header-timestamp" id="last-updated">—</span>
+        </div>
+        <label for="regionSelect" class="region-dropdown-label">Jurisdiction</label>
+        <select id="regionSelect" class="custom-select" aria-label="Select analysis region">
           <option value="mirpur12">Mirpur 12 (Micro-analysis Baseline)</option>
           <option value="dhaka_all">Entire Dhaka Met Area</option>
           <option value="sylhet">Sylhet Division</option>
@@ -37,152 +68,289 @@
         </select>
       </div>
     </header>
+
+    <div class="command-center-body">
+      
+      <!-- TOP: Command KPI strip -->
+      <section class="command-kpi-bar" aria-label="Environmental key performance indicators">
+        
+        <article class="command-kpi-card kpi-animate" data-metric="temperature" style="--kpi-delay: 0.05s">
+          <div class="command-kpi-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/></svg>
+          </div>
+          <div class="command-kpi-body">
+            <p class="command-kpi-label">Average Temperature</p>
+            <p class="command-kpi-value value-live" id="cmd-stat-avg-temp">--°C</p>
+            <span class="command-kpi-value skeleton skeleton-live skeleton-text" aria-hidden="true">&nbsp;</span>
+            <p class="command-kpi-meta">Ground sensor mean (LST)</p>
+          </div>
+        </article>
+
+        <article class="command-kpi-card kpi-animate" data-metric="ndvi" style="--kpi-delay: 0.1s">
+          <div class="command-kpi-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 22c5-3 8-7 8-12a8 8 0 1 0-16 0c0 5 3 9 8 12z"/><path d="M12 10v12"/></svg>
+          </div>
+          <div class="command-kpi-body">
+            <p class="command-kpi-label">Average NDVI</p>
+            <p class="command-kpi-value value-live" id="cmd-stat-avg-ndvi">--</p>
+            <span class="command-kpi-value skeleton skeleton-live skeleton-text" aria-hidden="true">&nbsp;</span>
+            <p class="command-kpi-meta">Vegetation density index</p>
+          </div>
+        </article>
+
+        <article class="command-kpi-card kpi-animate" data-metric="hri" style="--kpi-delay: 0.15s">
+          <div class="command-kpi-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          </div>
+          <div class="command-kpi-body">
+            <p class="command-kpi-label">Heat Risk Index</p>
+            <p class="command-kpi-value value-live" id="cmd-stat-hri">--</p>
+            <span class="command-kpi-value skeleton skeleton-live skeleton-text" aria-hidden="true">&nbsp;</span>
+            <p class="command-kpi-meta value-live" id="cmd-stat-hri-level">Awaiting analysis</p>
+          </div>
+        </article>
+
+        <article class="command-kpi-card kpi-animate" data-metric="resilience" style="--kpi-delay: 0.2s">
+          <div class="command-kpi-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="command-kpi-body">
+            <p class="command-kpi-label">Climate Resilience Score</p>
+            <p class="command-kpi-value value-live" id="cmd-stat-climate-score">--</p>
+            <span class="command-kpi-value skeleton skeleton-live skeleton-text" aria-hidden="true">&nbsp;</span>
+            <p class="command-kpi-meta value-live" id="cmd-stat-climate-category">0–100 composite index</p>
+          </div>
+        </article>
+
+        <article class="command-kpi-card kpi-animate" data-metric="risk-areas" style="--kpi-delay: 0.25s">
+          <div class="command-kpi-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+          <div class="command-kpi-body">
+            <p class="command-kpi-label">High Risk Areas</p>
+            <p class="command-kpi-value value-live" id="cmd-stat-high-risk">--</p>
+            <span class="command-kpi-value skeleton skeleton-live skeleton-text" aria-hidden="true">&nbsp;</span>
+            <p class="command-kpi-meta">Locations rated High or Extreme</p>
+          </div>
+        </article>
+
+        <article class="command-kpi-card kpi-animate" data-metric="alerts" style="--kpi-delay: 0.3s">
+          <div class="command-kpi-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          </div>
+          <div class="command-kpi-body">
+            <p class="command-kpi-label">Active Alerts</p>
+            <p class="command-kpi-value value-live" id="cmd-stat-alerts">--</p>
+            <span class="command-kpi-value skeleton skeleton-live skeleton-text" aria-hidden="true">&nbsp;</span>
+            <p class="command-kpi-meta value-live" id="cmd-stat-alert-level">Heatwave monitoring active</p>
+          </div>
+        </article>
+
+      </section>
     
-    <!-- 2. MAIN SPLIT LAYOUT -->
-    <main class="dashboard-content">
-      
-      <!-- LEFT SIDEBAR: CONFIGS & MATHEMATICAL REGRESSION MODEL -->
-      <section class="panel" aria-label="System Metrics and Model Configuration">
-        <div class="panel-header">
-          <h2>📊 Statistical Indicators</h2>
-        </div>
+      <main class="dashboard-content">
         
-        <!-- KPI Metrics Grid -->
-        <div class="kpi-grid">
-          <div class="kpi-card" id="avg-temp-card">
-            <p class="kpi-title">Average Temp</p>
-            <p class="kpi-value" id="stat-avg-temp">--°C</p>
-            <p class="kpi-meta">Air Sensor Mean</p>
-          </div>
-          <div class="kpi-card" id="r2-score-card">
-            <p class="kpi-title">R² Accuracy</p>
-            <p class="kpi-value" id="stat-r2">--</p>
-            <p class="kpi-meta">NDVI vs Temp Fit</p>
-          </div>
-        </div>
-        
-        <!-- Health Alert KPI -->
-        <div class="kpi-card" style="border-left: 4px solid var(--accent-neon-blue);">
-          <p class="kpi-title">Environmental Risk Index</p>
-          <p class="kpi-value" id="stat-risk-badge" style="font-size: 1.1rem; padding-top: 2px;">Normal</p>
-          <p class="kpi-meta">Determined via urban heat load</p>
-        </div>
-        
-        <!-- Team D Collab Pillar info -->
-        <div class="panel-header" style="margin-top: 0.5rem;">
-          <h2>🧬 Regression Engine <span class="collab-badge collab-b">Sub-Group B</span></h2>
-        </div>
-        
-        <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.4;">
-          Predicts temperature using vegetation density indices extracted from satellite imagery.
-        </p>
-        
-        <div class="formula-card" id="formula-display">
-          Predicted Temp = Alpha - (Beta × NDVI)
-        </div>
-        
-        <div class="kpi-grid">
-          <div style="background: rgba(0,0,0,0.15); padding: 0.5rem; border-radius: 8px; text-align: center;">
-            <p class="kpi-title">RMSE Error</p>
-            <span id="stat-rmse" style="font-family: var(--font-display); font-weight:700; font-size:1rem;">--</span>
-          </div>
-          <div style="background: rgba(0,0,0,0.15); padding: 0.5rem; border-radius: 8px; text-align: center;">
-            <p class="kpi-title">MAE Margin</p>
-            <span id="stat-mae" style="font-family: var(--font-display); font-weight:700; font-size:1rem;">--</span>
-          </div>
-        </div>
-        
-        <div class="panel-header" style="margin-top: 0.5rem;">
-          <h2>📂 Collaboration Channels</h2>
-        </div>
-        <div id="collab-hud" style="display:flex; flex-direction:column; gap:0.5rem;">
-          <div class="toast-notice" style="border-left-color: var(--accent-gold);">
-            <strong style="color: var(--accent-gold);">Sub-Group D Task:</strong> Ground CSV synthesized containing 20 high-fidelity coordinates in Mirpur 12.
-          </div>
-        </div>
-      </section>
-      
-      <!-- CENTER CONTENT: LEAFLET GIS WINDOW & BOTTOM HUD -->
-      <section class="map-section">
-        <!-- Interactive Leaflet map container -->
-        <div id="map-container">
-          <!-- Dynamic HUD legends -->
-          <div class="map-legend">
-            <div class="legend-item">
-              <div class="legend-color" style="background: var(--accent-neon-red);"></div>
-              <span>Hotspot (≥35°C concrete)</span>
+        <!-- LEFT: Regression & model intelligence -->
+        <section class="panel panel--left" aria-label="Regression model and system notices">
+          
+          <div class="panel-section">
+            <div class="panel-header">
+              <h2>Model intelligence</h2>
+              <p class="panel-subtitle">NDVI–temperature regression and accuracy metrics</p>
             </div>
-            <div class="legend-item">
-              <div class="legend-color" style="background: var(--accent-neon-blue);"></div>
-              <span>Normal Built-up Area</span>
-            </div>
-            <div class="legend-item">
-              <div class="legend-color" style="background: var(--accent-neon-green);"></div>
-              <span>Cool Canopy / Water (≤30°C)</span>
+            
+            <div class="kpi-grid">
+              <div class="kpi-card" id="r2-score-card">
+                <p class="kpi-title">Model accuracy (R²)</p>
+                <p class="kpi-value value-live" id="stat-r2">--</p>
+                <span class="kpi-value skeleton skeleton-live skeleton-text" aria-hidden="true">&nbsp;</span>
+                <p class="kpi-meta">NDVI vs temperature fit</p>
+              </div>
+              <div class="kpi-card kpi-card--risk">
+                <p class="kpi-title">Environmental risk index</p>
+                <p class="kpi-value value-live" id="stat-risk-badge" style="font-size: 1.05rem;">Normal</p>
+                <span class="kpi-value skeleton skeleton-live skeleton-text" aria-hidden="true">&nbsp;</span>
+                <p class="kpi-meta">Derived from regional heat load</p>
+              </div>
             </div>
           </div>
-        </div>
-        
-        <!-- Bottom current stats display -->
-        <div class="status-bar">
-          <div class="status-info">
-            <h3 id="region-name-display">Mirpur 12</h3>
-            <p id="region-desc-display">Extracting telemetry data layers...</p>
+          
+          <div class="panel-section">
+            <div class="panel-header">
+              <h2>Regression engine <span class="collab-badge collab-b">Sub-Group B</span></h2>
+              <p class="panel-subtitle">Predicts surface temperature from vegetation density (NDVI)</p>
+            </div>
+            
+            <div class="formula-card" id="formula-display">
+              Predicted Temp = Alpha - (Beta × NDVI)
+            </div>
+            
+            <div class="kpi-grid">
+              <div class="metric-inline">
+                <p class="kpi-title">RMSE error</p>
+                <span class="value-live" id="stat-rmse">--</span>
+                <span class="skeleton skeleton-live skeleton-text" aria-hidden="true">&nbsp;</span>
+              </div>
+              <div class="metric-inline">
+                <p class="kpi-title">MAE margin</p>
+                <span class="value-live" id="stat-mae">--</span>
+                <span class="skeleton skeleton-live skeleton-text" aria-hidden="true">&nbsp;</span>
+              </div>
+              <div class="metric-inline">
+                <p class="kpi-title">Decision tree R²</p>
+                <span class="value-live" id="stat-dt-r2">--</span>
+              </div>
+              <div class="metric-inline">
+                <p class="kpi-title">Random forest R²</p>
+                <span class="value-live" id="stat-rf-r2">--</span>
+              </div>
+            </div>
           </div>
-          <div>
-            <span class="collab-badge collab-a">GIS Layer Overlays Enabled</span>
+
+          <div class="panel-section">
+            <div class="panel-header">
+              <h2>Regional temperature forecast</h2>
+              <p class="panel-subtitle">Linear regression trend · 1 / 3 / 5 year horizon</p>
+            </div>
+            <div class="forecast-grid" id="forecast-grid">
+              <div class="forecast-item">
+                <span class="forecast-item__label">Current</span>
+                <span class="forecast-item__value value-live" id="forecast-current">--°C</span>
+              </div>
+              <div class="forecast-item">
+                <span class="forecast-item__label">+1 year</span>
+                <span class="forecast-item__value value-live" id="forecast-1y">--°C</span>
+              </div>
+              <div class="forecast-item">
+                <span class="forecast-item__label">+3 years</span>
+                <span class="forecast-item__value value-live" id="forecast-3y">--°C</span>
+              </div>
+              <div class="forecast-item">
+                <span class="forecast-item__label">+5 years</span>
+                <span class="forecast-item__value value-live" id="forecast-5y">--°C</span>
+              </div>
+            </div>
+            <p class="kpi-meta" id="forecast-meta">Awaiting prediction engine…</p>
           </div>
-        </div>
-      </section>
-      
-      <!-- RIGHT SIDEBAR: HIGH THERMAL ZONES & CHART ANALYTICS -->
-      <section class="panel" aria-label="Field Telemetry Data Analysis">
-        <div class="panel-header">
-          <h2>📊 Surface Type Correlation</h2>
-        </div>
+          
+          <div class="panel-section">
+            <div class="panel-header">
+              <h2>Data &amp; methodology</h2>
+              <p class="panel-subtitle">Ground-truth fusion and regional data classification</p>
+            </div>
+            <div class="provenance-card" id="provenance-card">
+              <p class="provenance-card__class" id="provenance-class">—</p>
+              <p class="provenance-card__source" id="provenance-source">Loading data provenance…</p>
+              <p class="provenance-card__fusion" id="provenance-fusion"></p>
+            </div>
+          </div>
+          
+          <div class="panel-section">
+            <div class="panel-header">
+              <h2>System notices</h2>
+            </div>
+            <div id="collab-hud" style="display:flex; flex-direction:column; gap:0.5rem;">
+              <div class="toast-notice" style="border-left-color: var(--heat-vegetation);">
+                <strong style="color: var(--heat-vegetation);">Thesis baseline:</strong> Mirpur 12 uses 20 GPS field survey points with photographic verification.
+              </div>
+            </div>
+          </div>
+        </section>
         
-        <!-- Comparative chart card -->
-        <div style="height: 180px; width: 100%; position: relative;">
-          <canvas id="analytics-chart"></canvas>
-        </div>
+        <!-- CENTER: Geospatial command map -->
+        <section class="map-section" aria-label="Geospatial heat map">
+          <div class="map-wrapper" id="map-wrapper">
+            <div id="map-container"></div>
+          </div>
+          
+          <div class="status-bar">
+            <div class="status-info">
+              <h3 id="region-name-display">Mirpur 12</h3>
+              <p id="region-desc-display">Extracting telemetry data layers…</p>
+            </div>
+            <div>
+              <span class="collab-badge collab-a" id="region-data-badge">GIS layer overlays enabled</span>
+            </div>
+          </div>
+        </section>
         
-        <div class="panel-header" style="margin-top: 0.5rem;">
-          <h2>🚨 Top Regional Hotspots</h2>
-        </div>
+        <!-- RIGHT: Analytics & hotspots -->
+        <section class="panel panel--right" aria-label="Surface correlation and hotspot analysis">
+          
+          <div class="panel-section">
+            <div class="panel-header">
+              <h2>Surface type correlation</h2>
+              <p class="panel-subtitle">Mean temperature by land cover category</p>
+            </div>
+            
+            <div class="chart-wrapper">
+              <canvas id="analytics-chart" aria-label="Surface type temperature chart"></canvas>
+            </div>
+          </div>
+          
+          <div class="panel-section panel-section--grow">
+            <div class="panel-header">
+              <h2>Top regional hotspots</h2>
+              <p class="panel-subtitle">Highest surface temperatures in selected region</p>
+            </div>
+            
+            <div class="data-table-container">
+              <table class="custom-table" id="hotspots-table">
+                <thead>
+                  <tr>
+                    <th>Location</th>
+                    <th>Temp</th>
+                    <th>NDVI</th>
+                    <th>Surface</th>
+                  </tr>
+                </thead>
+                <tbody id="table-body">
+                  <tr class="skeleton-row skeleton-live">
+                    <td><div class="skeleton skeleton-cell"></div></td>
+                    <td><div class="skeleton skeleton-cell"></div></td>
+                    <td><div class="skeleton skeleton-cell"></div></td>
+                    <td><div class="skeleton skeleton-cell"></div></td>
+                  </tr>
+                  <tr class="skeleton-row skeleton-live">
+                    <td><div class="skeleton skeleton-cell"></div></td>
+                    <td><div class="skeleton skeleton-cell"></div></td>
+                    <td><div class="skeleton skeleton-cell"></div></td>
+                    <td><div class="skeleton skeleton-cell"></div></td>
+                  </tr>
+                  <tr class="skeleton-row skeleton-live">
+                    <td><div class="skeleton skeleton-cell"></div></td>
+                    <td><div class="skeleton skeleton-cell"></div></td>
+                    <td><div class="skeleton skeleton-cell"></div></td>
+                    <td><div class="skeleton skeleton-cell"></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            
+            <div class="kpi-card kpi-card--hotspot">
+              <p class="kpi-title temp-extreme">Highest temperature recorded</p>
+              <p class="kpi-value value-live temp-extreme" id="stat-hotspot">--°C</p>
+              <span class="kpi-value skeleton skeleton-live skeleton-text" aria-hidden="true">&nbsp;</span>
+              <p class="kpi-meta value-live" id="stat-hotspot-loc">Extracting peaks…</p>
+              <span class="kpi-meta skeleton skeleton-live skeleton-text" aria-hidden="true">&nbsp;</span>
+            </div>
+          </div>
+        </section>
         
-        <!-- Tabular ground coordinate readings (Pair D) -->
-        <div class="data-table-container">
-          <table class="custom-table" id="hotspots-table">
-            <thead>
-              <tr>
-                <th>Location</th>
-                <th>Temp</th>
-                <th>NDVI</th>
-                <th>Surface</th>
-              </tr>
-            </thead>
-            <tbody id="table-body">
-              <tr>
-                <td colspan="4" style="text-align: center; color: var(--text-muted);">Loading telemetry...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        
-        <div class="kpi-card" style="border: 1px solid rgba(255, 59, 48, 0.2); background: rgba(255, 59, 48, 0.02);">
-          <p class="kpi-title" style="color: var(--accent-neon-red);">Highest Temperature Recorded</p>
-          <p class="kpi-value" id="stat-hotspot" style="color: var(--accent-neon-red); font-size: 1.4rem;">--°C</p>
-          <p class="kpi-meta" id="stat-hotspot-loc">Extracting peaks...</p>
-        </div>
-      </section>
-      
-    </main>
+      </main>
+    </div>
   </div>
 
-  <!-- JavaScript scripts (Leaflet -> Presets -> App entrypoint) -->
+  <!-- Legacy sync target (hidden, preserves JS compatibility) -->
+  <span id="stat-avg-temp" class="sr-only" aria-hidden="true">--°C</span>
+
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js" crossorigin=""></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="satellite_data/placeholders.js"></script>
+  <script src="js/heat-risk-viz.js"></script>
+  <script src="js/map-engine.js"></script>
   <script src="js/app.js"></script>
 
 </body>

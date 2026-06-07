@@ -5,3 +5,13 @@ from .preprocessing import load_regional_data
 from .calculation import perform_mathematical_calculations
 from .plotting import generate_visualizations
 from .prediction import run_machine_learning_predictions
+from .heat_risk import compute_heat_risk_from_dataframe, classify_risk_level
+from .temperature_prediction import predict_temperature_for_region, get_predictor
+from .recommendations import generate_recommendations_from_dataframe
+from .climate_resilience import compute_climate_resilience_from_dataframe
+from .heatwave_alerts import evaluate_heatwave_alerts
+from .geo_analytics import analyze_region_polygon, validate_geojson
+from .hotspot_ranking import rank_hotspots
+from .report_generator import generate_environmental_report
+from .green_simulation import simulate_green_growth
+from .edss import generate_decision_support

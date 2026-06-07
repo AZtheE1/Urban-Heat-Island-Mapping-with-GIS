@@ -33,6 +33,11 @@ The primary objectives of this research are:
 2. To engineer a modular, scalable software framework that seamlessly expands its macro-analysis to encompass the Entire Dhaka Metropolitan Area, Sylhet, Rajshahi, and Chittagong.
 3. To deploy a hybrid machine learning architecture that utilizes historical environmental data to forecast future localized urban temperatures up to the year 2030.
 
+**Data authenticity classification (implementation note):**
+- **Mirpur 12** uses 20 GPS field-survey ground-truth points with linked photographic verification (`field_data/mirpur12_ground_data.csv`).
+- **Dhaka, Sylhet, Rajshahi, and Chittagong** divisional layers use parameterized framework demonstration datasets (15 synthetic points per region via `pipeline/preprocessing.py`, seed=42) to prove modular scalability—not additional field surveys.
+- NDVI and LST indices are computed via prescribed remote-sensing formulas with surface reflectance presets fused to ground observations, as documented in the web application's Data & Methodology panel (`GET /api/data-provenance`).
+
 ### **Chapter 2: Literature Review**
 **2.1 Urban Heat Island (UHI) Dynamics**
 The Urban Heat Island effect is primarily driven by the alteration of land surfaces. Natural landscapes, which are porous and permeable, absorb rainwater and utilize solar energy for evapotranspiration, thereby cooling the surrounding air. In contrast, urban materials such as asphalt and concrete possess high thermal mass and low albedo. These materials absorb vast quantities of short-wave solar radiation during the day and re-emit it as long-wave thermal radiation throughout the night. This continuous cycle severely restricts nocturnal cooling, leading to sustained, elevated urban temperatures.

@@ -243,5 +243,10 @@ def run_hybrid_ml_predictions(df, models_dir):
     with open(metrics_path, "w", encoding="utf-8") as f:
         import json
         json.dump(metrics_json, f, indent=2)
+
+    timeline_json = timeline_df.to_dict(orient='records')
+    timeline_path = os.path.join(models_dir, "hybrid_projection_timeline.json")
+    with open(timeline_path, "w", encoding="utf-8") as f:
+        json.dump(timeline_json, f, indent=2)
         
     return metrics_df, timeline_df, metrics_path

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GIS Visualization | Environmental Intelligence Platform</title>
+  <meta name="description" content="Interactive Leaflet GIS map with LST, NDVI, and Heat Risk layers, GeoJSON analysis, and multi-city navigation.">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" crossorigin="" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" crossorigin="" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/gis.css" />
+</head>
+<body class="gis-page">
+
+  <div class="global-loader" id="global-loader" aria-hidden="true">
+    <div class="loader-card">
+      <div class="loader-spinner" role="status" aria-label="Loading GIS map"></div>
+      <p class="loader-text" id="loader-message">Loading geospatial layers…</p>
+    </div>
+  </div>
+
+  <div class="gis-shell">
+    <header class="gis-header">
+      <div class="brand-section">
+        <span class="brand-logo gis-logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+            <line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>
+          </svg>
+        </span>
+        <div class="brand-title">
+          <span class="platform-badge">Spatial Intelligence · GIS Module</span>
+          <h1>GIS Visualization Center</h1>
+          <p>LST · NDVI · Heat Risk · GeoJSON polygon analysis</p>
+        </div>
+      </div>
+      <nav class="analytics-nav" aria-label="Platform navigation">
+        <a href="/" class="analytics-nav__link">Command Center</a>
+        <span class="analytics-nav__active">GIS Map</span>
+        <a href="/regression" class="analytics-nav__link">Regression</a>
+        <a href="/analytics" class="analytics-nav__link">Climate Analytics</a>
+        <a href="/simulation" class="analytics-nav__link">Simulation Center</a>
+        <a href="/decisions" class="analytics-nav__link">Decision Support</a>
+        <a href="/reports" class="analytics-nav__link">Report Studio</a>
+        <a href="/alerts" class="analytics-nav__link">Alert Center</a>
+        <a href="/documentation" class="analytics-nav__link">Research Overview</a>
+      </nav>
+    </header>
+
+    <div class="gis-workspace">
+      <aside class="gis-sidebar" aria-label="GIS controls">
+        <section class="gis-panel">
+          <h2>City navigation</h2>
+          <p>Select jurisdiction to load regional observation layers</p>
+          <div class="gis-city-nav" id="gis-city-nav" role="group" aria-label="City selection"></div>
+        </section>
+
+        <section class="gis-panel">
+          <h2>Active layer</h2>
+          <p id="gis-layer-desc">Land surface temperature markers</p>
+          <div class="gis-layer-summary" id="gis-layer-summary">
+            <span><strong id="gis-point-count">—</strong> points</span>
+            <span><strong id="gis-region-name">Mirpur 12</strong></span>
+          </div>
+        </section>
+
+        <section class="gis-panel">
+          <h2>GeoJSON analysis</h2>
+          <p>Upload a polygon to analyze points inside the boundary</p>
+          <label class="gis-upload-btn">
+            <input type="file" id="geojson-upload" accept=".geojson,.json,application/geo+json" hidden />
+            Upload GeoJSON
+          </label>
+          <button type="button" class="gis-clear-btn" id="geojson-clear" disabled>Clear overlay</button>
+          <div class="gis-analysis" id="geojson-analysis">
+            <p class="gis-analysis__empty">No polygon loaded. Region preset zones are shown on the map.</p>
+          </div>
+        </section>
+      </aside>
+
+      <main class="gis-map-section" aria-label="Interactive GIS map">
+        <div class="map-wrapper gis-map-wrapper" id="map-wrapper">
+          <div id="map-container"></div>
+        </div>
+        <div class="gis-map-footer">
+          <span id="gis-status">Mirpur 12 · LST layer · 20 ground-truth points</span>
+          <span id="gis-updated">—</span>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.heat@0.2.0/dist/leaflet-heat.js" crossorigin=""></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js" crossorigin=""></script>
+  <script src="satellite_data/placeholders.js"></script>
+  <script src="js/heat-risk-viz.js"></script>
+  <script src="js/map-engine.js"></script>
+  <script src="js/gis.js"></script>
+</body>
+</html>

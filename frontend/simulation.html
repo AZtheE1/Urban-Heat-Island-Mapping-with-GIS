@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Infrastructure Simulation Center | Environmental Intelligence Platform</title>
+  <meta name="description" content="Urban planning simulation for vegetation growth, tree plantation, and green roof interventions with real-time thermal and climate impact forecasting.">
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/simulation.css" />
+</head>
+<body class="simulation-page">
+
+  <div class="global-loader" id="global-loader" aria-hidden="true">
+    <div class="loader-card">
+      <div class="loader-spinner" role="status" aria-label="Running simulation"></div>
+      <p class="loader-text">Computing intervention scenarios…</p>
+    </div>
+  </div>
+
+  <div class="sim-shell">
+    <header class="sim-header">
+      <div class="brand-section">
+        <span class="brand-logo sim-logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+            <path d="M12 22c5-3 8-7 8-12a8 8 0 1 0-16 0c0 5 3 9 8 12z"/>
+            <path d="M12 10v12"/><path d="M8 14h8"/>
+          </svg>
+        </span>
+        <div class="brand-title">
+          <span class="platform-badge">Urban Planning · Intervention Modeling</span>
+          <h1>Green Infrastructure Simulation Center</h1>
+          <p>Model vegetation, canopy, and green roof strategies with live thermal forecasting</p>
+        </div>
+      </div>
+      <nav class="analytics-nav" aria-label="Platform navigation">
+        <a href="/" class="analytics-nav__link">Command Center</a>
+        <a href="/gis" class="analytics-nav__link">GIS Map</a>
+        <a href="/regression" class="analytics-nav__link">Regression</a>
+        <a href="/analytics" class="analytics-nav__link">Climate Analytics</a>
+        <span class="analytics-nav__active">Simulation Center</span>
+        <a href="/decisions" class="analytics-nav__link">Decision Support</a>
+        <a href="/reports" class="analytics-nav__link">Report Studio</a>
+        <a href="/alerts" class="analytics-nav__link">Alert Center</a>
+        <a href="/documentation" class="analytics-nav__link">Research Overview</a>
+      </nav>
+      <div class="sim-header__status">
+        <span class="status-dot"></span>
+        <span id="sim-status">Ready</span>
+      </div>
+    </header>
+
+    <div class="sim-workspace">
+      <!-- LEFT: Simulation controls -->
+      <aside class="sim-panel sim-panel--controls" aria-label="Intervention controls">
+        <div class="sim-panel__head">
+          <h2>Intervention planner</h2>
+          <p>Adjust green infrastructure parameters for real-time impact forecasting</p>
+        </div>
+
+        <label class="sim-field">
+          <span class="sim-field__label">Planning jurisdiction</span>
+          <select id="sim-region" class="custom-select sim-select">
+            <option value="mirpur12">Mirpur 12 (Micro-analysis)</option>
+            <option value="dhaka_all">Entire Dhaka Met Area</option>
+            <option value="sylhet">Sylhet Division</option>
+            <option value="rajshahi">Rajshahi Division</option>
+            <option value="chittagong">Chittagong Division</option>
+          </select>
+        </label>
+
+        <div class="sim-slider-block">
+          <div class="sim-slider-head">
+            <span class="sim-slider-label">Vegetation increase</span>
+            <span class="sim-slider-value" id="val-vegetation">15%</span>
+          </div>
+          <input type="range" id="slider-vegetation" class="sim-slider" min="0" max="50" value="15" step="1" aria-label="Vegetation increase percent" />
+          <p class="sim-slider-hint">Canopy density and ground cover expansion</p>
+        </div>
+
+        <div class="sim-slider-block">
+          <div class="sim-slider-head">
+            <span class="sim-slider-label">Tree plantation count</span>
+            <span class="sim-slider-value" id="val-trees">500</span>
+          </div>
+          <input type="range" id="slider-trees" class="sim-slider sim-slider--green" min="0" max="5000" value="500" step="50" aria-label="Tree plantation count" />
+          <p class="sim-slider-hint">New street &amp; community trees planted</p>
+        </div>
+
+        <div class="sim-slider-block">
+          <div class="sim-slider-head">
+            <span class="sim-slider-label">Green roof coverage</span>
+            <span class="sim-slider-value" id="val-roof">20%</span>
+          </div>
+          <input type="range" id="slider-roof" class="sim-slider sim-slider--teal" min="0" max="100" value="20" step="5" aria-label="Green roof coverage percent" />
+          <p class="sim-slider-hint">Converted rooftop area across built-up zones</p>
+        </div>
+
+        <div class="sim-presets">
+          <span class="sim-presets__label">Quick scenarios</span>
+          <div class="sim-preset-group">
+            <button type="button" class="sim-preset" data-preset="conservative">Conservative</button>
+            <button type="button" class="sim-preset" data-preset="moderate">Moderate</button>
+            <button type="button" class="sim-preset" data-preset="aggressive">Aggressive</button>
+          </div>
+        </div>
+
+        <button type="button" class="sim-reset-btn" id="sim-reset">Reset parameters</button>
+
+        <div class="sim-formula-card" id="sim-formula">
+          Temperature = α − (β × NDVI)
+        </div>
+      </aside>
+
+      <!-- CENTER: Before/After + charts -->
+      <main class="sim-main">
+        <section class="sim-impact-strip" aria-label="Simulation impact summary">
+          <article class="sim-impact-card sim-impact-card--temp">
+            <span class="sim-impact-card__label">Temperature reduction</span>
+            <span class="sim-impact-card__value" id="impact-temp">—°C</span>
+            <span class="sim-impact-card__delta" id="impact-temp-delta">Before → After</span>
+          </article>
+          <article class="sim-impact-card sim-impact-card--score">
+            <span class="sim-impact-card__label">Climate score gain</span>
+            <span class="sim-impact-card__value" id="impact-score">—</span>
+            <span class="sim-impact-card__delta" id="impact-score-delta">Resilience improvement</span>
+          </article>
+          <article class="sim-impact-card sim-impact-card--ndvi">
+            <span class="sim-impact-card__label">NDVI uplift</span>
+            <span class="sim-impact-card__value" id="impact-ndvi">—</span>
+            <span class="sim-impact-card__delta" id="impact-ndvi-delta">Vegetation index gain</span>
+          </article>
+          <article class="sim-impact-card sim-impact-card--risk">
+            <span class="sim-impact-card__label">Heat risk reduction</span>
+            <span class="sim-impact-card__value" id="impact-hri">—</span>
+            <span class="sim-impact-card__delta" id="impact-hri-delta">Composite risk decrease</span>
+          </article>
+        </section>
+
+        <section class="sim-compare-grid">
+          <div class="sim-panel sim-panel--compare">
+            <div class="sim-panel__head">
+              <h2>Before vs after</h2>
+              <p>Projected environmental state under selected intervention</p>
+            </div>
+            <div class="sim-before-after">
+              <div class="sim-state-card sim-state-card--before">
+                <span class="sim-state-card__tag">Baseline</span>
+                <div class="sim-state-metric">
+                  <span class="sim-state-metric__label">Temperature</span>
+                  <span class="sim-state-metric__value" id="before-temp">—°C</span>
+                </div>
+                <div class="sim-state-metric">
+                  <span class="sim-state-metric__label">NDVI</span>
+                  <span class="sim-state-metric__value" id="before-ndvi">—</span>
+                </div>
+                <div class="sim-state-metric">
+                  <span class="sim-state-metric__label">Climate score</span>
+                  <span class="sim-state-metric__value" id="before-score">—</span>
+                </div>
+                <div class="sim-state-metric">
+                  <span class="sim-state-metric__label">Category</span>
+                  <span class="sim-state-badge" id="before-category">—</span>
+                </div>
+              </div>
+
+              <div class="sim-state-arrow" aria-hidden="true">
+                <svg viewBox="0 0 48 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M4 12h32M32 6l8 6-8 6"/>
+                </svg>
+              </div>
+
+              <div class="sim-state-card sim-state-card--after">
+                <span class="sim-state-card__tag">Projected</span>
+                <div class="sim-state-metric">
+                  <span class="sim-state-metric__label">Temperature</span>
+                  <span class="sim-state-metric__value" id="after-temp">—°C</span>
+                </div>
+                <div class="sim-state-metric">
+                  <span class="sim-state-metric__label">NDVI</span>
+                  <span class="sim-state-metric__value" id="after-ndvi">—</span>
+                </div>
+                <div class="sim-state-metric">
+                  <span class="sim-state-metric__label">Climate score</span>
+                  <span class="sim-state-metric__value" id="after-score">—</span>
+                </div>
+                <div class="sim-state-metric">
+                  <span class="sim-state-metric__label">Category</span>
+                  <span class="sim-state-badge sim-state-badge--after" id="after-category">—</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sim-panel sim-panel--chart">
+            <div class="sim-panel__head">
+              <h2>Comparative impact</h2>
+              <p>Animated before/after metric comparison</p>
+            </div>
+            <div class="sim-chart-wrap">
+              <canvas id="compare-chart" aria-label="Before after comparison chart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <section class="sim-panel sim-panel--wide">
+          <div class="sim-panel__head sim-panel__head--row">
+            <div>
+              <h2>Intervention sensitivity</h2>
+              <p>Temperature response across vegetation increase scenarios</p>
+            </div>
+            <div class="sim-scenario-legend">
+              <span class="sim-legend-dot sim-legend-dot--before"></span> Baseline
+              <span class="sim-legend-dot sim-legend-dot--after"></span> Projected
+            </div>
+          </div>
+          <div class="sim-chart-wrap sim-chart-wrap--tall">
+            <canvas id="sensitivity-chart" aria-label="Intervention sensitivity chart"></canvas>
+          </div>
+        </section>
+      </main>
+
+      <!-- RIGHT: Planning readout -->
+      <aside class="sim-panel sim-panel--readout" aria-label="Planning readout">
+        <div class="sim-panel__head">
+          <h2>Planning readout</h2>
+          <p>Intervention breakdown &amp; model confidence</p>
+        </div>
+
+        <div class="sim-readout-block">
+          <h3>NDVI contribution</h3>
+          <ul class="sim-readout-list" id="ndvi-breakdown">
+            <li><span>Vegetation increase</span><span>—</span></li>
+            <li><span>Tree plantation</span><span>—</span></li>
+            <li><span>Green roofs</span><span>—</span></li>
+          </ul>
+        </div>
+
+        <div class="sim-readout-block">
+          <h3>Climate components</h3>
+          <div class="sim-chart-wrap sim-chart-wrap--compact">
+            <canvas id="component-chart" aria-label="Climate component chart"></canvas>
+          </div>
+        </div>
+
+        <div class="sim-readout-block">
+          <h3>Model confidence</h3>
+          <div class="sim-confidence">
+            <div class="sim-confidence__row">
+              <span>R² score</span>
+              <strong id="model-r2">—</strong>
+            </div>
+            <div class="sim-confidence__row">
+              <span>RMSE</span>
+              <strong id="model-rmse">—</strong>
+            </div>
+            <div class="sim-confidence__row">
+              <span>Monitoring points</span>
+              <strong id="model-points">—</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="sim-recommendation" id="sim-recommendation">
+          Adjust intervention sliders to generate an urban cooling strategy recommendation.
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/simulation.js"></script>
+</body>
+</html>

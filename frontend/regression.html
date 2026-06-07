@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NDVI–LST Regression Analysis | Environmental Intelligence Platform</title>
+  <meta name="description" content="Thesis linear regression of land surface temperature on NDVI with R², RMSE, and inverse relationship interpretation.">
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/regression.css" />
+</head>
+<body class="regression-page">
+
+  <div class="global-loader" id="global-loader" aria-hidden="true">
+    <div class="loader-card">
+      <div class="loader-spinner" role="status" aria-label="Loading regression"></div>
+      <p class="loader-text" id="loader-message">Computing NDVI–LST regression…</p>
+    </div>
+  </div>
+
+  <div class="reg-shell">
+    <header class="reg-header">
+      <div class="brand-section">
+        <span class="brand-logo reg-logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+            <path d="M3 3v18h18"/><path d="M7 16l4-8 4 5 5-9"/>
+          </svg>
+        </span>
+        <div class="brand-title">
+          <span class="platform-badge">Thesis Methodology · Predictive Analytics</span>
+          <h1>NDVI–LST Regression Analysis</h1>
+          <p>Linear model · Vegetation cooling efficiency · Model validation metrics</p>
+        </div>
+      </div>
+      <nav class="analytics-nav" aria-label="Platform navigation">
+        <a href="/" class="analytics-nav__link">Command Center</a>
+        <a href="/gis" class="analytics-nav__link">GIS Map</a>
+        <span class="analytics-nav__active">Regression</span>
+        <a href="/analytics" class="analytics-nav__link">Climate Analytics</a>
+        <a href="/simulation" class="analytics-nav__link">Simulation Center</a>
+        <a href="/decisions" class="analytics-nav__link">Decision Support</a>
+        <a href="/reports" class="analytics-nav__link">Report Studio</a>
+        <a href="/alerts" class="analytics-nav__link">Alert Center</a>
+        <a href="/documentation" class="analytics-nav__link">Research Overview</a>
+      </nav>
+      <div class="reg-header__control">
+        <label for="reg-region" class="sr-only">Region</label>
+        <select id="reg-region" class="custom-select">
+          <option value="mirpur12">Mirpur 12</option>
+          <option value="dhaka_all">Dhaka</option>
+          <option value="sylhet">Sylhet</option>
+          <option value="rajshahi">Rajshahi</option>
+          <option value="chittagong">Chittagong</option>
+        </select>
+      </div>
+    </header>
+
+    <section class="reg-formula-bar" id="reg-formula-bar">
+      <span class="reg-formula-bar__label">Thesis equation</span>
+      <code id="reg-formula">LST = α − (β × NDVI)</code>
+      <span class="reg-formula-bar__meta" id="reg-sample-meta">—</span>
+    </section>
+
+    <section class="reg-kpi-strip" aria-label="Regression statistics">
+      <article class="reg-kpi">
+        <span class="reg-kpi__label">α intercept</span>
+        <span class="reg-kpi__value" id="kpi-alpha">—</span>
+        <span class="reg-kpi__sub">°C baseline</span>
+      </article>
+      <article class="reg-kpi">
+        <span class="reg-kpi__label">β slope</span>
+        <span class="reg-kpi__value" id="kpi-beta">—</span>
+        <span class="reg-kpi__sub">cooling per NDVI unit</span>
+      </article>
+      <article class="reg-kpi reg-kpi--highlight">
+        <span class="reg-kpi__label">R² score</span>
+        <span class="reg-kpi__value" id="kpi-r2">—</span>
+        <span class="reg-kpi__sub">variance explained</span>
+      </article>
+      <article class="reg-kpi">
+        <span class="reg-kpi__label">RMSE</span>
+        <span class="reg-kpi__value" id="kpi-rmse">—</span>
+        <span class="reg-kpi__sub">°C error</span>
+      </article>
+      <article class="reg-kpi">
+        <span class="reg-kpi__label">Pearson r</span>
+        <span class="reg-kpi__value" id="kpi-corr">—</span>
+        <span class="reg-kpi__sub" id="kpi-corr-label">correlation</span>
+      </article>
+    </section>
+
+    <main class="reg-main">
+      <section class="reg-panel reg-panel--chart" aria-label="NDVI vs LST scatter plot">
+        <div class="reg-panel__head">
+          <h2>NDVI vs land surface temperature</h2>
+          <p id="reg-chart-subtitle">Observation scatter with fitted regression line</p>
+        </div>
+        <div class="reg-chart-wrap">
+          <canvas id="regression-scatter-chart" aria-label="NDVI LST scatter chart"></canvas>
+        </div>
+      </section>
+
+      <aside class="reg-panel reg-panel--interpret" aria-label="Thesis interpretation">
+        <div class="reg-panel__head">
+          <h2>Thesis interpretation</h2>
+          <p>Inverse vegetation–temperature relationship</p>
+        </div>
+        <div class="reg-interpret" id="reg-interpret">
+          <p class="reg-interpret__loading">Loading analysis…</p>
+        </div>
+        <div class="reg-methodology" id="reg-methodology"></div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="js/regression.js"></script>
+</body>
+</html>

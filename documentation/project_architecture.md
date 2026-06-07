@@ -149,13 +149,22 @@ Urban-Heat-Island-Mapping-with-GIS/
 │   ├── __init__.py                     # Package initialization and function exports
 │   ├── preprocessing.py                # Ingestion & cleaning
 │   ├── calculation.py                  # NDVI & LST calculations
+│   ├── heat_risk.py                    # Heat Risk Index (HRI) composite scoring
+│   ├── temperature_prediction/         # Modular future temperature forecasting
+│   ├── recommendations/                # Tree plantation recommendation engine
+│   ├── climate_resilience/             # Climate resilience scoring (0-100)
+│   ├── heatwave_alerts/                # Heatwave alert monitoring engine
+│   ├── geo_analytics/                  # GeoJSON polygon spatial analytics
+│   ├── hotspot_ranking/                # Cross-region hotspot ranking engine
+│   ├── report_generator/               # Automated environmental report exports
+│   ├── green_simulation/               # Green infrastructure NDVI growth simulation
+│   ├── edss/                           # Environmental Decision Support System
 │   ├── plotting.py                     # Heatmaps & comparative plots
 │   └── prediction.py                   # Machine Learning regressor models
 │
 ├── backend/                            # 💻 FLASK WEB APP BACKEND
-│   ├── app.py                          # Routing and API endpoints
-│   └── models/
-│       └── analytics.py                # Core mathematical helper analytics
+│   ├── app.py                          # Routing and API endpoints (/api/heat-data, /api/heat-risk)
+│   └── models/                         # Reserved for backend analytics helpers
 │
 ├── frontend/                           # 🌐 INTERACTIVE DASHBOARD FRONTEND
 │   ├── index.html                      # Glassmorphic web layout
@@ -238,4 +247,18 @@ graph TD
 3. **Calculate (Role 2)**: Computes indices, sets `Temperature = LST_C`, and saves data outputs to `field_data/{region}_data_calculated.csv`.
 4. **Plot (Role 3)**: Generates static scatter plots under `gis_maps/graphs/` and Leaflet point markers.
 5. **Predict & Heatmap (Role 4)**: Trains ML models, outputs Intercept ($\alpha$) and Slope ($\beta$), writes metrics to `ml_models/{region}_reg_metrics.json`, and generates Folium density Heatmaps under `gis_maps/`.
-6. **Serve**: Start Flask backend `python dashboard/run_dashboard.py`. The backend serves the dashboard webpage and reads preprocessed CSVs and JSON files directly, ensuring the UI remains fast and perfectly aligned with pipeline parameters.
+6. **Serve**: Start Flask backend `python dashboard/run_dashboard.py`. The backend serves the dashboard webpage and reads preprocessed CSVs and JSON files directly, ensuring the UI remains fast and perfectly aligned with pipeline parameters. Eight JSON API endpoints are available:
+   - `GET /api/heat-data?region={id}` — full regional records and ML analytics
+   - `GET /api/heat-risk?region={id}` — per-location Heat Risk Index scores (`pipeline/heat_risk.py`)
+   - `GET /api/predict-temperature?region={id}` — regression-based 1/3/5-year forecasts (`pipeline/temperature_prediction/`)
+   - `GET /api/recommendations?region={id}` — tree plantation and green-infrastructure plans (`pipeline/recommendations/`)
+   - `GET /api/climate-score?region={id}` — climate resilience score with breakdown (`pipeline/climate_resilience/`)
+   - `GET /api/alerts?region={id}` — heatwave threshold alerts (`pipeline/heatwave_alerts/`)
+   - `POST /api/analyze-region` — GeoJSON polygon area statistics (`pipeline/geo_analytics/`)
+   - `GET /api/hotspots` — cross-region top-10 hotspot ranking (`pipeline/hotspot_ranking/`)
+   - `GET|POST /api/report` — automated environmental reports in JSON or PDF (`pipeline/report_generator/`)
+   - `GET|POST /api/simulate-green-growth` — vegetation growth cooling simulation (`pipeline/green_simulation/`)
+   - `GET|POST /api/decision-support` — EDSS policy recommendations (`pipeline/edss/`)
+   - `GET /api/hybrid-forecast` — hybrid ML model comparison and 2027–2030 projection timeline (`pipeline/thesis_analytics/`)
+   - `GET /api/model-validation` — regional R²/RMSE/MAE and hybrid model metrics (`pipeline/thesis_analytics/`)
+   - `GET /api/data-provenance` — ground-truth vs framework-demo data classification (`pipeline/thesis_analytics/`)

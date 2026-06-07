@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decision Support Center | Environmental Intelligence Platform</title>
+  <meta name="description" content="Strategic environmental decision support for policymakers and city planners with prioritized action cards, impact estimates, and cooling projections.">
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/decisions.css" />
+</head>
+<body class="decisions-page">
+
+  <div class="global-loader" id="global-loader" aria-hidden="true">
+    <div class="loader-card">
+      <div class="loader-spinner" role="status" aria-label="Loading decision support"></div>
+      <p class="loader-text">Generating policy intelligence brief…</p>
+    </div>
+  </div>
+
+  <div class="dec-shell">
+    <header class="dec-header">
+      <div class="brand-section">
+        <span class="brand-logo dec-logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+            <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+          </svg>
+        </span>
+        <div class="brand-title">
+          <span class="platform-badge">Policy Intelligence · EDSS</span>
+          <h1>Decision Support Center</h1>
+          <p>Strategic recommendations for policymakers and urban planners</p>
+        </div>
+      </div>
+      <nav class="analytics-nav" aria-label="Platform navigation">
+        <a href="/" class="analytics-nav__link">Command Center</a>
+        <a href="/gis" class="analytics-nav__link">GIS Map</a>
+        <a href="/regression" class="analytics-nav__link">Regression</a>
+        <a href="/analytics" class="analytics-nav__link">Climate Analytics</a>
+        <a href="/simulation" class="analytics-nav__link">Simulation Center</a>
+        <span class="analytics-nav__active">Decision Support</span>
+        <a href="/reports" class="analytics-nav__link">Report Studio</a>
+        <a href="/alerts" class="analytics-nav__link">Alert Center</a>
+        <a href="/documentation" class="analytics-nav__link">Research Overview</a>
+      </nav>
+      <div class="dec-header__meta">
+        <span id="dec-generated">—</span>
+      </div>
+    </header>
+
+    <section class="dec-brief" id="dec-brief" aria-label="Executive policy brief">
+      <div class="dec-brief__icon" aria-hidden="true">📋</div>
+      <div class="dec-brief__body">
+        <h2>Executive brief</h2>
+        <p id="dec-executive-summary">Loading environmental decision support analysis…</p>
+      </div>
+      <div class="dec-brief__stats" id="dec-brief-stats"></div>
+    </section>
+
+    <div class="dec-toolbar">
+      <div class="dec-toolbar__group">
+        <span class="dec-toolbar__label">Jurisdiction</span>
+        <select id="filter-region" class="custom-select dec-select">
+          <option value="all">All jurisdictions</option>
+          <option value="dhaka_all">Dhaka</option>
+          <option value="mirpur12">Mirpur 12</option>
+          <option value="sylhet">Sylhet</option>
+          <option value="rajshahi">Rajshahi</option>
+          <option value="chittagong">Chittagong</option>
+        </select>
+      </div>
+      <div class="dec-toolbar__group">
+        <span class="dec-toolbar__label">Priority</span>
+        <div class="dec-chip-group" id="filter-priority" role="group">
+          <button type="button" class="dec-chip is-active" data-priority="all">All</button>
+          <button type="button" class="dec-chip" data-priority="Critical">Critical</button>
+          <button type="button" class="dec-chip" data-priority="High">High</button>
+          <button type="button" class="dec-chip" data-priority="Medium">Medium</button>
+          <button type="button" class="dec-chip" data-priority="Low">Low</button>
+        </div>
+      </div>
+      <div class="dec-toolbar__group">
+        <span class="dec-toolbar__label">Category</span>
+        <select id="filter-category" class="custom-select dec-select">
+          <option value="all">All categories</option>
+          <option value="urban_forestry">Urban forestry</option>
+          <option value="public_green_space">Public green space</option>
+          <option value="surface_cooling">Surface cooling</option>
+          <option value="building_greening">Building greening</option>
+        </select>
+      </div>
+      <div class="dec-toolbar__group">
+        <span class="dec-toolbar__label">Sort by</span>
+        <select id="filter-sort" class="custom-select dec-select">
+          <option value="priority">Priority (highest first)</option>
+          <option value="cooling">Cooling effect</option>
+          <option value="impact">Estimated impact</option>
+          <option value="difficulty">Implementation difficulty</option>
+        </select>
+      </div>
+      <div class="dec-toolbar__count">
+        <span id="action-count">0</span> actions
+      </div>
+    </div>
+
+    <main class="dec-grid" id="action-grid" aria-label="Strategic action cards">
+      <div class="dec-empty" id="dec-empty" hidden>
+        <p>No actions match the current filters. Adjust jurisdiction or priority settings.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/decisions.js"></script>
+</body>
+</html>
