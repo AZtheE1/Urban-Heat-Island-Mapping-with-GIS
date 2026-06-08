@@ -1,0 +1,10 @@
+flask
+pandas
+numpy
+folium
+scikit-learn
+plotly
+statsmodels
+matplotlib
+seaborn
+gunicorn
