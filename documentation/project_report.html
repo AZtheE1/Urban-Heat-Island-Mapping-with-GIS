@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Report - Urban Heat Island Mapping</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 11mm 11mm 13mm 11mm;
+    }
+
+    :root {
+      --ink: #10202e;
+      --muted: #55687a;
+      --line: #d7e0ea;
+      --accent: #0b7285;
+      --accent-2: #b45309;
+      --accent-3: #0f766e;
+      --panel: #ffffff;
+      --soft: #f4f8fb;
+      --soft-2: #ecf7f6;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font: 10.4pt/1.42 "Liberation Sans", Arial, sans-serif;
+      background: linear-gradient(180deg, #edf5f8 0%, #ffffff 12%, #ffffff 100%);
+    }
+
+    .page {
+      padding: 0;
+    }
+
+    .cover {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #10202e 0%, #17394c 48%, #0b7285 100%);
+      color: #fff;
+      padding: 18px 20px 16px;
+      box-shadow: 0 12px 30px rgba(16, 32, 46, 0.16);
+    }
+
+    .kicker {
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      font-size: 8.6pt;
+      opacity: 0.85;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+    h1 {
+      font: 700 22pt/1.06 "Liberation Serif", Georgia, serif;
+      margin: 8px 0 10px;
+      max-width: 20em;
+    }
+    .subtitle {
+      max-width: 66em;
+      font-size: 10.5pt;
+      color: rgba(255,255,255,0.90);
+    }
+
+    .summary-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .metric {
+      border-radius: 14px;
+      padding: 10px 11px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+    .metric .label { font-size: 8.1pt; text-transform: uppercase; letter-spacing: 0.9px; opacity: 0.82; }
+    .metric .value { font-size: 10.4pt; font-weight: 700; margin-top: 4px; }
+
+    .section {
+      margin-top: 12px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--panel);
+      padding: 12px 14px;
+    }
+
+    .section h2 {
+      font: 700 11.8pt/1.2 "Liberation Sans", Arial, sans-serif;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 8px;
+    }
+
+    .section h3 {
+      font: 700 10.8pt/1.2 "Liberation Sans", Arial, sans-serif;
+      color: var(--accent-3);
+      margin: 10px 0 6px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .callout {
+      border-left: 4px solid var(--accent-2);
+      background: #fff8ef;
+      padding: 9px 11px;
+      border-radius: 10px;
+      font-size: 9.5pt;
+      color: #5b3821;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9.0pt;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 7px 6px;
+      vertical-align: top;
+      text-align: left;
+    }
+    th {
+      background: #f7fafc;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    ul {
+      margin: 6px 0 0 18px;
+      padding: 0;
+    }
+    li { margin: 4px 0; }
+
+    .figure {
+      margin-top: 8px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: linear-gradient(180deg, #fbfdff 0%, #f6fbfb 100%);
+      padding: 10px;
+      break-inside: avoid;
+    }
+    .figure img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 10px;
+      border: 1px solid #e6edf4;
+    }
+    .caption {
+      font-size: 8.8pt;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .footer {
+      margin-top: 10px;
+      font-size: 8.5pt;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    .note {
+      font-size: 8.7pt;
+      color: var(--muted);
+    }
+
+    .tight p { margin-bottom: 6px; }
+    .page-break { page-break-before: always; }
+    .avoid { break-inside: avoid; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="cover">
+      <div class="kicker">SciBlitz AI Challenge 2026 | Environment & Sustainability</div>
+      <h1>Development of a Scalable GIS Mapping and Predictive Analysis Framework for Urban Heat Island Monitoring</h1>
+      <p class="subtitle">This report presents an interactive Urban Heat Island (UHI) system centered on Mirpur 12 and extended to Dhaka, Sylhet, Rajshahi, and Chittagong. The platform fuses field survey coordinates, cleaned environmental time series, proxy satellite indices, and regression-based forecasting to support urban cooling decisions.</p>
+      <div class="summary-row">
+        <div class="metric"><div class="label">Baseline data</div><div class="value">20 ground-truth points</div></div>
+        <div class="metric"><div class="label">Longitudinal data</div><div class="value">11,627 cleaned rows</div></div>
+        <div class="metric"><div class="label">Core AI models</div><div class="value">Linear + tree ensembles</div></div>
+        <div class="metric"><div class="label">Pretrained models</div><div class="value">None used</div></div>
+      </div>
+    </section>
+
+    <section class="section tight">
+      <h2>Problem Statement</h2>
+      <p>Urban planners need block-level thermal intelligence, not only citywide averages. In Mirpur 12, dense concrete corridors, traffic load, and shrinking canopy create steep microclimatic contrasts that ordinary weather stations cannot resolve. The problem is therefore twofold: identify localized heat hotspots with GIS fidelity, and forecast how vegetation changes alter temperature over time.</p>
+    </section>
+
+    <section class="section tight">
+      <h2>Proposed Solution</h2>
+      <p>The system combines a Flask-based web dashboard, a Python data pipeline, and a layered analytics backend. Ground-survey coordinates and photos define the Mirpur 12 baseline. Cleaned historical environmental observations drive index calculations, risk scoring, and regression-based prediction. The same architecture scales to divisional demonstration layers so judges can inspect both micro and macro thermal patterns in one interface.</p>
+      <div class="callout">Key design choice: the project does not rely on a pretrained foundation model. Instead, it emphasizes reproducible environmental modeling with transparent equations, interpretable regressors, and direct geospatial outputs.</div>
+    </section>
+
+    <section class="section">
+      <h2>Methodology</h2>
+      <div class="two-col">
+        <div>
+          <h3>Data flow</h3>
+          <ul>
+            <li>Mirpur 12 ground truth: 20 verified points with coordinates, surface type, temperature, NDVI, traffic density, timestamps, and images.</li>
+            <li>Historical environmental data: 11,700 raw observations cleaned to 11,627 rows after removing invalid heat-index records.</li>
+            <li>Divisional scale-up: Dhaka, Sylhet, Rajshahi, and Chittagong each generate 15 synthetic points using a fixed random seed for reproducibility.</li>
+            <li>Pipeline outputs: calculated CSVs, metrics JSON files, static scatter plots, and standalone HTML maps.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Core calculations</h3>
+          <ul>
+            <li>NDVI is computed as <strong>(NIR - Red) / (NIR + Red)</strong>.</li>
+            <li>LST is modeled as <strong>Temperature = &alpha; - (&beta; × NDVI)</strong>.</li>
+            <li>Heat Risk Index combines normalized LST and NDVI to rank exposure levels from Very Low to Extreme.</li>
+            <li>When raw satellite bands are absent, the pipeline estimates Red and NIR from surface class and weather context to preserve a coherent end-to-end workflow.</li>
+          </ul>
+        </div>
+      </div>
+      <h3 style="margin-top:12px;">Implementation stack</h3>
+      <table>
+        <thead>
+          <tr><th style="width: 28%">Module</th><th>Function</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>preprocessing.py</td><td>Loads Mirpur 12 data or builds divisional presets, validates fields, and preserves a reusable schema.</td></tr>
+          <tr><td>calculation.py</td><td>Derives NDVI, proxy Red/NIR, LST_C, and summary hotspots/coolspots.</td></tr>
+          <tr><td>prediction.py</td><td>Fits linear, decision-tree, and random-forest regressors; writes region metrics JSON.</td></tr>
+          <tr><td>plotting.py</td><td>Exports regression scatter plots and Leaflet-based heatmap overlays.</td></tr>
+          <tr><td>backend/app.py</td><td>Serves /api/heat-data, /api/heat-risk, /api/predict-temperature, and related planning endpoints.</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>AI/ML Approach</h2>
+      <div class="two-col">
+        <div>
+          <p class="note">The predictive layer is deliberately interpretable. LinearRegression provides the core alpha/beta relationship between canopy density and temperature. DecisionTreeRegressor and RandomForestRegressor are used as non-linear comparators to capture surface and traffic interactions without sacrificing auditability.</p>
+          <ul>
+            <li><strong>Linear Regression</strong>: baseline coefficient model, easiest to explain to judges and planners.</li>
+            <li><strong>Decision Tree</strong>: captures threshold effects caused by surface type changes.</li>
+            <li><strong>Random Forest</strong>: stabilizes local variance and improves fit on heterogeneous regions.</li>
+            <li><strong>Hybrid residual forecasting</strong>: adds residual tree models to a macro trend line for long-horizon projections.</li>
+          </ul>
+        </div>
+        <div>
+          <table>
+            <thead>
+              <tr><th>Region</th><th>R²</th><th>RMSE</th><th>MAE</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Mirpur 12</td><td>0.8592</td><td>0.6180</td><td>0.4966</td></tr>
+              <tr><td>Dhaka All</td><td>0.9695</td><td>0.3610</td><td>0.3099</td></tr>
+              <tr><td>Sylhet</td><td>0.9574</td><td>0.3626</td><td>0.3225</td></tr>
+              <tr><td>Rajshahi</td><td>0.9784</td><td>0.3540</td><td>0.3042</td></tr>
+              <tr><td>Chittagong</td><td>0.9640</td><td>0.3524</td><td>0.3080</td></tr>
+            </tbody>
+          </table>
+          <p class="note" style="margin-top:6px;">Regional metrics are saved in the `ml_models/` artifacts and are used to power the dashboard, forecasts, and simulation endpoints.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Results</h2>
+      <div class="figure avoid">
+        <img src="assets/model_metrics_overview.png" alt="Model performance overview chart" />
+        <div class="caption"><strong>Figure 1.</strong> Linear-regression fit quality and RMSE across the five modeled regions. The figure highlights the strong transferability of the NDVI-temperature relationship while showing Mirpur 12 as the most field-constrained baseline.</div>
+      </div>
+      <div class="two-col" style="margin-top:10px;">
+        <div>
+          <h3>Mirpur 12 baseline findings</h3>
+          <ul>
+            <li>Average LST: 30.857°C.</li>
+            <li>Hotspot: Mirpur-10 Roundabout at 43.991°C.</li>
+            <li>Coolspot: National Botanical Garden at 10.0°C.</li>
+            <li>The hottest concrete corridors exceed nearby vegetated pockets by roughly 5-6°C.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>System-level outputs</h3>
+          <ul>
+            <li>Interactive heatmaps expose point-level thermal hotspots through browser-ready HTML.</li>
+            <li>Heat Risk Index layers convert temperature and NDVI into ranked exposure classes for planners.</li>
+            <li>Future-temperature endpoints and green-growth simulations demonstrate how canopy intervention changes projected heat.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tight">
+      <h2>Limitations & Future Work</h2>
+      <ul>
+        <li>The divisional layers are simulation-based rather than survey-verified; they prove scale and workflow, not substitute for field campaigns.</li>
+        <li>Red, NIR, and LST are proxy-derived when raw satellite bands are unavailable, so absolute thermal truth should be calibrated against physical sensors before operational use.</li>
+        <li>Training and evaluation happen on the same project artifacts in parts of the pipeline; stronger hold-out validation would be the next reliability step.</li>
+        <li>Future work should add true Landsat/Sentinel bands, larger cross-city surveys, and temporal cross-validation across seasons and monsoon cycles.</li>
+      </ul>
+    </section>
+
+    <section class="section tight">
+      <h2>Conclusion</h2>
+      <p>The project delivers a complete UHI decision-support stack: data preprocessing, geospatial calculation, interpretable regression, interactive GIS delivery, and actionable output for urban cooling. Its strongest contribution is not model novelty alone, but the combination of traceable calculations, live browser access, and planning-oriented visualization for Bangladesh's urban heat problem.</p>
+    </section>
+
+    <div class="footer">Prepared to satisfy the SciBlitz AI Challenge rulebook: PDF report, max 8 pages, font size at least 10pt.</div>
+  </div>
+</body>
+</html>

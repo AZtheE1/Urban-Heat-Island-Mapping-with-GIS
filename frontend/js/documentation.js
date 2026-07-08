@@ -8,7 +8,6 @@ const TOC_SECTIONS = [
   { id: "section-problem", label: "Problem Statement" },
   { id: "section-objectives", label: "Objectives" },
   { id: "section-uhi", label: "UHI Explained" },
-  { id: "section-team", label: "Team Gliders" },
   { id: "section-methodology", label: "Methodology" },
   { id: "section-architecture", label: "Architecture" },
   { id: "section-technologies", label: "Technologies" },
@@ -72,7 +71,9 @@ function renderAll(data) {
   document.getElementById("docs-significance").textContent = overview.significance;
 
   renderUhi(overview.uhiExplanation);
-  renderTeam(team);
+  if (team) {
+    renderTeam(team);
+  }
   renderMethodology(methodology);
   renderArchitecture(architecture);
   renderTechnologies(technologies);
@@ -82,7 +83,7 @@ function renderAll(data) {
   renderReferences(references);
 
   document.getElementById("docs-footer").innerHTML =
-    `© ${new Date().getFullYear()} ${escapeHtml(team.name)} · ${escapeHtml(meta.group)} · ` +
+    `© ${new Date().getFullYear()} ${escapeHtml(team?.name || meta.group)} · ${escapeHtml(meta.group)} · ` +
     `Documentation v${escapeHtml(meta.version)} · Last updated ${escapeHtml(meta.lastUpdated)}`;
 }
 

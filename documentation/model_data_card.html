@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Model and Data Card</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 12mm 12mm 14mm 12mm;
+    }
+
+    :root {
+      --ink: #10202e;
+      --muted: #506173;
+      --line: #cfd8e3;
+      --accent: #0b7285;
+      --accent-2: #d97706;
+      --paper: #f7fafc;
+      --panel: #ffffff;
+      --soft: #eef6f7;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font: 10.2pt/1.35 "Liberation Sans", Arial, sans-serif;
+      background: linear-gradient(180deg, #eef6f7 0%, #ffffff 18%, #ffffff 100%);
+    }
+
+    .page {
+      min-height: 100vh;
+      background: var(--paper);
+    }
+
+    .hero {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 18px 14px;
+      background: linear-gradient(135deg, #10202e 0%, #163445 50%, #0b7285 100%);
+      color: #ffffff;
+      box-shadow: 0 10px 28px rgba(16, 32, 46, 0.15);
+    }
+
+    h1, h2, h3, p { margin: 0; }
+    h1 {
+      font: 700 20pt/1.1 "Liberation Serif", Georgia, serif;
+      letter-spacing: 0.2px;
+      margin-bottom: 6px;
+    }
+    .subtitle {
+      font-size: 10.5pt;
+      color: rgba(255,255,255,0.88);
+      max-width: 58em;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 12px 0 14px;
+    }
+
+    .pill {
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+    }
+
+    .pill .label { font-size: 8.4pt; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
+    .pill .value { font-size: 10.4pt; font-weight: 700; margin-top: 4px; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel);
+      padding: 12px 14px;
+    }
+
+    .card h2 {
+      font: 700 11.5pt/1.2 "Liberation Sans", Arial, sans-serif;
+      color: var(--accent);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9.2pt;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 8px 6px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 700;
+      background: #f5f8fb;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: var(--soft);
+      color: var(--accent);
+      font-size: 8.7pt;
+      font-weight: 700;
+    }
+
+    ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+    }
+
+    li { margin: 5px 0; }
+
+    .footer-note {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 8.7pt;
+    }
+
+    .full {
+      margin-top: 12px;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .mini-item {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 9px 10px;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+
+    .mini-item strong { display: block; margin-bottom: 2px; }
+    .small { font-size: 8.8pt; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="hero">
+      <h1>Model & Data Card</h1>
+      <p class="subtitle">Urban Heat Island Mapping & Predictive GIS Analytics System. This card summarizes the data sources, model inventory, and known limitations behind the submission package for the SciBlitz AI Challenge 2026.</p>
+      <div class="meta">
+        <div class="pill">
+          <div class="label">Primary baseline</div>
+          <div class="value">Mirpur 12 ground-truth survey</div>
+        </div>
+        <div class="pill">
+          <div class="label">AI approach</div>
+          <div class="value">Local regression + tree ensembles</div>
+        </div>
+        <div class="pill">
+          <div class="label">Pretrained models</div>
+          <div class="value">None used</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h2>Datasets Used</h2>
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 29%">Dataset</th>
+              <th style="width: 28%">Source</th>
+              <th>Role in system</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>mirpur12_ground_data.csv</strong></td>
+              <td>Field survey / GPS verification</td>
+              <td>20 baseline points with coordinates, temperature, surface class, NDVI, traffic density, timestamps, and site images.</td>
+            </tr>
+            <tr>
+              <td><strong>mirpur_unified_environmental_data.csv</strong></td>
+              <td>Project-curated historical environmental observations</td>
+              <td>Longitudinal training and analysis dataset for Mirpur; cleaned to 11,627 rows after validation.</td>
+            </tr>
+            <tr>
+              <td><strong>mirpur_calculated_environmental_indices.csv</strong></td>
+              <td>Pipeline-generated derived data</td>
+              <td>Calculated Red/NIR proxies, NDVI, LST_C, and Temperature used by mapping, risk scoring, and regression.</td>
+            </tr>
+            <tr>
+              <td><strong>mirpur_historical_temperatures.csv</strong></td>
+              <td>Historical temperature log</td>
+              <td>Annual trend input for the future temperature forecast endpoint.</td>
+            </tr>
+            <tr>
+              <td><strong>{region}_data_calculated.csv</strong></td>
+              <td>Simulated divisional presets</td>
+              <td>15-point demonstration layers for Dhaka, Sylhet, Rajshahi, and Chittagong generated with a fixed seed for reproducible scale-up tests.</td>
+            </tr>
+            <tr>
+              <td><strong>satellite_data/placeholders.js</strong></td>
+              <td>Regional geometry presets</td>
+              <td>Bounding vectors and region centers for the GIS layer and map centering logic.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h2>Model Inventory</h2>
+        <div class="mini-list">
+          <div class="mini-item">
+            <strong>LinearRegression</strong>
+            <div class="small">Provider: scikit-learn. License: BSD-3-Clause. Used for the interpretable temperature-vs-NDVI baseline.</div>
+          </div>
+          <div class="mini-item">
+            <strong>DecisionTreeRegressor</strong>
+            <div class="small">Provider: scikit-learn. License: BSD-3-Clause. Used to capture local nonlinear effects without pretrained weights.</div>
+          </div>
+          <div class="mini-item">
+            <strong>RandomForestRegressor</strong>
+            <div class="small">Provider: scikit-learn. License: BSD-3-Clause. Used as the stronger ensemble comparator for site-level regression.</div>
+          </div>
+          <div class="mini-item">
+            <strong>Hybrid residual forecasting stack</strong>
+            <div class="small">Provider: project code. License: repository license. Combines linear trend + residual tree models for long-horizon projections.</div>
+          </div>
+        </div>
+
+        <div class="full">
+          <h2 style="margin-top: 0;">Pretrained Model Use</h2>
+          <p class="small">None. The AI component does not call any external pretrained or foundation model. All predictive models are trained locally from project data and saved as metrics JSON artifacts.</p>
+        </div>
+
+        <div class="full">
+          <h2 style="margin-top: 0;">Known Limitations</h2>
+          <ul>
+            <li>Divisional regions are demonstration layers, not field-surveyed equivalents to Mirpur 12.</li>
+            <li>Red, NIR, and LST values are proxy-estimated from surface/weather context when raw satellite bands are unavailable.</li>
+            <li>Metrics are fitted on project artifacts, so they should be read as decision-support signals rather than operational forecasts.</li>
+            <li>Geotagged photos and map popups should be shared responsibly; no personal data is intended, but location disclosure can still matter.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card full">
+      <h2>Ethical Notes</h2>
+      <ul>
+        <li>The system is optimized for urban planning support, not individual surveillance or enforcement.</li>
+        <li>Proxy-derived thermal estimates should not be presented as ground instrument truth without calibration disclosure.</li>
+        <li>Generalizing the Mirpur 12 pattern to the rest of Bangladesh requires caution because morphology, moisture, and coastal wind regimes differ substantially by region.</li>
+      </ul>
+      <div class="footer-note">Prepared from the repo artifacts and the SciBlitz AI Challenge rulebook requirements. No pretrained foundation model is used in the AI stack.</div>
+    </div>
+  </div>
+</body>
+</html>
