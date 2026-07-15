@@ -37,82 +37,82 @@
   {
     "Year": 2027,
     "Model": "Linear Regression",
-    "Heat_Index": 41.147688721199
+    "Heat_Index": 41.14768872119874
   },
   {
     "Year": 2028,
     "Model": "Linear Regression",
-    "Heat_Index": 41.34226527204784
+    "Heat_Index": 41.34226527204743
   },
   {
     "Year": 2029,
     "Model": "Linear Regression",
-    "Heat_Index": 41.5368418228966
+    "Heat_Index": 41.536841822896065
   },
   {
     "Year": 2030,
     "Model": "Linear Regression",
-    "Heat_Index": 41.731418373745484
+    "Heat_Index": 41.73141837374476
   },
   {
     "Year": 2027,
     "Model": "Ridge Regression",
-    "Heat_Index": 41.14767645392392
+    "Heat_Index": 41.147676453924106
   },
   {
     "Year": 2028,
     "Model": "Ridge Regression",
-    "Heat_Index": 41.34224813168591
+    "Heat_Index": 41.342248131686084
   },
   {
     "Year": 2029,
     "Model": "Ridge Regression",
-    "Heat_Index": 41.53681980944785
+    "Heat_Index": 41.53681980944802
   },
   {
     "Year": 2030,
     "Model": "Ridge Regression",
-    "Heat_Index": 41.73139148720982
+    "Heat_Index": 41.73139148721
   },
   {
     "Year": 2027,
     "Model": "Hybrid Random Forest",
-    "Heat_Index": 40.47079567897043
+    "Heat_Index": 40.46955026559439
   },
   {
     "Year": 2028,
     "Model": "Hybrid Random Forest",
-    "Heat_Index": 40.63066960407161
+    "Heat_Index": 40.62942419069552
   },
   {
     "Year": 2029,
     "Model": "Hybrid Random Forest",
-    "Heat_Index": 40.790543529172794
+    "Heat_Index": 40.7892981157967
   },
   {
     "Year": 2030,
     "Model": "Hybrid Random Forest",
-    "Heat_Index": 40.95041745427397
+    "Heat_Index": 40.94917204089788
   },
   {
     "Year": 2027,
     "Model": "Hybrid Gradient Boosting",
-    "Heat_Index": 40.778182791456075
+    "Heat_Index": 40.77818279145611
   },
   {
     "Year": 2028,
     "Model": "Hybrid Gradient Boosting",
-    "Heat_Index": 40.938056716557256
+    "Heat_Index": 40.938056716557234
   },
   {
     "Year": 2029,
     "Model": "Hybrid Gradient Boosting",
-    "Heat_Index": 41.09793064165844
+    "Heat_Index": 41.097930641658415
   },
   {
     "Year": 2030,
     "Model": "Hybrid Gradient Boosting",
-    "Heat_Index": 41.25780456675962
+    "Heat_Index": 41.257804566759596
   },
   {
     "Year": 2027,
@@ -122,16 +122,16 @@
   {
     "Year": 2028,
     "Model": "Hybrid Extra Trees",
-    "Heat_Index": 40.519375436409256
+    "Heat_Index": 40.5193754364092
   },
   {
     "Year": 2029,
     "Model": "Hybrid Extra Trees",
-    "Heat_Index": 40.679249361510436
+    "Heat_Index": 40.67924936151038
   },
   {
     "Year": 2030,
     "Model": "Hybrid Extra Trees",
-    "Heat_Index": 40.83912328661162
+    "Heat_Index": 40.83912328661157
   }
 ]
