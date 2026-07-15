@@ -1,0 +1,27 @@
+{
+  "pythonVersion": "3.14",
+  "pythonPlatform": "Windows",
+  "pythonPath": "C:/Python314/python.exe",
+  "venvPath": ".",
+  "typeCheckingMode": "off",
+  "reportMissingModuleSource": "none",
+  "reportMissingImports": "none",
+  "reportUnknownVariableType": "none",
+  "reportUnknownMemberType": "none",
+  "reportUnknownArgumentType": "none",
+  "reportGeneralTypeIssues": "none",
+  "exclude": [
+    "**/__pyrefly_virtual__/**",
+    "**/node_modules/**",
+    "**/.git/**",
+    "**/gis_maps/**",
+    "**/field_data/**",
+    "**/ml_models/**",
+    "**/satellite_data/**"
+  ],
+  "extraPaths": [
+    "dashboard",
+    "pipeline",
+    "backend"
+  ]
+}
