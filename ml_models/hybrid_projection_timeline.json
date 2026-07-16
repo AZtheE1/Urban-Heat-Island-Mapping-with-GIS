@@ -133,5 +133,25 @@
     "Year": 2030,
     "Model": "Hybrid Extra Trees",
     "Heat_Index": 40.83912328661157
+  },
+  {
+    "Year": 2027,
+    "Model": "PyTorch LSTM",
+    "Heat_Index": 0.5967289209365845
+  },
+  {
+    "Year": 2028,
+    "Model": "PyTorch LSTM",
+    "Heat_Index": 0.5967289209365845
+  },
+  {
+    "Year": 2029,
+    "Model": "PyTorch LSTM",
+    "Heat_Index": 0.5967289209365845
+  },
+  {
+    "Year": 2030,
+    "Model": "PyTorch LSTM",
+    "Heat_Index": 0.5967289209365845
   }
 ]

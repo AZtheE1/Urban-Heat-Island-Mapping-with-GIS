@@ -64,7 +64,7 @@ def estimate_reflectance_from_ground_data(df):
     output = df.copy()
     output["Red"] = red.clip(0.02, 0.60).round(5)
     output["NIR"] = nir.clip(0.02, 0.75).round(5)
-    output["NDVI"] = compute_ndvi(output["NIR"], output["Red"]).round(5)
+    output["NDVI"] = np.round(compute_ndvi(output["NIR"], output["Red"]), 5)
     return output
 
 def estimate_lst_from_ground_data(df):
@@ -117,9 +117,9 @@ def calculate_remote_sensing_indices(df):
         raise ValueError(f"Missing required calculation columns: {missing}")
 
     calculated = estimate_reflectance_from_ground_data(df)
-    calculated["Calculated_NDVI"] = compute_ndvi(
+    calculated["Calculated_NDVI"] = np.round(compute_ndvi(
         calculated["NIR"], calculated["Red"]
-    ).round(5)
+    ), 5)
     calculated = estimate_lst_from_ground_data(calculated)
 
     return calculated
@@ -129,7 +129,7 @@ def summarize_calculated_indices(df):
     coolest_idx = df["LST_C"].idxmin()
 
     return {
-        "rows": int(len(df)),
+        "rows": len(df),
         "avg_lst_c": round(float(df["LST_C"].mean()), 3),
         "avg_ndvi": round(float(df["NDVI"].mean()), 5),
         "min_ndvi": round(float(df["NDVI"].min()), 5),

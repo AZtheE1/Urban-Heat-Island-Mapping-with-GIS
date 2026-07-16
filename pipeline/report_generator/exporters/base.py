@@ -9,5 +9,5 @@ class BaseReportExporter(ABC):
     format_name = "base"
 
     @abstractmethod
-    def export(self, report_document):
-        """Serialize a report document to the target format."""
+    def export(self, report_document) -> bytes:
+        """Serialize a report document to the target format. Returns raw bytes."""

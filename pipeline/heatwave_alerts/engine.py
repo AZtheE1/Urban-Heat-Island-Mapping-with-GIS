@@ -7,7 +7,7 @@ from .data_loader import (
     load_regional_temperature_observations,
 )
 from .messages import build_alert_message
-from .notifiers import NotificationDispatcher
+from .notifiers import NotificationDispatcher, MockTwilioNotifier
 from .thresholds import LEVEL_NORMAL, classify_alert_level, threshold_reference
 
 LEVEL_RANK = {
@@ -53,7 +53,7 @@ def evaluate_heatwave_alerts(
     region,
     df,
     include_historical=False,
-    dispatch_notifications=False,
+    dispatch_notifications=True,
     notifiers=None,
 ):
     """
@@ -81,6 +81,8 @@ def evaluate_heatwave_alerts(
     )
 
     if dispatch_notifications and alerts:
+        if notifiers is None:
+            notifiers = [MockTwilioNotifier()]
         dispatcher = NotificationDispatcher(notifiers=notifiers)
         dispatcher.dispatch(alerts)
 

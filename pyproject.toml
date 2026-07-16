@@ -7,10 +7,14 @@ search_path = ["dashboard", "pipeline", "backend"]
 # Store-Python 3.10 stub that Pyrefly defaults to on this machine.
 ignore_missing_imports = true
 ignore_unresolved_imports = true
+# Suppress "stubs bundled but source not found" for installed packages
+ignore_missing_source_imports = true
 
 # Exclude auto-generated virtual files and non-Python asset directories.
 exclude = [
     "__pyrefly_virtual__",
+    "__pyrefly_virtual__/**",
+    "D:/__pyrefly_virtual__/**",
     "node_modules",
     ".git",
     "gis_maps",
@@ -25,3 +29,7 @@ exclude = [
 # The dashboard uses a dynamic `from app import app` pattern that is valid
 # at runtime but confuses static analysers.  Silence module-level errors.
 bad-module-import = false
+# Suppress "stubs bundled but source not found" for sklearn, requests, etc.
+missing-source-import = false
+bundled-stubs-missing-source = false
+import-missing-source = false

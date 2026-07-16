@@ -2,10 +2,10 @@ import json
 import os
 import pandas as pd
 import numpy as np
-from sklearn.linear_model import LinearRegression
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+from sklearn.linear_model import LinearRegression  # type: ignore[import]
+from sklearn.ensemble import RandomForestRegressor  # type: ignore[import]
+from sklearn.tree import DecisionTreeRegressor  # type: ignore[import]
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score  # type: ignore[import]
 
 def run_machine_learning_predictions(df, meta, models_dir, calc_results=None):
     """
@@ -114,10 +114,10 @@ def run_hybrid_ml_predictions(df, models_dir):
     """
     import numpy as np
     import pandas as pd
-    from sklearn.linear_model import LinearRegression, Ridge
-    from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor
-    from sklearn.metrics import mean_squared_error, r2_score
-    from sklearn.preprocessing import LabelEncoder
+    from sklearn.linear_model import LinearRegression, Ridge  # type: ignore[import]
+    from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor  # type: ignore[import]
+    from sklearn.metrics import mean_squared_error, r2_score  # type: ignore[import]
+    from sklearn.preprocessing import LabelEncoder  # type: ignore[import]
     
     df = df.copy()
     
@@ -198,6 +198,47 @@ def run_hybrid_ml_predictions(df, models_dir):
         else:
             results_list.append({'Model': name, 'RMSE': 0, 'R2': 0})
             
+    # PyTorch LSTM Integration
+    try:
+        import torch
+        import torch.nn as nn
+        
+        class HeatLSTM(nn.Module):
+            def __init__(self, input_size, hidden_layer_size=32, output_size=1):
+                super().__init__()
+                self.lstm = nn.LSTM(input_size, hidden_layer_size, batch_first=True)
+                self.linear = nn.Linear(hidden_layer_size, output_size)
+
+            def forward(self, input_seq):
+                lstm_out, _ = self.lstm(input_seq)
+                predictions = self.linear(lstm_out[:, -1, :])
+                return predictions
+                
+        X_tr_t = torch.tensor(X_train.values, dtype=torch.float32).unsqueeze(1)
+        y_tr_t = torch.tensor(y_train.values, dtype=torch.float32).unsqueeze(1)
+        X_te_t = torch.tensor(X_test.values, dtype=torch.float32).unsqueeze(1) if len(X_test) > 0 else None
+        
+        model_lstm = HeatLSTM(input_size=len(features))
+        optimizer = torch.optim.Adam(model_lstm.parameters(), lr=0.01)
+        
+        model_lstm.train()
+        for i in range(10): # 10 epochs for demo
+            optimizer.zero_grad()
+            loss = nn.MSELoss()(model_lstm(X_tr_t), y_tr_t)
+            loss.backward()
+            optimizer.step()
+            
+        model_lstm.eval()
+        with torch.no_grad():
+            if X_te_t is not None:
+                preds = model_lstm(X_te_t).squeeze().numpy()
+                results_list.append({'Model': 'PyTorch LSTM', 'RMSE': np.sqrt(mean_squared_error(y_test, preds)), 'R2': r2_score(y_test, preds)})
+            else:
+                results_list.append({'Model': 'PyTorch LSTM', 'RMSE': 0.0, 'R2': 0.0})
+    except ImportError:
+        print("PyTorch not installed, skipping LSTM.")
+        model_lstm = None
+
     metrics_df = pd.DataFrame(results_list)
     
     # 2. Generate Long-Term Future Simulations (2027 - 2030)
@@ -233,7 +274,16 @@ def run_hybrid_ml_predictions(df, models_dir):
             residual_component = model.predict(future_df[rf_features])
             future_df['pred'] = trend_component + residual_component
             for yr in future_years:
-                timeline_records.append({'Year': yr, 'Model': name, 'Heat_Index': float(future_df[future_df['Year'] == yr]['pred'].mean())})
+                timeline_records.append({'Year': yr, 'Model': name, 'Heat_Index': future_df[future_df['Year'] == yr]['pred'].mean()})
+                
+    if 'model_lstm' in locals() and model_lstm is not None and len(future_df) > 0:
+        import torch
+        with torch.no_grad():
+            X_fut_t = torch.tensor(future_df[features].values, dtype=torch.float32).unsqueeze(1)
+            future_preds_lstm = model_lstm(X_fut_t).squeeze().numpy()
+            future_df['pred_lstm'] = future_preds_lstm
+            for yr in future_years:
+                timeline_records.append({'Year': yr, 'Model': 'PyTorch LSTM', 'Heat_Index': float(future_df[future_df['Year'] == yr]['pred_lstm'].mean())})
                 
     timeline_df = pd.DataFrame(timeline_records)
     

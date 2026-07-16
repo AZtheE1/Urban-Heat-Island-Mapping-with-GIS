@@ -5,9 +5,23 @@ import json
 import io
 import pandas as pd
 import numpy as np
+from flask_caching import Cache
+from functools import wraps
 
 app = Flask(__name__, static_folder="../frontend", static_url_path="")
+cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT': 300})
 
+API_KEY = os.environ.get("API_KEY", "HACKATHON_DEMO_KEY")
+
+def require_api_key(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        provided_key = request.headers.get("x-api-key") or request.args.get("api_key")
+        # Soft validation to avoid breaking existing frontend in hackathon demo
+        if provided_key and provided_key != API_KEY:
+            return jsonify({"error": "Invalid API key"}), 403
+        return f(*args, **kwargs)
+    return decorated_function
 # Root path of the codebase workspace
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, BASE_DIR)
@@ -122,6 +136,8 @@ def regression_analysis():
         return jsonify({"error": str(e)}), 500
 
 @app.route("/api/heat-data")
+@cache.cached(query_string=True)
+@require_api_key
 def get_heat_data():
     region = request.args.get("region", "mirpur12")
     
@@ -156,6 +172,8 @@ def get_heat_data():
         return jsonify({"error": str(e)}), 500
 
 @app.route("/api/heat-risk")
+@cache.cached(query_string=True)
+@require_api_key
 def get_heat_risk():
     region = request.args.get("region", "mirpur12")
 
@@ -221,6 +239,8 @@ def predict_temperature():
         return jsonify({"error": str(e)}), 500
 
 @app.route("/api/recommendations")
+@cache.cached(query_string=True)
+@require_api_key
 def get_recommendations():
     region = request.args.get("region", "mirpur12")
     priority_only = request.args.get("priorityOnly", "false").lower() in {"1", "true", "yes"}
@@ -269,6 +289,8 @@ def get_recommendations():
         return jsonify({"error": str(e)}), 500
 
 @app.route("/api/climate-score")
+@cache.cached(query_string=True)
+@require_api_key
 def get_climate_score():
     region = request.args.get("region", "mirpur12")
 
@@ -309,6 +331,8 @@ def get_climate_score():
         return jsonify({"error": str(e)}), 500
 
 @app.route("/api/alerts")
+@cache.cached(query_string=True)
+@require_api_key
 def get_alerts():
     region = request.args.get("region", "mirpur12")
     include_historical = request.args.get("includeHistorical", "false").lower() in {
@@ -398,7 +422,7 @@ def analyze_region():
         df = pd.read_csv(csv_path)
         result = analyze_region_polygon(BASE_DIR, region, geojson_document, df)
 
-        region_name = region.capitalize()
+        region_name = region.capitalize() if region else "Mirpur12"
         if os.path.exists(json_path):
             with open(json_path, "r", encoding="utf-8") as f:
                 analytics = json.load(f)
@@ -406,7 +430,7 @@ def analyze_region():
 
         result["name"] = region_name
         result["description"] = REGIONAL_DESCRIPTIONS.get(
-            region, "Thermal GIS mapping layer."
+            region or "mirpur12", "Thermal GIS mapping layer."
         )
         return jsonify(result)
     except json.JSONDecodeError:
@@ -457,6 +481,8 @@ def generate_report():
 
         if export_format == FORMAT_PDF:
             filename = f"{report_document['reportId']}.pdf"
+            if isinstance(exported, str):
+                exported = exported.encode('utf-8')
             return send_file(
                 io.BytesIO(exported),
                 mimetype="application/pdf",
@@ -504,7 +530,7 @@ def simulate_green_infrastructure_endpoint():
             lng=lng,
         )
         result["description"] = REGIONAL_DESCRIPTIONS.get(
-            region, "Thermal GIS mapping layer."
+            region or "mirpur12", "Thermal GIS mapping layer."
         )
         return jsonify(result)
     except FileNotFoundError as e:
@@ -540,7 +566,7 @@ def simulate_green_growth_endpoint():
             custom_increase=custom_increase,
         )
         result["description"] = REGIONAL_DESCRIPTIONS.get(
-            region, "Thermal GIS mapping layer."
+            region or "mirpur12", "Thermal GIS mapping layer."
         )
         return jsonify(result)
     except FileNotFoundError as e:

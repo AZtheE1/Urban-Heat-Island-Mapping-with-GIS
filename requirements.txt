@@ -9,3 +9,6 @@ matplotlib
 seaborn
 gunicorn
 pypdf
+torch
+Flask-Caching
+requests

@@ -22,12 +22,15 @@ Based on the current project documentation and structure, there are a few notabl
 2. **Advanced GIS Tooling:** The project mentions future integration for shapefile analytics (Geopandas), meaning it might currently lack the ability to process raw spatial boundaries.
 3. **Alerting System:** Live alerts for heatwaves are not yet implemented (listed as a future goal using Twilio).
 4. **Deployment State:** The project is not fully deployed for public access yet (the live demo URL is just a placeholder).
-
+5. **Performance Bottleneck in API:** The Flask backend (`backend/app.py`) reads static CSV and JSON files from disk (e.g., via `pd.read_csv`) on every single API request (e.g. `/api/heat-data`, `/api/recommendations`). This will severely degrade performance under concurrent load.
+6. **Data Type & Calculation Warnings:** The calculations pipeline (`pipeline/calculation.py`) had unhandled scalar casting and float `.round()` method calls on basic types, leading to runtime crashes. (Fixed)
 ## 💡 Suggestions for the Project
 1. **Dockerization:** Containerize the Flask backend and Python pipelines using Docker to ensure consistent environments and easier deployment.
 2. **Real-time API Integration:** Integrate open weather and satellite APIs (e.g., NASA Earthdata, Sentinel-2, or Google Earth Engine) for automated, periodic data ingestion.
 3. **Authentication & Rate Limiting:** As the API ecosystem expands, implement basic JWT authentication or API keys to prevent abuse of the forecasting and mapping endpoints.
 4. **Advanced ML Models:** Transition from basic Scikit-Learn models to Deep Learning approaches (like LSTMs or Spatial-Temporal Graph Neural Networks) for more accurate, time-series-based temperature forecasting.
+5. **Implement Server-Side Caching:** Use `functools.lru_cache` or a Redis layer in `backend/app.py` to cache the contents of the generated `.csv` and `.json` datasets. Since these files are only updated periodically by the pipeline, caching them will drastically reduce disk I/O and improve API response times.
+6. **Code Profiling & Robust Types:** Ensure consistent `pandas` dataframe column operations instead of iterating or casting manually. Some unnecessary `int()` casts were present in the calculation pipeline.
 
 ## 🌍 Is it Deployed?
 **No, it is currently not deployed.** 

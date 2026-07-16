@@ -24,6 +24,18 @@ class LogAlertNotifier(BaseAlertNotifier):
             f"{alert.get('temperature')}°C — {alert.get('message')}"
         )
 
+class MockTwilioNotifier(BaseAlertNotifier):
+    """Mocks the Twilio API integration as requested for the hackathon."""
+
+    name = "mock_twilio"
+
+    def notify(self, alert):
+        print("\n" + "="*50)
+        print("📲 MOCK TWILIO SMS DISPATCHED")
+        print(f"TO: [+1234567890 (Admin)]")
+        print(f"BODY: URGENT: Heatwave Alert! {alert.get('temperature')}°C. {alert.get('message')}")
+        print("="*50 + "\n")
+
 
 class NotificationDispatcher:
     """Fan-out dispatcher for pluggable notification backends."""
